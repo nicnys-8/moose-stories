@@ -19,7 +19,7 @@ var AudioFactory = function() {
 	var factory = {};
 
 	/**
-	Loads a file from file into an audio tag.
+	Loads an audio tag.
 	The tag is reused for every subsequent call with the same parameter.
 	The function returns the audio tag.
 	@param filePath Path to the audio file
