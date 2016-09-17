@@ -1,0 +1,29 @@
+{
+  "name": "Grymt-Hoppa",
+  "version": "0.0.0",
+  "description": "Grymt spela",
+  "main": "grymt-server.js",
+  "dependencies": {
+    "express": "~4.8.7",
+    "body-parser": "~1.7.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nicnys-8/Grymt-Hoppa.git"
+  },
+  "keywords": [
+    "grymt",
+    "hoppa",
+    "platform"
+  ],
+  "author": "NiriVonSiri et al. est-il",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nicnys-8/Grymt-Hoppa/issues"
+  },
+  "homepage": "https://github.com/nicnys-8/Grymt-Hoppa"
+}

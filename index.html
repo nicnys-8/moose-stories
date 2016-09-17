@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"></meta>
+	<title>Game</title>
+</head>
+
+<style type="text/css">
+
+body {
+	background-color: black;
+	overflow: hidden;
+}
+
+canvas {
+	position: absolute;
+	background-color: #C5F8FF;
+	left: 50%;
+	margin-left: -400px;
+	overflow: hidden;
+}
+
+</style>
+
+<body>
+
+	<canvas  width=800 height=600 id="view"></canvas>
+
+	<script src="js/game_controller.js"></script>
+	<script src="js/game_state.js"></script>
+	<script src="js/sprite_factory.js"></script>
+	<script src="js/audio_factory.js"></script>
+	<script src="js/sprite.js"></script>
+	<script src="js/background.js"></script>
+	<script src="js/levels.js"></script>
+
+	<!-- Behaviors -->
+	<script src="js/behaviors/behavior.js"></script>
+	<script src="js/behaviors/physical.js"></script>
+	<script src="js/behaviors/moving.js"></script>
+	<script src="js/behaviors/solid.js"></script>
+	<script src="js/behaviors/platform.js"></script>
+	<script src="js/behaviors/renderable.js"></script>
+	<script src="js/behaviors/face_direction.js"></script>
+	<script src="js/behaviors/controllable.js"></script>
+
+	<!-- Objects -->
+	<script src="js/objects/object_factory.js"></script>
+    <script src="js/objects/game_object.js"></script>
+	<script src="js/keyboard.js"></script>
+	<script src="js/camera.js"></script>
+	<script src="js/objects/block.js"></script>
+	<script src="js/objects/jump_button.js"></script>
+	<script src="js/objects/elevator.js"></script>
+
+	<script src="js/objects/characters/character.js"></script>
+	<script src="js/objects/characters/giri.js"></script>
+	<script src="js/objects/characters/boba.js"></script>
+	<script src="js/objects/characters/niri.js"></script>
+	<script src="js/objects/characters/majje.js"></script>
+
+	<script>
+	var canvas = document.getElementById("view");
+	var state = new GameState();
+	var camera = new Camera();
+	var keyboard = new Keyboard();
+	var gameController = new GameController(state, canvas, camera, keyboard);
+	var controlledCharacterUID = 0;
+
+	state.parseLevel(Levels.level1);
+
+	var audio = AudioFactory.createSound("audio/fnurk.mp3");
+
+
+	//=====================
+	// Handle mouse presses
+	//=====================
+
+	document.body.onmousedown = function(event) {
+		var x = camera.x + event.offsetX - canvas.width / 2;
+		var y = camera.y + event.offsetY - canvas.height / 2;
+
+		var block = ObjectFactory.createObject({
+                                               name: "Block",
+                                               x: 32 * Math.round(x / 32),
+                                               y: 32 * Math.round(y / 32),
+                                               });
+		state.addObject(block);
+	};
+
+
+	//====================
+	// Start the game loop
+	//====================
+	
+	gameController.startGame();
+
+	</script>
+</body>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="64px" height="32px" viewBox="0 16 64 32" enable-background="new 0 16 64 32" xml:space="preserve">
+<path d="M4.393,40c0,2.729-2.272,6.913,1.805,7.714c1.646,0.331,7.98,0.487,9.381-0.167c1.574-0.739,2.194-2.753,0.849-3.694
+	c-2.258-1.548-3.237,0.636-4.803,1.37c-5.383,2.502-5.427-2.125-5.427-4.997"/>
+<path fill="none" stroke="#000000" stroke-width="2" stroke-miterlimit="10" d="M37.088,29.68
+	c-2.963,0.334-6.883,0.167-10.175,0.167"/>
+<ellipse stroke="#000000" stroke-width="2" stroke-miterlimit="10" cx="24.166" cy="22.98" rx="1.824" ry="1.48"/>
+<ellipse stroke="#000000" stroke-width="2" stroke-miterlimit="10" cx="40.086" cy="24.46" rx="1.824" ry="1.48"/>
+<path d="M48.893,40c0,2.729-2.271,6.913,1.805,7.714c1.646,0.331,7.98,0.487,9.381-0.167c1.574-0.739,2.195-2.753,0.85-3.694
+	c-2.258-1.548-3.236,0.636-4.803,1.37c-5.383,2.502-5.428-2.125-5.428-4.997"/>
+<g>
+	<rect x="1.5" y="17.5" fill="#FF8383" width="61" height="21"/>
+	<path fill="#BC4444" d="M61,19v18H3V19H61 M64,16H0v24h64V16L64,16z"/>
+</g>
+<ellipse fill="#FFFFFF" stroke="#000000" stroke-width="2" stroke-miterlimit="10" cx="45.962" cy="26.164" rx="8.001" ry="7.082"/>
+<ellipse cx="48.729" cy="26.388" rx="1.859" ry="1.595"/>
+<g>
+	<path d="M37.131,33.234c-0.009,0.003,0.026,0.037-0.003,0.135c-0.031,0.097-0.111,0.228-0.243,0.333
+		c-0.258,0.226-0.668,0.451-1.166,0.626c-0.995,0.378-2.347,0.552-3.676,0.515c-1.331-0.04-2.642-0.291-3.6-0.644
+		c-0.962-0.322-1.573-0.73-1.573-0.73s0.686-0.261,1.672-0.413c0.991-0.182,2.283-0.248,3.56-0.211
+		c1.278,0.041,2.541,0.186,3.49,0.347c0.474,0.065,0.87,0.136,1.142,0.145c0.135,0.003,0.243-0.002,0.304-0.025
+		C37.108,33.289,37.128,33.226,37.131,33.234z"/>
+</g>
+<ellipse fill="#FFFFFF" stroke="#000000" stroke-width="2" stroke-miterlimit="10" cx="19.963" cy="26.082" rx="8.001" ry="7.082"/>
+<ellipse cx="23.729" cy="26.306" rx="1.859" ry="1.595"/>
+</svg>

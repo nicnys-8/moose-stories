@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8"></meta>
+	<title>Game</title>
+</head>
+
+<link rel="stylesheet" type="text/css" href="/js/lib/bootstrap/css/bootstrap.min.css"/>
+
+<style type="text/css">
+
+body {
+    /*
+	overflow: hidden;
+    font-family:"Helvetica Neue", "Helvetica", "Arial";
+     */
+}
+
+#wrap {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:100%;
+    height:100%;
+    min-width:800px;
+    min-height:600px;
+}
+
+#sidebar-left {
+    overflow-y:scroll;
+    box-sizing:border-box;
+    padding:10px;
+    background-color:white;
+    border-right:1px solid gray;
+    position: absolute;
+    left:0px;
+    width:210px;
+    top:51px;
+    bottom:0px;
+}
+
+#sidebar-right {
+    overflow-y:scroll;
+    box-sizing:border-box;
+    padding:10px;
+    background-color:white;
+    border-left:1px solid gray;
+    position: absolute;
+    right:0px;
+    width:210px;
+    top:51px;
+    bottom:0px;
+}
+
+#content {
+    overflow:scroll;
+    position: absolute;
+    left:211px;
+    right:211px;
+    top:51px;
+    bottom:52px;
+}
+
+#view {
+	position: absolute;
+	background-color: #C5F8FF;
+	left: 50%;
+	margin-left: -400px;
+	overflow: hidden;
+}
+#levelList {
+    width:100%;
+    font-size:100%;
+}
+#menu button {
+    width:100%;
+    padding:10px;
+    font-size:100%;
+}
+
+#footer {
+    position:absolute;
+    bottom:0px;
+    height:52px;
+    left:210px;
+    right:210px;
+    padding:6px;
+    border-top:1px solid gray;
+}
+
+.gameObject canvas {
+    position:relative;
+    top:0px;
+}
+.gameObject span {
+    position:relative;
+    top:-24px;
+}
+.gameObject {
+    width:100%;
+    margin:5px;
+    border:1px solid gray;
+    border-radius:10px;
+}
+
+.media-list li {
+    cursor:pointer;
+}
+
+.media-list li:hover {
+    background-color:#eee;
+}
+
+.prototype {
+    display:none;
+}
+
+.media-object {
+    width:64px;
+    height:64px;
+}
+
+.modal-body-left {
+    /*position:absolute;
+    left:0px;
+    top:0px;
+    width:200px;
+    background-color:blue;*/
+}
+.modal-body-right {
+    /*position:absolute;
+    left:200px;
+    right:0px;
+    top:0px;
+    background-color:green;
+     */
+}
+
+</style>
+
+<body>
+    
+    <div id="wrap">
+        
+    <nav style="border-bottom:1px solid gray;"class="navbar navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Menu <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="javascript:createNewLevel();"><span class="glyphicon glyphicon-file"></span>&nbsp;&nbsp;New level</a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;&nbsp;Save changes</a></li>
+                            <li><a href="#"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Load level</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#"><span class="glyphicon glyphicon-play"></span>&nbsp;&nbsp;Run</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-stop"></span>&nbsp;&nbsp;Stop</a></li>
+                    <li><a href="#"><span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Clear</a></li>
+                </ul>
+                
+                <ul class="nav navbar-nav navbar-right">
+                    <form class="navbar-form navbar-left" role="search">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Search">
+                                </div>
+                        <button type="submit" class="btn btn-default">Submit</button>
+                    </form>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    
+    <div id="sidebar-left">
+        <div class="panel-group" id="menuCategories">
+            
+            <li id="menuListItemPrototype" class="media prototype">
+                <span class="mc-media-container pull-left"></span>
+                <div class="media-body">
+                    <h4 class="media-heading"></h4>
+                </div>
+            </li>
+            
+            <div id="menuCategoryPrototype" class="panel panel-default prototype">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#menuCategories" href="#" class="mcToggler"></a>
+                    </h4>
+                </div>
+                <div class="panel-collapse collapse mcToggled">
+                    <div class="panel-body">
+                        <button class="btn btn-default">Create new</button>
+                        </br></br>
+                        <ul class="media-list"></ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#menuCategories" href="#collapseTwo">
+                            Levels
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse">
+                    <div class="panel-body">
+                        <form action="">
+                            <label for="levelList">Saved levels:</label>
+                            <select id="levelList" onchange="javascript:loadBackground(this.value);" name="backgrounds">
+                            </select>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    
+    <div id="sidebar-right">
+        <!--form role="form">
+            <div class="form-group">
+                <label for="exampleInputName">Name</label>
+                <input type="text" class="form-control" id="exampleInputName" value="Level name" />
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail1">Width</label>
+                <input type="number" class="form-control" id="exampleInputEmail1" value=800 />
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword1">Height</label>
+                <input type="number" class="form-control" id="exampleInputPassword1" value=600 />
+            </div>
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" /> Snap to grid
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword3">Grid size x</label>
+                <input type="number" class="form-control" id="exampleInputPassword3" value=32 />
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword2">Grid size y</label>
+                <input type="number" class="form-control" id="exampleInputPassword2" value=32 />
+            </div>
+            
+            <!--button type="submit" class="btn btn-default">Submit</button-- >
+        </form-->
+    </div>
+    
+    <div id="content">
+        <canvas  width=800 height=600 id="view"></canvas>
+    </div>
+    
+    <div class="container-fluid" id="footer">
+        <div class="pull-left">
+            <ul class="nav nav-pills">
+                <li class="active"><a href="#"><span class="glyphicon glyphicon-tower"></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-stats"></span></a></li>
+                <li><a href="#"><span class="glyphicon glyphicon-camera"></span></a></li>
+            </ul>
+        </div>
+        <div class="pull-right">
+            <span id="mouseX">0</span>, <span id="mouseY">0</span>
+        </div>
+    </div>
+    
+    <div id="newLevelModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">Creating new level</h4>
+                </div>
+                <div class="modal-body">
+                    <form role="form">
+                        <div class="form-group">
+                            <label for="newLevelName">Name</label>
+                            <input type="number" class="form-control" id="newLevelName" placeholder="Lvel naem pls"/>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" /> Copy current level
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label for="newLevelWidth">Width</label>
+                            <input type="number" class="form-control" id="newLevelWidth" value=800 />
+                        </div>
+                        <div class="form-group">
+                            <label for="newLevelHeight">Height</label>
+                            <input type="number" class="form-control" id="newLevelHeight" value=600 />
+                        </div>
+                        
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    
+    <div id="newBackgroundModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title">New background</h4>
+                </div>
+                <div class="modal-body container-fluid">
+                    <div class="row">
+                        <div class="modal-body-left col-md-6">
+                            <ul class="media-list"></ul>
+                                <li id="backgroundListItemPrototype" class="media prototype">
+                                    <span class="mc-media-container pull-left"></span>
+                                    <div class="media-body">
+                                        <h4 class="media-heading"></h4>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="modal-body-right col-md-6">
+                        </div>
+                    </div><!-- row -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary saveButton">Save changes</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+    
+    </div><!-- wrap -->
+    
+    <script src="js/lib/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/lib/bootstrap/js/bootstrap.min.js"></script>
+    
+	<script src="js/game_controller.js"></script>
+	<script src="js/game_state.js"></script>
+	<script src="js/sprite_factory.js"></script>
+	<script src="js/audio_factory.js"></script>
+	<script src="js/sprite.js"></script>
+	<script src="js/background.js"></script>
+	<script src="js/levels.js"></script>
+
+	<!-- Behaviors -->
+	<script src="js/behaviors/behavior.js"></script>
+	<script src="js/behaviors/physical.js"></script>
+	<script src="js/behaviors/moving.js"></script>
+	<script src="js/behaviors/solid.js"></script>
+	<script src="js/behaviors/platform.js"></script>
+	<script src="js/behaviors/renderable.js"></script>
+	<script src="js/behaviors/face_direction.js"></script>
+	<script src="js/behaviors/controllable.js"></script>
+
+	<!-- Objects -->
+	<script src="js/objects/object_factory.js"></script>
+    <script src="js/objects/game_object.js"></script>
+	<script src="js/keyboard.js"></script>
+	<script src="js/camera.js"></script>
+	<script src="js/objects/block.js"></script>
+	<script src="js/objects/jump_button.js"></script>
+	<script src="js/objects/elevator.js"></script>
+
+	<script src="js/objects/characters/character.js"></script>
+	<script src="js/objects/characters/giri.js"></script>
+	<script src="js/objects/characters/boba.js"></script>
+	<script src="js/objects/characters/niri.js"></script>
+	<script src="js/objects/characters/majje.js"></script>
+
+	<script>
+    
+	var canvas = document.getElementById("view"),
+        state = new GameState(),
+        camera = new Camera(),
+        keyboard = new Keyboard(),
+        gameController = new GameController(state, canvas, camera, keyboard),
+        controlledCharacterUID = -1,
+        audio = AudioFactory.createSound("audio/fnurk.mp3"),
+        levels,
+        currentLevelName = null;
+    
+	// state.parseLevel(Levels.level1);
+    
+    var UI = function() {
+        
+        function addCategory(name) {
+            var clone = $("#menuCategoryPrototype").clone().removeClass("prototype").attr("id", ""),
+                panelId = "menuCategory-" + name.replace(" ", "-");
+            clone.find(".mcToggler").attr("href", "#" + panelId).text(name);
+            clone.find(".mcToggled").attr("id", panelId);
+            $("#menuCategories").append(clone);
+        }
+        
+        function addListItem(item, categoryName) {
+            var panelId = "#menuCategory-" + categoryName.replace(" ", "-");
+            $(panelId).find(".media-list").append(item);
+        }
+        
+        function createListItem(image, heading, text) {
+            var clone = $("#menuListItemPrototype").clone().removeClass("prototype").attr("id", "");
+            $(image).addClass("media-object");
+            clone.find(".mc-media-container").append(image);
+            clone.find(".media-heading").html(heading);
+            clone.find(".media-body").append(text);
+            return clone;
+        }
+        
+        function createFormItem(object, key, callback, prefix) {
+            
+            var value = object[key],
+                type = typeof(value),
+                name = prefix ? (prefix + "." + key) : key,
+                formGroup = $('<div class="form-group"></div>'),
+                label = $('<label>' + name + '</label>'), // '<label for="' + id + name + '">'
+                convertFn,
+                input, i;
+            
+            switch (type) {
+                case "string":
+                    input = $('<input type="text" class="form-control" value="' + value + '" />');
+                    formGroup.append(label);
+                    formGroup.append(input);
+                    convertFn = function(src) {
+                        return "" + src.value;
+                    }
+                    break;
+                case "number":
+                    input = $('<input type="number" class="form-control" value=' + value + ' />');
+                    formGroup.append(label);
+                    formGroup.append(input);
+                    convertFn = function(src) {
+                        return +src.value || 0;
+                    }
+                    break;
+                case "boolean":
+                    formGroup = $('<div class="checkbox"></div>');
+                    label = $('<label></label>');
+                    input = $('<input type="checkbox" ' + ((value) ? 'checked' : '') + ' />');
+                    formGroup.append(label);
+                    formGroup.append(input);
+                    formGroup.append(name);
+                    convertFn = function(src) {
+                        return !!src.checked;
+                    }
+                    break;
+                case "object":
+                    if ($.isArray(value)) {
+                        input = $('<select multiple class="form-control"></select>');
+                        for (i in value) {
+                            input.append($('<option>' + value[i] + '</option>'));
+                        }
+                        formGroup.append(label);
+                        formGroup.append(input);
+                    } else {
+                        // return createForm(value, callback);
+                        for (i in value) {
+                            formGroup.append(createFormItem(value, i, callback, name));
+                        }
+                    }
+                    return formGroup;
+                    break;
+                default:
+                    return null;
+            }
+            
+            input.change(function() {
+                         object[key] = convertFn(this);
+                         if (callback) {
+                            callback(name, object[key]);
+                         }
+                         });
+                         
+            return formGroup;
+        }
+        
+        function createForm(obj, callback) {
+            var form = $('<form role="form"></form>');
+            for (var i in obj) {
+                form.append(createFormItem(obj, i, callback));
+            }
+            return form;
+        }
+        
+        return {
+            addCategory : addCategory,
+            addListItem : addListItem,
+            createListItem : createListItem,
+            createForm : createForm
+        };
+    }();
+    
+    UI.addCategory("Game Objects");
+    UI.addCategory("Sprites");
+    UI.addCategory("Backgrounds");
+    UI.addCategory("Music");
+    
+    var testObj = {
+        x:1,
+        y:true,
+        bbox:{
+            left:5,
+            top:{e:1, oo:[1,2,3,"hehe"]}
+        },
+        huu:"hehe"
+    };
+    
+    var levelSettings = {
+        "Name" : "New level",
+        "Width" : 800,
+        "Height" : 600,
+        "Snap to grid" : false,
+        "Grid size x" : 32,
+        "Grid size y" : 32
+    };
+    
+    // $("#sidebar-left").append(UI.createForm(testObj));
+    $("#sidebar-right").append(UI.createForm(levelSettings,
+                                             function(key, value) {
+                                                 switch (key) {
+                                                    case "Width":
+                                                        canvas.width = value;
+                                                        break;
+                                                    case "Height":
+                                                        canvas.height = value;
+                                                        break;
+                                                 }
+                                                 console.log(key + " changed to " + value);
+                                             }));
+                                          
+    function createNewLevel() {
+        // state.clear();empty();?
+        $("#newLevelModal").modal({backdrop:"static"}); // options)
+        // $("#newLevelModal").find(".modal-body").append(UI.createForm(testObj));
+    }
+    
+    $.get("/levels",
+          function(data) {
+            console.log("Fetched levels!");
+            levels = data;
+            
+            var sel = null,
+                i, opt,
+                dropdown = $("#levelList");
+            
+            dropdown.empty();
+            
+            for (i in data) {
+                opt = $("<option></option>").attr("value", i).html(i);
+                if (!currentLevelName) {
+                    opt.attr("selected", true);
+                    currentLevelName = i;
+                }
+                dropdown.append(opt);
+            }
+          
+            if (currentLevelName) {
+                state.parseLevel(levels[currentLevelName]);
+            } else {
+                createNewLevel();
+            }
+        
+            //====================
+            // Start the game loop
+            //====================
+            gameController.startGame();
+          });
+          
+    $.get("/sprites",
+          function(data) {
+            var img, item, i;
+            console.log("Fetched sprites!");
+            for (i in data) {
+                img = new Image();
+                img.src = data[i];
+                item = UI.createListItem(img, "&nbsp;", data[i]);
+                UI.addListItem(item, "Sprites");
+            }
+          });
+    
+    $.get("/backgrounds",
+          function(data) {
+          
+          var selectedBackground = null,
+            bgPath = null;
+          
+          function selectFn(name) {
+            return function() {
+                if (selectedBackground) {
+                    selectedBackground.style.backgroundColor = "";
+                }
+                this.style.backgroundColor = "#eee";
+                selectedBackground = this;
+                bgPath = name;
+            };
+          }
+          
+            var img, item, i, clone;
+            var list = $("#newBackgroundModal").find(".modal-body-left ul");
+            console.log("Fetched backgrounds!");
+            for (i in data) {
+                img = new Image();
+                img.src = data[i];
+          
+                clone = $("#backgroundListItemPrototype").clone().removeClass("prototype").attr("id", "");
+                $(img).addClass("media-object");
+                clone.find(".mc-media-container").append(img);
+                clone.find(".media-heading").html("&nbsp;");
+                clone.find(".media-body").append(data[i]);
+                clone.click(selectFn(data[i]));
+                list.append(clone);
+                // item = UI.createListItem(img, "&nbsp;", data[i]);
+                // UI.addListItem(item, "Backgrounds");
+            }
+          var settings = {x:0, y:0, tiledX:false, tiledY:false};
+            $("#newBackgroundModal")
+            .find(".modal-body-right")
+            .append(UI.createForm(settings));
+          $("#newBackgroundModal")
+          .find(".saveButton")
+          .click(function() {
+                 if (bgPath) {
+                 settings.filePath = bgPath;
+                 state.addBackground(new Background(settings));
+                 $("#newBackgroundModal").modal("hide");
+                 }
+                 });
+            $("#newBackgroundModal").modal({backdrop:"static"});
+          });
+    
+    
+    var currentClass = "Block",
+        selectedButton = null;
+    
+    setTimeout(function() {
+               
+        function selectFn(name) {
+            return function() {
+               if (selectedButton) {
+                selectedButton.style.backgroundColor = "";
+               }
+               this.style.backgroundColor = "#eee";
+               currentClass = name;
+               selectedButton = this;
+            }
+        }
+               
+        var i, w, h, obj, canvas, ctx, item;
+        
+        for (i in ObjectFactory.classes) {
+            
+            canvas = document.createElement("canvas");
+            ctx = canvas.getContext("2d");
+            item = UI.createListItem(canvas, "&nbsp;", i);
+            item.click(selectFn(i));
+            obj = ObjectFactory.createObject({name:i, x:0, y:0});
+ 
+            if (i == currentClass) {
+               item.click();
+            }
+            
+            if (obj.hasBehavior("Renderable") && obj.currentSprite) {
+               try {
+                    console.log("Adding " + i);
+                    w = 64; // obj.boundingBox.right - obj.boundingBox.left;
+                    h = 64; // obj.boundingBox.bottom - obj.boundingBox.top;
+                    obj.x = w / 2;
+                    obj.y = h / 2;
+                    canvas.width = w;
+                    canvas.height = h;
+                    obj.render(ctx);
+                    UI.addListItem(item, "Game Objects");
+                } catch (err) {
+                    console.log("Failed, ", err);
+                }
+            }
+        }
+    }, 1000); // TODO: Actually wait until the graphics are loaded
+    
+    
+	//=====================
+	// Handle mouse presses
+	//=====================
+    
+    var newObject = null;
+    
+    function calculatePlacement(event) {
+        var x = camera.x + event.offsetX - canvas.width / 2,
+            y = camera.y + event.offsetY - canvas.height / 2,
+            snap = levelSettings["Snap to grid"], // blää
+            snapX = levelSettings["Grid size x"],
+            snapY = levelSettings["Grid size y"];
+        return {
+            x: snap ? (snapX * Math.round(x / snapX)) : Math.round(x),
+            y: snap ? (snapY * Math.round(y / snapY)) : Math.round(y)
+        };
+    }
+    
+    $("#view")
+    .mousedown(function(event) {
+        
+        var p = calculatePlacement(event);
+        
+        newObject = ObjectFactory.createObject({
+                                               name: currentClass,
+                                               x: p.x,
+                                               y: p.y,
+                                               });
+                     
+        // $("#sidebar-left").prepend(UI.createForm(block));
+		state.addObject(newObject);
+	})
+    .mousemove(function(event) {
+               
+        var p = calculatePlacement(event);
+        
+        if (newObject) {
+            newObject.x = p.x;
+            newObject.y = p.y;
+        }
+        
+        $("#mouseX").text(p.x);
+        $("#mouseY").text(p.y);
+               
+    })
+    .bind("mouseup mouseleave mouseout",function(event) {
+        newObject = null;
+    });
+
+	</script>
+</body>
