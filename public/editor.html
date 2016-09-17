@@ -5,7 +5,7 @@
 	<title>Game</title>
 </head>
 
-<link rel="stylesheet" type="text/css" href="/js/lib/bootstrap/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="js/lib/bootstrap/css/bootstrap.min.css"/>
 
 <style type="text/css">
 
@@ -139,12 +139,12 @@ body {
 </style>
 
 <body>
-    
+
     <div id="wrap">
-        
+
     <nav style="border-bottom:1px solid gray;"class="navbar navbar-fixed-top" role="navigation">
         <div class="container-fluid">
-            
+
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
@@ -162,7 +162,7 @@ body {
                     <li><a href="#"><span class="glyphicon glyphicon-stop"></span>&nbsp;&nbsp;Stop</a></li>
                     <li><a href="#"><span class="glyphicon glyphicon-remove"></span>&nbsp;&nbsp;Clear</a></li>
                 </ul>
-                
+
                 <ul class="nav navbar-nav navbar-right">
                     <form class="navbar-form navbar-left" role="search">
                         <div class="form-group">
@@ -174,17 +174,17 @@ body {
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
-    
+
     <div id="sidebar-left">
         <div class="panel-group" id="menuCategories">
-            
+
             <li id="menuListItemPrototype" class="media prototype">
                 <span class="mc-media-container pull-left"></span>
                 <div class="media-body">
                     <h4 class="media-heading"></h4>
                 </div>
             </li>
-            
+
             <div id="menuCategoryPrototype" class="panel panel-default prototype">
                 <div class="panel-heading">
                     <h4 class="panel-title">
@@ -199,7 +199,7 @@ body {
                     </div>
                 </div>
             </div>
-            
+
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h4 class="panel-title">
@@ -218,10 +218,10 @@ body {
                     </div>
                 </div>
             </div>
-            
+
         </div>
     </div>
-    
+
     <div id="sidebar-right">
         <!--form role="form">
             <div class="form-group">
@@ -249,15 +249,15 @@ body {
                 <label for="exampleInputPassword2">Grid size y</label>
                 <input type="number" class="form-control" id="exampleInputPassword2" value=32 />
             </div>
-            
+
             <!--button type="submit" class="btn btn-default">Submit</button-- >
         </form-->
     </div>
-    
+
     <div id="content">
         <canvas  width=800 height=600 id="view"></canvas>
     </div>
-    
+
     <div class="container-fluid" id="footer">
         <div class="pull-left">
             <ul class="nav nav-pills">
@@ -270,7 +270,7 @@ body {
             <span id="mouseX">0</span>, <span id="mouseY">0</span>
         </div>
     </div>
-    
+
     <div id="newLevelModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -300,7 +300,7 @@ body {
                             <label for="newLevelHeight">Height</label>
                             <input type="number" class="form-control" id="newLevelHeight" value=600 />
                         </div>
-                        
+
                     </form>
                 </div>
                 <div class="modal-footer">
@@ -310,7 +310,7 @@ body {
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    
+
     <div id="newBackgroundModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -344,12 +344,12 @@ body {
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-    
+
     </div><!-- wrap -->
-    
+
     <script src="js/lib/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/lib/bootstrap/js/bootstrap.min.js"></script>
-    
+
 	<script src="js/game_controller.js"></script>
 	<script src="js/game_state.js"></script>
 	<script src="js/sprite_factory.js"></script>
@@ -384,7 +384,7 @@ body {
 	<script src="js/objects/characters/majje.js"></script>
 
 	<script>
-    
+
 	var canvas = document.getElementById("view"),
         state = new GameState(),
         camera = new Camera(),
@@ -394,11 +394,11 @@ body {
         audio = AudioFactory.createSound("audio/fnurk.mp3"),
         levels,
         currentLevelName = null;
-    
+
 	// state.parseLevel(Levels.level1);
-    
+
     var UI = function() {
-        
+
         function addCategory(name) {
             var clone = $("#menuCategoryPrototype").clone().removeClass("prototype").attr("id", ""),
                 panelId = "menuCategory-" + name.replace(" ", "-");
@@ -406,12 +406,12 @@ body {
             clone.find(".mcToggled").attr("id", panelId);
             $("#menuCategories").append(clone);
         }
-        
+
         function addListItem(item, categoryName) {
             var panelId = "#menuCategory-" + categoryName.replace(" ", "-");
             $(panelId).find(".media-list").append(item);
         }
-        
+
         function createListItem(image, heading, text) {
             var clone = $("#menuListItemPrototype").clone().removeClass("prototype").attr("id", "");
             $(image).addClass("media-object");
@@ -420,9 +420,9 @@ body {
             clone.find(".media-body").append(text);
             return clone;
         }
-        
+
         function createFormItem(object, key, callback, prefix) {
-            
+
             var value = object[key],
                 type = typeof(value),
                 name = prefix ? (prefix + "." + key) : key,
@@ -430,7 +430,7 @@ body {
                 label = $('<label>' + name + '</label>'), // '<label for="' + id + name + '">'
                 convertFn,
                 input, i;
-            
+
             switch (type) {
                 case "string":
                     input = $('<input type="text" class="form-control" value="' + value + '" />');
@@ -478,17 +478,17 @@ body {
                 default:
                     return null;
             }
-            
+
             input.change(function() {
                          object[key] = convertFn(this);
                          if (callback) {
                             callback(name, object[key]);
                          }
                          });
-                         
+
             return formGroup;
         }
-        
+
         function createForm(obj, callback) {
             var form = $('<form role="form"></form>');
             for (var i in obj) {
@@ -496,7 +496,7 @@ body {
             }
             return form;
         }
-        
+
         return {
             addCategory : addCategory,
             addListItem : addListItem,
@@ -504,12 +504,12 @@ body {
             createForm : createForm
         };
     }();
-    
+
     UI.addCategory("Game Objects");
     UI.addCategory("Sprites");
     UI.addCategory("Backgrounds");
     UI.addCategory("Music");
-    
+
     var testObj = {
         x:1,
         y:true,
@@ -519,7 +519,7 @@ body {
         },
         huu:"hehe"
     };
-    
+
     var levelSettings = {
         "Name" : "New level",
         "Width" : 800,
@@ -528,7 +528,7 @@ body {
         "Grid size x" : 32,
         "Grid size y" : 32
     };
-    
+
     // $("#sidebar-left").append(UI.createForm(testObj));
     $("#sidebar-right").append(UI.createForm(levelSettings,
                                              function(key, value) {
@@ -542,24 +542,24 @@ body {
                                                  }
                                                  console.log(key + " changed to " + value);
                                              }));
-                                          
+
     function createNewLevel() {
         // state.clear();empty();?
         $("#newLevelModal").modal({backdrop:"static"}); // options)
         // $("#newLevelModal").find(".modal-body").append(UI.createForm(testObj));
     }
-    
+
     $.get("/levels",
           function(data) {
             console.log("Fetched levels!");
             levels = data;
-            
+
             var sel = null,
                 i, opt,
                 dropdown = $("#levelList");
-            
+
             dropdown.empty();
-            
+
             for (i in data) {
                 opt = $("<option></option>").attr("value", i).html(i);
                 if (!currentLevelName) {
@@ -568,19 +568,19 @@ body {
                 }
                 dropdown.append(opt);
             }
-          
+
             if (currentLevelName) {
                 state.parseLevel(levels[currentLevelName]);
             } else {
                 createNewLevel();
             }
-        
+
             //====================
             // Start the game loop
             //====================
             gameController.startGame();
           });
-          
+
     $.get("/sprites",
           function(data) {
             var img, item, i;
@@ -592,13 +592,13 @@ body {
                 UI.addListItem(item, "Sprites");
             }
           });
-    
+
     $.get("/backgrounds",
           function(data) {
-          
+
           var selectedBackground = null,
             bgPath = null;
-          
+
           function selectFn(name) {
             return function() {
                 if (selectedBackground) {
@@ -609,14 +609,14 @@ body {
                 bgPath = name;
             };
           }
-          
+
             var img, item, i, clone;
             var list = $("#newBackgroundModal").find(".modal-body-left ul");
             console.log("Fetched backgrounds!");
             for (i in data) {
                 img = new Image();
                 img.src = data[i];
-          
+
                 clone = $("#backgroundListItemPrototype").clone().removeClass("prototype").attr("id", "");
                 $(img).addClass("media-object");
                 clone.find(".mc-media-container").append(img);
@@ -642,13 +642,13 @@ body {
                  });
             $("#newBackgroundModal").modal({backdrop:"static"});
           });
-    
-    
+
+
     var currentClass = "Block",
         selectedButton = null;
-    
+
     setTimeout(function() {
-               
+
         function selectFn(name) {
             return function() {
                if (selectedButton) {
@@ -659,21 +659,21 @@ body {
                selectedButton = this;
             }
         }
-               
+
         var i, w, h, obj, canvas, ctx, item;
-        
+
         for (i in ObjectFactory.classes) {
-            
+
             canvas = document.createElement("canvas");
             ctx = canvas.getContext("2d");
             item = UI.createListItem(canvas, "&nbsp;", i);
             item.click(selectFn(i));
             obj = ObjectFactory.createObject({name:i, x:0, y:0});
- 
+
             if (i == currentClass) {
                item.click();
             }
-            
+
             if (obj.hasBehavior("Renderable") && obj.currentSprite) {
                try {
                     console.log("Adding " + i);
@@ -691,14 +691,14 @@ body {
             }
         }
     }, 1000); // TODO: Actually wait until the graphics are loaded
-    
-    
+
+
 	//=====================
 	// Handle mouse presses
 	//=====================
-    
+
     var newObject = null;
-    
+
     function calculatePlacement(event) {
         var x = camera.x + event.offsetX - canvas.width / 2,
             y = camera.y + event.offsetY - canvas.height / 2,
@@ -710,33 +710,33 @@ body {
             y: snap ? (snapY * Math.round(y / snapY)) : Math.round(y)
         };
     }
-    
+
     $("#view")
     .mousedown(function(event) {
-        
+
         var p = calculatePlacement(event);
-        
+
         newObject = ObjectFactory.createObject({
                                                name: currentClass,
                                                x: p.x,
                                                y: p.y,
                                                });
-                     
+
         // $("#sidebar-left").prepend(UI.createForm(block));
 		state.addObject(newObject);
 	})
     .mousemove(function(event) {
-               
+
         var p = calculatePlacement(event);
-        
+
         if (newObject) {
             newObject.x = p.x;
             newObject.y = p.y;
         }
-        
+
         $("#mouseX").text(p.x);
         $("#mouseY").text(p.y);
-               
+
     })
     .bind("mouseup mouseleave mouseout",function(event) {
         newObject = null;

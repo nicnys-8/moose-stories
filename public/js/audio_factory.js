@@ -55,4 +55,3 @@ var AudioFactory = function() {
 
 	return factory;
 }();
-
