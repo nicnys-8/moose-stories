@@ -3,6 +3,7 @@
 var express = require('express'),
     router = express.Router(),
     UserRoutes = require('./users'),
+    EditorRoutes = require('./editor'),
     passport = require('passport');
 
 function isAuthenticated(req, res, next) {
@@ -74,5 +75,6 @@ router.get('/signout', function(req, res) {
 
 // Add the remaining roots
 router.use('/users', UserRoutes);
+router.use(EditorRoutes); //TODO: Mount at '/editor'?
 
 module.exports = router;

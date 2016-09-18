@@ -1,0 +1,103 @@
+#wrap {
+    position:absolute;
+    left:0px;
+    top:0px;
+    width:100%;
+    height:100%;
+    min-width:800px;
+    min-height:600px;
+}
+
+#sidebar-left {
+    overflow-y:scroll;
+    box-sizing:border-box;
+    padding:10px;
+    background-color:white;
+    border-right:1px solid gray;
+    position: absolute;
+    left:0px;
+    width:210px;
+    top:51px;
+    bottom:0px;
+}
+
+#sidebar-right {
+    overflow-y:scroll;
+    box-sizing:border-box;
+    padding:10px;
+    background-color:white;
+    border-left:1px solid gray;
+    position: absolute;
+    right:0px;
+    width:210px;
+    top:51px;
+    bottom:0px;
+}
+
+#content {
+    overflow:scroll;
+    position: absolute;
+    left:211px;
+    right:211px;
+    top:51px;
+    bottom:52px;
+}
+
+#view {
+	position: absolute;
+	background-color: #C5F8FF;
+	left: 50%;
+	margin-left: -400px;
+	overflow: hidden;
+}
+#levelList {
+    width:100%;
+    font-size:100%;
+}
+#menu button {
+    width:100%;
+    padding:10px;
+    font-size:100%;
+}
+
+#footer {
+    position:absolute;
+    bottom:0px;
+    height:52px;
+    left:210px;
+    right:210px;
+    padding:6px;
+    border-top:1px solid gray;
+}
+
+.gameObject canvas {
+    position:relative;
+    top:0px;
+}
+.gameObject span {
+    position:relative;
+    top:-24px;
+}
+.gameObject {
+    width:100%;
+    margin:5px;
+    border:1px solid gray;
+    border-radius:10px;
+}
+
+.media-list li {
+    cursor:pointer;
+}
+
+.media-list li:hover {
+    background-color:#eee;
+}
+
+.prototype {
+    display:none;
+}
+
+.media-object {
+    width:64px;
+    height:64px;
+}
