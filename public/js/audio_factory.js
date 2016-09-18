@@ -16,42 +16,26 @@ var AudioFactory = function() {
 	// Public API
 	//===========
 
-	var factory = {};
-
-	/**
-	Loads an audio tag.
-	The tag is reused for every subsequent call with the same parameter.
-	The function returns the audio tag.
-	@param filePath Path to the audio file
-	*/
-	factory.loadSound = function(filePath) {
-		var sound = {};
-
-		if (cache.hasOwnProperty(filePath)) {
-			sound.audioTag = cache[filePath];
-		} else {
-			sound.audioTag = document.createElement("audio");
-			sound.audioTag.load();
-			cache[filePath] = sound.audioTag;
-		}
-
-		sound.play = function() {
-			// Weird fix to a chrome problem:
-			if (window.chrome) {
-				sound.audioTag.src = filePath;
-			}
-			sound.audioTag.play();
-		};
-		return sound;
-	};
+	var API = {};
 
 	/**
 	Returns a sound object
 	@param filePath Path to the audio file
 	*/
-	factory.createSound = function(filePath) {
-		return this.loadSound(filePath);
+	API.createSound = function(filePath) {
+		var audioTag;
+
+		if (cache[filePath]) {
+			audioTag = cache[filePath];
+		} else {
+			audioTag = document.createElement("audio");
+			audioTag.src = filePath;
+			audioTag.load();
+			cache[filePath] = audioTag;
+		}
+		window.skam = audioTag;
+		return audioTag;
 	};
 
-	return factory;
+	return API;
 }();

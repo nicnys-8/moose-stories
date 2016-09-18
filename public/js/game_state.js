@@ -12,16 +12,16 @@ function GameState() {
         exlude:{},
         include:{}
     };
-    
+
     this.cacheHits = 0;
     this.cacheMisses = 0;
-    
+
     function clearCache() {
         cache.exlude = {};
         cache.include = {};
     }
 
-    
+
 	//=================
 	// Public Interface
 	//=================
@@ -33,19 +33,19 @@ function GameState() {
 
 	this.addObject = function(obj) {
 		this.objects.push(obj);
-        
+
         if (obj.uid !== null && (typeof obj.uid !== "undefined")) { // obj.uid is false when uid == 0...
-            
+
             if (this.objectsByUID[obj.uid]) {
                 console.warn("Uh oh, maybe UID " + obj.uid + " is not as unique as you thought!");
             }
-            
+
             this.objectsByUID[obj.uid] = obj;
         }
-        
+
         clearCache();
 	};
-    
+
     this.removeObject = function(obj) {
         var index = this.objects.indexOf(obj);
         if (index) {
@@ -77,7 +77,7 @@ function GameState() {
 	 * 			Returns all non-controllable GameObjects in this.objects.
 	 * 		- filter( ["Moving", "Solid"], "include", filter("Controllable", "exclude")) );
 	 * 			Returns all non-controllable GameObjects that are moving and solid in this.objects.
-	 * 			
+	 *
 	 * @param  {[string]} 		filter 		Behaviors that act as filters
 	 * @param  {string} 		type 		Either "include" or "exclude". Default is "include".
 	 * @param  {[GameObject]} 	objects 	A list of objects which to filter. Default is this.objects.
@@ -95,14 +95,14 @@ function GameState() {
             i, j, flen,
             filteredObjects = [],
             currentObject;
-        
+
         if (typeof filter === "string") { // Only 99.7% safe to use typeof with strings!! :)
             query = filter;
             filter = [filter];
         } else {
             query = filter.join("/");
         }
-        
+
         // Crappy caching (only when searching all objects (for now (maybe))) :D
         // Ett varningens ord, ja lyssna nu: Om behaviors läggs till under spelets gång FÖRLORAR DU - Klotho, Lachesis eller Atropos
         if (typeof objects === "undefined") {
@@ -117,9 +117,9 @@ function GameState() {
             }
         }
         this.cacheMisses++;
-        
+
         flen = filter.length;
-        
+
         switch (type) {
             case "exclude":
                 for (i = 0; i < objects.length; i++) {
@@ -149,11 +149,11 @@ function GameState() {
                 }
                 break;
         }
-        
+
         if (storeQuery) {
             cache[type][query] = filteredObjects;
         }
-        
+
         return filteredObjects;
 	}
 
@@ -206,7 +206,7 @@ function GameState() {
         this.objectsByUID = {};
         this.music = null;
         clearCache();
-        
+
         len = description.objects && description.objects.length || 0;
 		for (i = 0; i < len; i++) {
 			objDesc = description.objects[i];
@@ -225,7 +225,6 @@ function GameState() {
             this.music = AudioFactory.createSound(description.music);
             // this.music.play();
         }
-		console.log("Music", this.music);
 	};
 
     this.exportJSON = function() {
@@ -234,18 +233,18 @@ function GameState() {
             exports = [ "objects", "backgrounds", "music" ],
             // Result
             json = {};
-        
+
         for (i in exports) {
             type = exports[i];
             src = this[type];
             dst = [];
-            
+
             // Is there anything to export?
             if (!src || src.length == 0) {
                 console.log("No " + type + " to export!");
                 continue;
             }
-            
+
             // Export stuff!
             for (j = 0, len = src.length; j < len; j++) {
                 if (src[j].exportJSON) {
@@ -254,7 +253,7 @@ function GameState() {
                     console.log("No export function for " + type + ": " + j);
                 }
             }
-            
+
             // Was anything exported?
             if (dst.length > 0) {
                 json[type] = dst;
@@ -263,7 +262,7 @@ function GameState() {
 
         return json;
     };
-    
+
 	/**
 	Perform update functions for all in-game objects
 	*/
