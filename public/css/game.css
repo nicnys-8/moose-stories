@@ -1,0 +1,13 @@
+body {
+	overflow: hidden;
+}
+
+canvas {
+	position: absolute;
+	background-color: #C5F8FF;
+	left: 50%;
+	margin-left: -400px;
+	overflow: hidden;
+    top: 80px;
+    border: 1px solid lightgray;
+}

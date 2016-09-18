@@ -1,0 +1,32 @@
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    padding-bottom: 60px;
+}
+.hidden {
+    display: none;
+}
+.jumbotron {
+    position: relative;
+    top: 60px;
+    width: 100%;
+    text-align: center
+}
+.container .text-muted {
+    margin: 20px 0;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    background-color: #f5f5f5;
+}
+.error-message {
+    color: #c9302c;
+}

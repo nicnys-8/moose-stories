@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Grymt spel</title>
+    <% include partials/common-css %>
+    <link rel="stylesheet" type="text/css" href="css/login.css">
+</head>
+
+<body>
+
+    <% include partials/header %>
+        <div class="container">
+            <form class="form-signin" action="/login" , method="POST">
+                <h2 class="form-signin-heading">Sign in</h2>
+                <p class="error-message"><%= message %></p>
+                <label for="input-username" class="sr-only">Username</label>
+                <input type="text" id="input-username" name="username" class="form-control" placeholder="Username" required autofocus>
+                <label for="input-password" class="sr-only">Password</label>
+                <br>
+                <input type="password" id="input-password" name="password" class="form-control" placeholder="Password" required>
+                <br>
+                <button class="btn btn-lg btn-primary btn-block" type="submit">
+                    Sign in <i class="fa fa-sign-in"></i>
+                </button>
+                <br>
+                <p>Don't have an account? <a href="/signup">Sign up!</a></p>
+            </form>
+        </div>
+        <% include partials/footer %>
+
+        <% include partials/common-js %>
+
+</body>
+
+</html>

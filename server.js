@@ -1,21 +1,77 @@
 "use strict";
 
 // Load required modules
-var http    = require("http");              // http server core module
-var express = require("express");           // web framework external module
-var bodyParser = require("body-parser");
-var fs = require("fs");
-var config = require("./config/config.js");
+var http = require("http"),
+    express = require("express"),
+    app = express(),
+    bodyParser = require("body-parser"),
+    fs = require("fs"),
+    mongoose = require('mongoose'),
+    passport = require('passport'),
+    flash = require('connect-flash'),
+    helmet = require('helmet'),
+    ExpressSession = require('express-session'),
+    config = require("./config/config.js"),
+    strategies = require('./config/strategies'),
+    routes = require('./app/routes/index')(passport),
+    MongoStore = require("connect-mongo")(ExpressSession),
+    sessionStore = new MongoStore({
+        mongooseConnection: mongoose.connection
+    }),
+    session = ExpressSession({
+        secret: config.cookie.secret,
+        key: config.cookie.name,
+        store: sessionStore,
+        resave: false,
+        saveUninitialized: true,
+        cookie: {
+            maxAge: config.cookie.maxAge
+        }
+    });
 
-var httpApp = express();
+// Connect to the database
+mongoose.connect(config.db);
+
+// Secure the app by setting various HTTP headers using helmet
+app.use(helmet());
+
+// Set up session and authentication middleware
+app.use(session);
+app.use(passport.initialize());
+app.use(passport.session());
+strategies(passport, config);
+
+// Give the client side logic access to user data
+app.use(function(req, res, next) {
+    if (req.user) {
+        res.locals.user = {
+            admin: req.user.admin,
+            username: req.user.username
+        };
+    } else {
+        res.locals.user = null;
+    }
+    next();
+});
+
+// View engine setup
+app.set('views', __dirname + '/app/views');
+app.set('view engine', config.templateEngine);
+
+// Use flash to display messages in templates
+app.use(flash());
 
 // parse application/x-www-form-urlencoded
-httpApp.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({
+    extended: false
+}));
 
 // parse application/json
-httpApp.use(bodyParser.json());
+app.use(bodyParser.json());
 
-httpApp.use(express.static(__dirname + "/public"));
+app.use(express.static(__dirname + "/public"));
+
+app.use('/', routes);
 
 var levels = {};
 
@@ -63,42 +119,39 @@ function loadPaths(dst, dir, sub) {
 loadPaths(sprites, "/img/sprites", "/");
 loadPaths(backgrounds, "/img/backgrounds", "/");
 
-console.log(sprites);
-console.log(backgrounds);
+app.get("/sprites", function(req, res) {
+    res.send(sprites);
+});
+app.get("/backgrounds", function(req, res) {
+    res.send(backgrounds);
+});
+app.get("/levels", function(req, res) {
+    res.send(levels);
+});
 
-httpApp.get("/sprites", function(req, res) {
-            res.send(sprites);
-            });
-httpApp.get("/backgrounds", function(req, res) {
-            res.send(backgrounds);
-            });
-httpApp.get("/levels", function(req, res) {
-            res.send(levels);
-            });
+app.post("/save", function(req, res) {
+    var name = req.body.name,
+        firstName = name.split(".")[0],
+        filename = firstName + ".json",
+        path = __dirname + "/levels/" + filename;
 
-httpApp.post("/save", function(req, res) {
-             var name = req.body.name,
-                 firstName = name.split(".")[0],
-                 filename = firstName + ".json",
-                 path = __dirname + "/levels/" + filename;
+    levels[firstName] = req.body.level;
 
-             levels[firstName] = req.body.level;
-
-             // TODO: Validate level data and so on and so forth...
-             fs.writeFile(path,
-                          JSON.stringify(req.body.level, null, 4),
-                          function(err) {
-                            if(err) {
-                                console.log(err);
-                                res.status(418).send("Sorry :)");
-                            } else {
-                                console.log("Level saved to " + path);
-                                res.send(filename);
-                            }
-                          });
-            });
+    // TODO: Validate level data and so on and so forth...
+    fs.writeFile(path,
+        JSON.stringify(req.body.level, null, 4),
+        function(err) {
+            if (err) {
+                console.log(err);
+                res.status(418).send("Sorry :)");
+            } else {
+                console.log("Level saved to " + path);
+                res.send(filename);
+            }
+        });
+});
 
 // Start Express http server on port 8080
-var webServer = http.createServer(httpApp).listen(config.port);
+var webServer = http.createServer(app).listen(config.port);
 
 console.log("Server listening on port " + config.port);

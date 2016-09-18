@@ -1,0 +1,8 @@
+.form-signin {
+    top: 100px;
+    position: relative;
+    left: 50%;
+    width: 300px;
+    margin-left: -150px;
+    text-align: center;
+}

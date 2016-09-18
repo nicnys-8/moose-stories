@@ -1,29 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-	<meta charset="utf-8"></meta>
-	<title>Game</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Grymt spel</title>
+    <% include partials/common-css %>
+    <link rel="stylesheet" type="text/css" href="css/game.css">
 </head>
-
-<style type="text/css">
-
-body {
-	background-color: black;
-	overflow: hidden;
-}
-
-canvas {
-	position: absolute;
-	background-color: #C5F8FF;
-	left: 50%;
-	margin-left: -400px;
-	overflow: hidden;
-}
-
-</style>
 
 <body>
 
+	<% include partials/header %>
 	<canvas  width=800 height=600 id="view"></canvas>
 
 	<script src="js/game_controller.js"></script>
@@ -92,8 +80,12 @@ canvas {
 	//====================
 	// Start the game loop
 	//====================
-	
+
 	gameController.startGame();
 
 	</script>
+
+	<% include partials/header %>
+    <% include partials/common-js %>
+
 </body>

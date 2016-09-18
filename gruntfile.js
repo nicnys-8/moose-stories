@@ -45,6 +45,7 @@ module.exports = function(grunt) {
             options: {
                 watch: [
                     "server.js",
+                    "app/*",
                     "config/*"
                 ]
             }

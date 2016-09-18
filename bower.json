@@ -1,0 +1,29 @@
+{
+  "name": "grymt",
+  "description": "Grymt spela",
+  "main": "server.js",
+  "authors": [
+    "NiriVonSiri et al. est-il"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "grymt",
+    "hoppa",
+    "platform"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "jquery": "^3.1.0",
+    "font-awesome": "^4.6.3"
+  }
+}
