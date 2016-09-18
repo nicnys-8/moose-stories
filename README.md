@@ -22,13 +22,13 @@ $ sudo npm install -g grunt-cli
 $ sudo npm install -g bower
 ```
 
-## Configuring
+## Set-up
 In the project directory, run:
 ```
 $ npm install
 ```
 
-## Run project
+## Run server
 ```
 $ grunt
 ```
