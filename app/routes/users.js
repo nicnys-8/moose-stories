@@ -2,6 +2,7 @@
 
 var express = require('express'),
     router = express.Router(),
+    passport = require('passport'),
     User = require('../models/user');
 
 /**
@@ -35,55 +36,52 @@ function isAdmin(req, res, next) {
     }
 }
 
-module.exports = function(passport) {
+router.get('/', isAuthenticated, function(req, res) {
 
-    router.get('/', isAuthenticated, function(req, res) {
-
-        User.find(function(err, users) {
-            var result = [];
-            var i;
-            if (err) {
-                //TODO: Error handling
-            }
-            if (!users) {
-                res.send(null);
-            }
-            for (i = 0; i < users.length; i++) {
-                result.push(strip(users[i]));
-            }
-            res.json(result);
-        });
+    User.find(function(err, users) {
+        var result = [];
+        var i;
+        if (err) {
+            //TODO: Error handling
+        }
+        if (!users) {
+            res.send(null);
+        }
+        for (i = 0; i < users.length; i++) {
+            result.push(strip(users[i]));
+        }
+        res.json(result);
     });
+});
 
-    router.get('/:userId', isAuthenticated, function(req, res) {
-        var query = {
-            _id: req.params.userId
-        };
+router.get('/:userId', isAuthenticated, function(req, res) {
+    var query = {
+        _id: req.params.userId
+    };
 
-        User.findOne(query, function(err, user) {
-            if (err) {
-                //TODO: Error handling
-            } else if (!user) {
-                res.send(null);
-            } else {
-                res.json(strip(user));
-            }
-        });
+    User.findOne(query, function(err, user) {
+        if (err) {
+            //TODO: Error handling
+        } else if (!user) {
+            res.send(null);
+        } else {
+            res.json(strip(user));
+        }
     });
+});
 
-    router.delete('/:userId', isAdmin, function(req, res) {
-        var query = {
-            _id: req.params.userId
-        };
+router.delete('/:userId', isAdmin, function(req, res) {
+    var query = {
+        _id: req.params.userId
+    };
 
-        User.remove(query, function(err) {
-            if (err) {
-                res.status(404).send('Error');
-            } else {
-                res.send('OK');
-            }
-        });
+    User.remove(query, function(err) {
+        if (err) {
+            res.status(404).send('Error');
+        } else {
+            res.send('OK');
+        }
     });
+});
 
-    return router;
-};
+module.exports = router;

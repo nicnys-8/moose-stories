@@ -2,7 +2,8 @@
 
 var express = require('express'),
     router = express.Router(),
-    UserRoutes = require('./users');
+    UserRoutes = require('./users'),
+    passport = require('passport');
 
 function isAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
@@ -18,63 +19,60 @@ function isAdmin(req, res, next) {
     res.redirect('/access-denied');
 }
 
-module.exports = function(passport) {
+router.get('/', isAuthenticated, function(req, res) {
+    res.render('lobby');
+});
 
-    router.get('/', isAuthenticated, function(req, res) {
-        res.render('lobby');
+router.get('/login', function(req, res) {
+    res.render('login', {
+        message: req.flash('message')
     });
+});
 
-    router.get('/login', function(req, res) {
-        res.render('login', {
-            message: req.flash('message')
-        });
+router.post('/login', passport.authenticate('local-login', {
+    successRedirect: '/lobby',
+    failureRedirect: '/',
+    failureFlash: true
+}));
+
+router.get('/signup', function(req, res) {
+    res.render('signup', {
+        message: req.flash('message')
     });
+});
 
-    router.post('/login', passport.authenticate('local-login', {
-        successRedirect: '/lobby',
-        failureRedirect: '/',
-        failureFlash: true
-    }));
+router.post('/signup', passport.authenticate('local-signup', {
+    successRedirect: '/lobby',
+    failureRedirect: '/signup',
+    failureFlash: true
+}));
 
-    router.get('/signup', function(req, res) {
-        res.render('signup', {
-            message: req.flash('message')
-        });
-    });
+router.get('/lobby', isAuthenticated, function(req, res) {
+    res.render('lobby');
+});
 
-    router.post('/signup', passport.authenticate('local-signup', {
-        successRedirect: '/lobby',
-        failureRedirect: '/signup',
-        failureFlash: true
-    }));
+router.get('/game', isAuthenticated, function(req, res) {
+    res.render('game');
+});
 
-    router.get('/lobby', isAuthenticated, function(req, res) {
-        res.render('lobby');
-    });
+router.get('/editor', isAuthenticated, function(req, res) {
+    res.render('editor');
+});
 
-    router.get('/game', isAuthenticated, function(req, res) {
-        res.render('game');
-    });
+router.get('/admin', isAuthenticated, isAdmin, function(req, res) {
+    res.render('admin');
+});
 
-    router.get('/editor', isAuthenticated, function(req, res) {
-        res.render('editor');
-    });
+router.get('/access-denied', isAuthenticated, function(req, res) {
+    res.render('access-denied');
+});
 
-    router.get('/admin', isAuthenticated, isAdmin, function(req, res) {
-        res.render('admin');
-    });
+router.get('/signout', function(req, res) {
+    req.logout();
+    res.redirect('/');
+});
 
-    router.get('/access-denied', isAuthenticated, function(req, res) {
-        res.render('access-denied');
-    });
+// Add the remaining roots
+router.use('/users', UserRoutes);
 
-    router.get('/signout', function(req, res) {
-        req.logout();
-        res.redirect('/');
-    });
-
-    // Add the remaining roots
-    router.use('/users', UserRoutes(passport));
-
-    return router;
-};
+module.exports = router;

@@ -9,11 +9,10 @@ var http = require("http"),
     mongoose = require('mongoose'),
     passport = require('passport'),
     flash = require('connect-flash'),
-    helmet = require('helmet'),
     ExpressSession = require('express-session'),
     config = require("./config/config.js"),
     strategies = require('./config/strategies'),
-    routes = require('./app/routes/index')(passport),
+    routes = require('./app/routes/index'),
     MongoStore = require("connect-mongo")(ExpressSession),
     sessionStore = new MongoStore({
         mongooseConnection: mongoose.connection
@@ -31,9 +30,6 @@ var http = require("http"),
 
 // Connect to the database
 mongoose.connect(config.db);
-
-// Secure the app by setting various HTTP headers using helmet
-app.use(helmet());
 
 // Set up session and authentication middleware
 app.use(session);
