@@ -15,6 +15,7 @@ var UI = function() {
     function addCategory(name) {
         var clone = $("#menuCategoryPrototype").clone().removeClass("prototype").attr("id", ""),
             panelId = "menuCategory-" + name.replace(" ", "-");
+            
         clone.find(".mcToggler").attr("href", "#" + panelId).text(name);
         clone.find(".mcToggled").attr("id", panelId);
         $("#menuCategories").append(clone);

@@ -30,13 +30,11 @@ function Camera() {
 	//=================
 
 	this.tick = function() {
-		var xDistance = (this.target.x + this.offsetX) - this.x;
-		var yDistance = (this.target.y + this.offsetY) - this.y;
+		var xDistance = (this.target.x + this.offsetX) - this.x,
+			yDistance = (this.target.y + this.offsetY) - this.y;
 
 		this.x += xDistance * sensitivity;
 		this.y += yDistance * sensitivity;
 	};
 
 }
-
-

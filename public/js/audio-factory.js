@@ -33,7 +33,6 @@ var AudioFactory = function() {
 			audioTag.load();
 			cache[filePath] = audioTag;
 		}
-		window.skam = audioTag;
 		return audioTag;
 	};
 

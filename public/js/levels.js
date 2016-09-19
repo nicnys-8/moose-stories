@@ -5,11 +5,7 @@ var Levels = {
 
 	level1: {
 		objects: [
-		{name: "Boba", x: 32, y: 112, uid: 0},
-		{name: "Giri", x: 64, y: 112, uid: 1},
-		{name: "Niri", x: 128, y: 100, uid: 2},
-		{name: "Majje", x: 158, y: 100, uid: 3},
-		{name: "JumpButton", x: 160, y: 28}
+		{name: "Giri", x: 64, y: 112, uid: 1}
 		],
 
 		backgrounds: [

@@ -1,33 +1,10 @@
 {
     "objects": [
         {
-            "name": "Boba",
-            "x": 87,
-            "y": 144,
-            "uid": 0
-        },
-        {
             "name": "Giri",
             "x": 64,
             "y": 208,
             "uid": 1
-        },
-        {
-            "name": "Niri",
-            "x": 128,
-            "y": 192,
-            "uid": 2
-        },
-        {
-            "name": "Majje",
-            "x": 158,
-            "y": 224,
-            "uid": 3
-        },
-        {
-            "name": "JumpButton",
-            "x": 160,
-            "y": 28
         },
         {
             "name": "Block",

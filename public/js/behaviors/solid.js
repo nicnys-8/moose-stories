@@ -3,7 +3,7 @@ Describes the behavior of a solid object -
 The object solidity can be turned on or off
 with the function setSolid
  */
-Behavior.Solid = Behavior.Solid || function() {	
+Behavior.Solid = Behavior.Solid || function() {
 
 	//================================
 	// Private functions and variables
@@ -30,7 +30,7 @@ Behavior.Solid = Behavior.Solid || function() {
 	//=================
 
 	var behavior = {};
-	
+
 	behavior.name = "Solid";
 
 	behavior.getProperties = function() {
@@ -42,4 +42,3 @@ Behavior.Solid = Behavior.Solid || function() {
 
 	return behavior;
 }();
-
