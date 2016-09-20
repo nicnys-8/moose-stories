@@ -1,6 +1,7 @@
 "use strict";
 
-var ObjectFactory = require("./object-factory");
+var ObjectFactory = require("./object-factory"),
+    Behavior = require("./../behaviors");
 
 function GameObject(args, defaults) {
 
@@ -62,7 +63,7 @@ GameObject.prototype.addBehavior = function(behavior) {
     // Add behavior dependencies first!
     if (behavior.dependencies) {
         for (var i in behavior.dependencies) {
-            this.addBehavior(Behavior[i]);
+            this.addBehavior(Behaviors[i]);
         }
     }
 

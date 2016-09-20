@@ -62,6 +62,6 @@ ObjectFactory.Giri = function(args) {
     this.sprites.walk.imageSpeed = 0.1;
     this.currentSprite = this.sprites.stand;
 
-}
+};
 
 ObjectFactory.Giri.prototype = new ObjectFactory.Character();

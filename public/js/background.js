@@ -1,6 +1,5 @@
 /**
 A background image object
-@param {object} args
 @param {string} args.filePath Path to the image file on disk
 @param {number} args.width Width of the image
 @param {number} args.height Height of the image

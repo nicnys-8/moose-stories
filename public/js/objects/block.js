@@ -50,25 +50,13 @@ ObjectFactory.Block = function(args) {
     //================================
 
     var standardWidth = 32,
-        standardHeight = 32;
-
-    var width = +params.width || standardWidth;
-    var height = +params.height || standardHeight;
-
-    /*
-	// Set values for width and height
-	if (typeof(width) === "undefined") {
-		width = standardWidth;
-	}
-	if (typeof(height) === "undefined") {
-		height = standardHeight;
-	}
-     */
-
-    var hotspot = {
-        x: width / 2,
-        y: height / 2
-    };
+        standardHeight = 32,
+        width = +params.width || standardWidth,
+        height = +params.height || standardHeight,
+        hotspot = {
+            x: width / 2,
+            y: height / 2
+        };
 
 
     //==============

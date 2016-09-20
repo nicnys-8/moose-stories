@@ -18,20 +18,19 @@ module.exports = function(grunt) {
                     "strict": "global",
                     "node": true,
                 }
-            }
-            /*,
-                        client: {
-                            src: [
-                                "public/js/*",
-                            ],
-                            options: {
-                                "strict": true,
-                                "browser": true,
-                                "globals": {
-                                    "io": true
-                                }
-                            }
-                        }*/
+            }/*,
+            client: {
+                src: [
+                    "public/js/*",
+                ],
+                options: {
+                    "strict": true,
+                    "browser": true,
+                    "globals": {
+                        "io": true
+                    }
+                }
+            }*/
         },
         csslint: {
             all: ["public/css/*"]
@@ -44,7 +43,7 @@ module.exports = function(grunt) {
         browserify: {
             build: {
                 src: "public/js/game.js",
-                dest: "public/js/bundle.js"
+                dest: "public/dist/js/game-bundle.js"
             },
             options: {
                 browserifyOptions: {
@@ -54,7 +53,7 @@ module.exports = function(grunt) {
         },
 
         watch: {
-            files: "js/*",
+            files: "public/js/*",
             tasks: ["browserify"]
         },
 

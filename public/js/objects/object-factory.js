@@ -104,8 +104,8 @@ module.exports = {
                     json[i] = this[i] || args[i];
                 }
                 return json;
-            }
-        }
+            };
+        };
 
         constr.prototype = new superConstr(); // new superConstr(defaults);?
         if (prototype) {
