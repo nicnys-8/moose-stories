@@ -107,7 +107,9 @@ function Keyboard() {
 	updates keyStates based on the keyEvents that have occured since the last tick
 	*/
 	this.tick = function() {
-		for (var key in keyStates) {
+		var key;
+		
+		for (key in keyStates) {
 			if (keyStates[key] === "released") {
 				keyStates[key] = "up";
 			}
@@ -117,7 +119,7 @@ function Keyboard() {
 			}
 		}
 
-		for (var key in keyEvents) {
+		for (key in keyEvents) {
 			keyStates[key] = keyEvents[key];
 		}
 		// Clear events

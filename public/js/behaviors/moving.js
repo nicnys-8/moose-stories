@@ -84,7 +84,6 @@ module.exports = function() {
                 break;
             default:
                 throw new Error("Not a valid coordinate.");
-                break;
         }
 
         // Find all objects within the area that will be traversed
@@ -151,7 +150,6 @@ module.exports = function() {
                 break;
             default:
                 throw new Error("Not a valid coordinate.");
-                break;
         }
 
         // Find all objects within the area that will be traversed
@@ -161,13 +159,14 @@ module.exports = function() {
             prev = this[coordinate],
             obj,
             steps,
-            pushDistance;
+            pushDistance,
+            i;
 
         // Move the object
         this[coordinate] = Math.round(this[coordinate] + delta);
 
         // Check for collisions
-        for (var i = 0; i < objects.length; i++) {
+        for (i = 0; i < objects.length; i++) {
             obj = objects[i];
             // Ignore collisions with itself
             if (this === obj) {
@@ -199,7 +198,7 @@ module.exports = function() {
         // Move carried objects or drag carried objects down
         pushDistance = this[coordinate] - prev;
         if (coordinate !== "y" || deltaY > 0) {
-            for (var i = 0; i < carried.length; i++) {
+            for (i = 0; i < carried.length; i++) {
                 obj = carried[i];
                 obj.hasBeenCarriedThisTick = true;
                 obj.tryMove(pushDistance, coordinate, gameState);

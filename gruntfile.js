@@ -18,19 +18,17 @@ module.exports = function(grunt) {
                     "strict": "global",
                     "node": true,
                 }
-            }/*,
+            },
             client: {
                 src: [
                     "public/js/*",
                 ],
                 options: {
-                    "strict": true,
+                    "node": true,
                     "browser": true,
-                    "globals": {
-                        "io": true
-                    }
+                    "validthis": true
                 }
-            }*/
+            }
         },
         csslint: {
             all: ["public/css/*"]
@@ -38,8 +36,6 @@ module.exports = function(grunt) {
         jsonlint: {
             all: []
         },
-
-        // Enable client side 'require'
         browserify: {
             build: {
                 src: "public/js/game.js",
@@ -51,12 +47,23 @@ module.exports = function(grunt) {
                 }
             },
         },
-
         watch: {
-            files: "public/js/*",
-            tasks: ["browserify"]
+            scripts: {
+                files: ['public/js/**'],
+                tasks: ['browserify'],
+                options: {
+                    spawn: false,
+                },
+            },
         },
-
+        concurrent: {
+            dev: {
+                tasks: ['nodemon', 'watch'],
+                options: {
+                    logConcurrentOutput: true
+                }
+            }
+        },
         // Run the server
         nodemon: {
             script: "server.js",
@@ -70,6 +77,5 @@ module.exports = function(grunt) {
         }
     });
     grunt.registerTask("lint", ["jshint", "jsonlint"]);
-    grunt.registerTask("build", ["browserify", "watch"]);
-    grunt.registerTask("default", ["lint", "nodemon"]);
+    grunt.registerTask("default", ["lint", "concurrent"]);
 };

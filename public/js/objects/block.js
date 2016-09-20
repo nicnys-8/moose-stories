@@ -2,7 +2,8 @@
 
 var ObjectFactory = require("./object-factory"),
     GameObject = require("./game-object"),
-    SpriteFactory = require("./../sprite-factory");
+    SpriteFactory = require("./../sprite-factory"),
+    Behaviors = require("./../behaviors");
 
 ObjectFactory.defineClass("Block", {
     superClass: "GameObject",
@@ -35,7 +36,7 @@ ObjectFactory.defineClass("Block", {
 
 /**
 A solid block object
- params = {
+ args = {
     width : Number,
     height : Number
  }
@@ -51,8 +52,8 @@ ObjectFactory.Block = function(args) {
 
     var standardWidth = 32,
         standardHeight = 32,
-        width = +params.width || standardWidth,
-        height = +params.height || standardHeight,
+        width = +args.width || standardWidth,
+        height = +args.height || standardHeight,
         hotspot = {
             x: width / 2,
             y: height / 2
@@ -63,9 +64,9 @@ ObjectFactory.Block = function(args) {
     // Add behaviors
     //==============
 
-    this.addBehavior(Behavior.Renderable);
-    this.addBehavior(Behavior.Physical);
-    this.addBehavior(Behavior.Solid);
+    this.addBehavior(Behaviors.Renderable);
+    this.addBehavior(Behaviors.Physical);
+    this.addBehavior(Behaviors.Solid);
 
 
     //=================
@@ -83,6 +84,6 @@ ObjectFactory.Block = function(args) {
         top: -height / 2,
         bottom: height / 2
     };
-}
+};
 
 ObjectFactory.Block.prototype = new GameObject();

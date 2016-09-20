@@ -15,7 +15,7 @@ var UI = function() {
     function addCategory(name) {
         var clone = $("#menuCategoryPrototype").clone().removeClass("prototype").attr("id", ""),
             panelId = "menuCategory-" + name.replace(" ", "-");
-            
+
         clone.find(".mcToggler").attr("href", "#" + panelId).text(name);
         clone.find(".mcToggled").attr("id", panelId);
         $("#menuCategories").append(clone);
@@ -52,7 +52,7 @@ var UI = function() {
                 formGroup.append(input);
                 convertFn = function(src) {
                     return "" + src.value;
-                }
+                };
                 break;
             case "number":
                 input = $('<input type="number" class="form-control" value=' + value + ' />');
@@ -60,7 +60,7 @@ var UI = function() {
                 formGroup.append(input);
                 convertFn = function(src) {
                     return +src.value || 0;
-                }
+                };
                 break;
             case "boolean":
                 formGroup = $('<div class="checkbox"></div>');
@@ -71,7 +71,7 @@ var UI = function() {
                 formGroup.append(name);
                 convertFn = function(src) {
                     return !!src.checked;
-                }
+                };
                 break;
             case "object":
                 if ($.isArray(value)) {
@@ -88,7 +88,6 @@ var UI = function() {
                     }
                 }
                 return formGroup;
-                break;
             default:
                 return null;
         }
@@ -268,7 +267,7 @@ setTimeout(function() {
            this.style.backgroundColor = "#eee";
            currentClass = name;
            selectedButton = this;
-        }
+       };
     }
 
     var i, w, h, obj, canvas, ctx, item;

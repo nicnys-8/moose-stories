@@ -1,4 +1,4 @@
-"use strict;"
+"use strict";
 
 /**
 Returns a game controller object (controller of the MVC pattern)
@@ -98,7 +98,7 @@ module.exports = function(gameState, canvas, camera, keyboard) {
             renderList[i].render(ctx);
         }
         ctx.restore();
-    }
+    };
 
     this.startGame = function() {
         // Start controlling a random guy...
@@ -124,4 +124,4 @@ module.exports = function(gameState, canvas, camera, keyboard) {
         this.camera.target = controlled;
     };
 
-}
+};

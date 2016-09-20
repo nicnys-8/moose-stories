@@ -1,7 +1,7 @@
 "use strict";
 
 var ObjectFactory = require("./object-factory"),
-    Behavior = require("./../behaviors");
+    Behaviors = require("./../behaviors");
 
 function GameObject(args, defaults) {
 
@@ -14,7 +14,7 @@ function GameObject(args, defaults) {
     this.uid = args && args.uid; // This is set in GameState, when the level is parsed
     this.setNumber("x", args, 0);
     this.setNumber("y", args, 0);
-};
+}
 
 GameObject.prototype.setNumber = function(name, args, defaultValue) {
     var value = (args && +args[name]);

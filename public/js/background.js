@@ -49,7 +49,7 @@ function Background(args) {
             tiledX: this.tiledX,
             tiledY: this.tiledY
                 // ...
-        }
+        };
     };
 
     /**

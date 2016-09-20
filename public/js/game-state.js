@@ -141,7 +141,7 @@ module.exports = function() {
                     }
                 }
                 break;
-            case "include":
+            //case "include":
             default:
                 for (i = 0; i < objects.length; i++) {
                     currentObject = objects[i];
@@ -161,7 +161,7 @@ module.exports = function() {
         }
 
         return filteredObjects;
-	}
+	};
 
 	/**
 	Returns all objects that intersect the specified area
@@ -188,16 +188,7 @@ module.exports = function() {
 	*/
 	this.getObjectByUID = function(uid) {
         return this.objectsByUID[uid];
-        /*
-		var obj, i;
-		for (i = 0; i < this.objects.length; i++) {
-			obj = this.objects[i];
-			if (obj.uid === uid) {
-				return obj;
-			}
-		}
-         */
-	}
+	};
 
 	/**
 	Creates all objects from a level description
@@ -246,7 +237,7 @@ module.exports = function() {
             dst = [];
 
             // Is there anything to export?
-            if (!src || src.length == 0) {
+            if (!src || src.length === 0) {
                 console.log("No " + type + " to export!");
                 continue;
             }
@@ -277,4 +268,4 @@ module.exports = function() {
 			this.objects[i].tick(this);
 		}
 	};
-}
+};
