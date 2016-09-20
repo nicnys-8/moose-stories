@@ -5,7 +5,8 @@ var GameState = require("./game-state"),
     ObjectFactory = require("./objects/object-factory"),
     Camera = require("./camera"),
     Keyboard = require("./keyboard"),
-    Levels = require("./levels");
+    Levels = require("./levels"),
+    AudioFactory = require('./audio-factory');
 
 // Move this somewhere else:
 require("./objects/game-object");
@@ -19,7 +20,6 @@ var canvas = document.getElementById("view"),
     keyboard = new Keyboard(),
     gameController = new GameController(state, canvas, camera, keyboard),
     controlledCharacterUID = 0,
-    AudioFactory = require('./audio-factory'),
     audio = AudioFactory.createSound("audio/fnurk.mp3");
 
 state.parseLevel(Levels.level1);

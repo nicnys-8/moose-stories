@@ -37,9 +37,13 @@ module.exports = function(grunt) {
             all: []
         },
         browserify: {
-            build: {
+            game: {
                 src: "public/js/game.js",
                 dest: "public/dist/js/game-bundle.js"
+            },
+            editor: {
+                src: "public/js/editor.js",
+                dest: "public/dist/js/editor-bundle.js"
             },
             options: {
                 browserifyOptions: {
@@ -48,13 +52,13 @@ module.exports = function(grunt) {
             },
         },
         watch: {
-            scripts: {
+            game: {
                 files: ['public/js/**'],
                 tasks: ['browserify'],
                 options: {
                     spawn: false,
                 },
-            },
+            }
         },
         concurrent: {
             dev: {
@@ -77,5 +81,5 @@ module.exports = function(grunt) {
         }
     });
     grunt.registerTask("lint", ["jshint", "jsonlint"]);
-    grunt.registerTask("default", ["lint", "concurrent"]);
+    grunt.registerTask("default", ["lint", "browserify", "concurrent"]);
 };

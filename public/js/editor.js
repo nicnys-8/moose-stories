@@ -1,3 +1,17 @@
+var GameState = require("./game-state"),
+    GameController = require("./game-controller"),
+    ObjectFactory = require("./objects/object-factory"),
+    Camera = require("./camera"),
+    Keyboard = require("./keyboard"),
+    Levels = require("./levels"),
+    AudioFactory = require('./audio-factory');
+
+// Move this somewhere else:
+require("./objects/game-object");
+require("./objects/block");
+require("./objects/characters/character");
+require("./objects/characters/giri");
+
 var canvas = document.getElementById("view"),
     state = new GameState(),
     camera = new Camera(),
@@ -93,11 +107,11 @@ var UI = function() {
         }
 
         input.change(function() {
-                     object[key] = convertFn(this);
-                     if (callback) {
-                        callback(name, object[key]);
-                     }
-                     });
+            object[key] = convertFn(this);
+            if (callback) {
+                callback(name, object[key]);
+            }
+        });
 
         return formGroup;
     }
@@ -111,10 +125,10 @@ var UI = function() {
     }
 
     return {
-        addCategory : addCategory,
-        addListItem : addListItem,
-        createListItem : createListItem,
-        createForm : createForm
+        addCategory: addCategory,
+        addListItem: addListItem,
+        createListItem: createListItem,
+        createForm: createForm
     };
 }();
 
@@ -124,46 +138,51 @@ UI.addCategory("Backgrounds");
 UI.addCategory("Music");
 
 var testObj = {
-    x:1,
-    y:true,
-    bbox:{
-        left:5,
-        top:{e:1, oo:[1,2,3,"hehe"]}
+    x: 1,
+    y: true,
+    bbox: {
+        left: 5,
+        top: {
+            e: 1,
+            oo: [1, 2, 3, "hehe"]
+        }
     },
-    huu:"hehe"
+    huu: "hehe"
 };
 
 var levelSettings = {
-    "Name" : "New level",
-    "Width" : 800,
-    "Height" : 600,
-    "Snap to grid" : false,
-    "Grid size x" : 32,
-    "Grid size y" : 32
+    "Name": "New level",
+    "Width": 800,
+    "Height": 600,
+    "Snap to grid": false,
+    "Grid size x": 32,
+    "Grid size y": 32
 };
 
 // $("#sidebar-left").append(UI.createForm(testObj));
 $("#sidebar-right").append(UI.createForm(levelSettings,
-                                         function(key, value) {
-                                             switch (key) {
-                                                case "Width":
-                                                    canvas.width = value;
-                                                    break;
-                                                case "Height":
-                                                    canvas.height = value;
-                                                    break;
-                                             }
-                                             console.log(key + " changed to " + value);
-                                         }));
+    function(key, value) {
+        switch (key) {
+            case "Width":
+                canvas.width = value;
+                break;
+            case "Height":
+                canvas.height = value;
+                break;
+        }
+        console.log(key + " changed to " + value);
+    }));
 
 function createNewLevel() {
     // state.clear();empty();?
-    $("#newLevelModal").modal({backdrop:"static"}); // options)
+    $("#newLevelModal").modal({
+        backdrop: "static"
+    }); // options)
     // $("#newLevelModal").find(".modal-body").append(UI.createForm(testObj));
 }
 
 $.get("/levels",
-      function(data) {
+    function(data) {
         levels = data;
 
         var sel = null,
@@ -191,10 +210,10 @@ $.get("/levels",
         // Start the game loop
         //====================
         gameController.startGame();
-      });
+    });
 
 $.get("/sprites",
-      function(data) {
+    function(data) {
         var img, item, i;
         for (i in data) {
             img = new Image();
@@ -202,24 +221,24 @@ $.get("/sprites",
             item = UI.createListItem(img, "&nbsp;", data[i]);
             UI.addListItem(item, "Sprites");
         }
-      });
+    });
 
 $.get("/backgrounds",
-      function(data) {
+    function(data) {
 
-      var selectedBackground = null,
-        bgPath = null;
+        var selectedBackground = null,
+            bgPath = null;
 
-      function selectFn(name) {
-        return function() {
-            if (selectedBackground) {
-                selectedBackground.style.backgroundColor = "";
-            }
-            this.style.backgroundColor = "#eee";
-            selectedBackground = this;
-            bgPath = name;
-        };
-      }
+        function selectFn(name) {
+            return function() {
+                if (selectedBackground) {
+                    selectedBackground.style.backgroundColor = "";
+                }
+                this.style.backgroundColor = "#eee";
+                selectedBackground = this;
+                bgPath = name;
+            };
+        }
 
         var img, item, i, clone;
         var list = $("#newBackgroundModal").find(".modal-body-left ul");
@@ -237,21 +256,28 @@ $.get("/backgrounds",
             // item = UI.createListItem(img, "&nbsp;", data[i]);
             // UI.addListItem(item, "Backgrounds");
         }
-      var settings = {x:0, y:0, tiledX:false, tiledY:false};
+        var settings = {
+            x: 0,
+            y: 0,
+            tiledX: false,
+            tiledY: false
+        };
         $("#newBackgroundModal")
-        .find(".modal-body-right")
-        .append(UI.createForm(settings));
-      $("#newBackgroundModal")
-      .find(".saveButton")
-      .click(function() {
-             if (bgPath) {
-             settings.filePath = bgPath;
-             state.addBackground(new Background(settings));
-             $("#newBackgroundModal").modal("hide");
-             }
-             });
-        $("#newBackgroundModal").modal({backdrop:"static"});
-      });
+            .find(".modal-body-right")
+            .append(UI.createForm(settings));
+        $("#newBackgroundModal")
+            .find(".saveButton")
+            .click(function() {
+                if (bgPath) {
+                    settings.filePath = bgPath;
+                    state.addBackground(new Background(settings));
+                    $("#newBackgroundModal").modal("hide");
+                }
+            });
+        $("#newBackgroundModal").modal({
+            backdrop: "static"
+        });
+    });
 
 
 var currentClass = "Block",
@@ -261,13 +287,13 @@ setTimeout(function() {
 
     function selectFn(name) {
         return function() {
-           if (selectedButton) {
-            selectedButton.style.backgroundColor = "";
-           }
-           this.style.backgroundColor = "#eee";
-           currentClass = name;
-           selectedButton = this;
-       };
+            if (selectedButton) {
+                selectedButton.style.backgroundColor = "";
+            }
+            this.style.backgroundColor = "#eee";
+            currentClass = name;
+            selectedButton = this;
+        };
     }
 
     var i, w, h, obj, canvas, ctx, item;
@@ -278,14 +304,18 @@ setTimeout(function() {
         ctx = canvas.getContext("2d");
         item = UI.createListItem(canvas, "&nbsp;", i);
         item.click(selectFn(i));
-        obj = ObjectFactory.createObject({name:i, x:0, y:0});
+        obj = ObjectFactory.createObject({
+            name: i,
+            x: 0,
+            y: 0
+        });
 
         if (i == currentClass) {
-           item.click();
+            item.click();
         }
 
         if (obj.hasBehavior("Renderable") && obj.currentSprite) {
-           try {
+            try {
                 w = 64; // obj.boundingBox.right - obj.boundingBox.left;
                 h = 64; // obj.boundingBox.bottom - obj.boundingBox.top;
                 obj.x = w / 2;
@@ -321,32 +351,32 @@ function calculatePlacement(event) {
 }
 
 $("#view")
-.mousedown(function(event) {
+    .mousedown(function(event) {
 
-    var p = calculatePlacement(event);
+        var p = calculatePlacement(event);
 
-    newObject = ObjectFactory.createObject({
-                                           name: currentClass,
-                                           x: p.x,
-                                           y: p.y,
-                                           });
+        newObject = ObjectFactory.createObject({
+            name: currentClass,
+            x: p.x,
+            y: p.y,
+        });
 
-    // $("#sidebar-left").prepend(UI.createForm(block));
-    state.addObject(newObject);
-})
-.mousemove(function(event) {
+        // $("#sidebar-left").prepend(UI.createForm(block));
+        state.addObject(newObject);
+    })
+    .mousemove(function(event) {
 
-    var p = calculatePlacement(event);
+        var p = calculatePlacement(event);
 
-    if (newObject) {
-        newObject.x = p.x;
-        newObject.y = p.y;
-    }
+        if (newObject) {
+            newObject.x = p.x;
+            newObject.y = p.y;
+        }
 
-    $("#mouseX").text(p.x);
-    $("#mouseY").text(p.y);
+        $("#mouseX").text(p.x);
+        $("#mouseY").text(p.y);
 
-})
-.bind("mouseup mouseleave mouseout",function(event) {
-    newObject = null;
-});
+    })
+    .bind("mouseup mouseleave mouseout", function(event) {
+        newObject = null;
+    });
