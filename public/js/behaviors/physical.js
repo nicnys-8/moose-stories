@@ -1,7 +1,9 @@
+"use strict";
+
 /**
 Describes the behavior of a physical object
 */
-Behavior.Physical = Behavior.Physical || function() {
+module.exports = function() {
 
     //================================
     // Private functions and variables
@@ -59,6 +61,9 @@ Behavior.Physical = Behavior.Physical || function() {
     @return The amount of overlap
     */
     function overlapsBy(obj, coordinate) {
+        var boundingBoxVar1,
+            boundingBoxVar2;
+
         switch (coordinate) {
             case "x":
                 boundingBoxVar1 = "left"

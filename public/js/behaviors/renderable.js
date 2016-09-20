@@ -1,8 +1,9 @@
+"use strict";
 
 /**
 Describes an object that can be rendered on the screen
 */
-Behavior.Renderable = Behavior.Renderable || function() {
+module.exports = function() {
 
 	//================================
 	// Private functions and variables
@@ -33,7 +34,7 @@ Behavior.Renderable = Behavior.Renderable || function() {
 	var behavior = {};
 
 	behavior.name = "Renderable";
-	
+
 	behavior.getProperties = function() {
 		return {
 			// Variables
@@ -47,7 +48,7 @@ Behavior.Renderable = Behavior.Renderable || function() {
 			render: render
 		}
 	};
-	
+
 	behavior.tick = function(gameState) {
 		if (this.currentSprite.imageSpeed > 0) {
 			this.currentSprite.tick();

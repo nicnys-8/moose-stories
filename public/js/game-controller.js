@@ -1,3 +1,5 @@
+"use strict;"
+
 /**
 Returns a game controller object (controller of the MVC pattern)
 @param gameState Object describing the entire gamestate (model of the MVC pattern)
@@ -5,7 +7,7 @@ Returns a game controller object (controller of the MVC pattern)
 @param camera A camera object used to render the game
 @param keyboard An object for reacting to keyboard input
 */
-function GameController(gameState, canvas, camera, keyboard) {
+module.exports = function(gameState, canvas, camera, keyboard) {
 
     //================================
     // Private functions and variables

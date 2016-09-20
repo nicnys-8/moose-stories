@@ -1,9 +1,9 @@
+"use strict";
+
 /**
 A singleton factory used to create new sound objects.
 These are pretty much just wrappers around audio tags.
 */
-
-var AudioFactory = function() {
 
 	//==================
 	// Private variables
@@ -16,13 +16,13 @@ var AudioFactory = function() {
 	// Public API
 	//===========
 
-	var API = {};
+	var AudioFactory = {};
 
 	/**
 	Returns a sound object
 	@param filePath Path to the audio file
 	*/
-	API.createSound = function(filePath) {
+	AudioFactory.createSound = function(filePath) {
 		var audioTag;
 
 		if (cache[filePath]) {
@@ -36,5 +36,4 @@ var AudioFactory = function() {
 		return audioTag;
 	};
 
-	return API;
-}();
+module.exports = AudioFactory;

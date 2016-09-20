@@ -90,3 +90,5 @@ function Background(args) {
     };
 
 }
+
+module.exports = Background;

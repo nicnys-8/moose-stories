@@ -1,9 +1,11 @@
+"use strict";
+
 /**
 Describes the behavior of a solid object -
 The object solidity can be turned on or off
 with the function setSolid
  */
-Behavior.Solid = Behavior.Solid || function() {
+module.exports = function() {
 
 	//================================
 	// Private functions and variables

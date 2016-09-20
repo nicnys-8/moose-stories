@@ -18,25 +18,44 @@ module.exports = function(grunt) {
                     "strict": "global",
                     "node": true,
                 }
-            }/*,
-            client: {
-                src: [
-                    "public/js/*",
-                ],
-                options: {
-                    "strict": true,
-                    "browser": true,
-                    "globals": {
-                        "io": true
-                    }
-                }
-            }*/
+            }
+            /*,
+                        client: {
+                            src: [
+                                "public/js/*",
+                            ],
+                            options: {
+                                "strict": true,
+                                "browser": true,
+                                "globals": {
+                                    "io": true
+                                }
+                            }
+                        }*/
         },
         csslint: {
             all: ["public/css/*"]
         },
         jsonlint: {
             all: []
+        },
+
+        // Enable client side 'require'
+        browserify: {
+            build: {
+                src: "public/js/game.js",
+                dest: "public/js/bundle.js"
+            },
+            options: {
+                browserifyOptions: {
+                    debug: true
+                }
+            },
+        },
+
+        watch: {
+            files: "js/*",
+            tasks: ["browserify"]
         },
 
         // Run the server
@@ -52,5 +71,6 @@ module.exports = function(grunt) {
         }
     });
     grunt.registerTask("lint", ["jshint", "jsonlint"]);
+    grunt.registerTask("build", ["browserify", "watch"]);
     grunt.registerTask("default", ["lint", "nodemon"]);
 };

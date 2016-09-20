@@ -1,3 +1,5 @@
+"use strict";
+
 /**
 Constructor of a sprite object. A sprite is an object that can be
 rendered on screen, consisting of an arbitrary number of frames
@@ -65,3 +67,5 @@ function Sprite(canvas, numFrames, hotspot) {
         ctx.restore();
     };
 }
+
+module.exports = Sprite;

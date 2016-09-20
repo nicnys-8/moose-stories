@@ -1,8 +1,10 @@
+"use strict";
+
 /**
 A controller object that can be used to control
 events in the game through key presses
 */
-Keyboard = function() {
+function Keyboard() {
 
 	//================================
 	// Private functions and variables
@@ -123,3 +125,4 @@ Keyboard = function() {
 	};
 }
 
+module.exports = Keyboard;

@@ -1,13 +1,16 @@
+"use strict";
+
 /**
 Behavior describing a platform character
  */
-Behavior.Platform = Behavior.Platform || function() {
+module.exports = function() {
 
 	//================================
 	// Private functions and variables
 	//================================
 
-	var jumpSound = AudioFactory.createSound("audio/jump.wav"),
+	var AudioFactory = require("./../audio-factory"),
+		jumpSound = AudioFactory.createSound("audio/jump.wav"),
 		landSound = AudioFactory.createSound("audio/land.wav");
 
 	function jump() {

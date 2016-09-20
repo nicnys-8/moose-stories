@@ -1,7 +1,9 @@
+"use strict";
+
 /**
 Describes the behavior of a moving object
 */
-Behavior.Moving = Behavior.Moving ||   function() {
+module.exports = function() {
 
     //================================
     // Private functions and variables
@@ -33,6 +35,7 @@ Behavior.Moving = Behavior.Moving ||   function() {
                 this.y + this.boundingBox.bottom
             ),
             carried = [],
+            obj,
 			i;
 
         for (i = 0; i < objects.length; i++) {

@@ -1,23 +1,37 @@
+"use strict";
+
+var ObjectFactory = require("./object-factory"),
+    GameObject = require("./game-object"),
+    SpriteFactory = require("./../sprite-factory");
 
 ObjectFactory.defineClass("Block", {
-                          superClass:"GameObject",
-                          behaviors:["Renderable", "Physical", "Solid"],
-                          defaults:{width:32, height:32},
-                          init:function(args, defaults) {
-                            var width = args.width,
-                                height = args.height,
-                                hotspot = {x: width / 2, y: height / 2};
+    superClass: "GameObject",
+    behaviors: ["Renderable", "Physical", "Solid"],
+    defaults: {
+        width: 32,
+        height: 32
+    },
+    init: function(args, defaults) {
+        var width = args.width,
+            height = args.height,
+            hotspot = {
+                x: width / 2,
+                y: height / 2
+            };
 
-                            this.currentSprite = SpriteFactory.createSprite("img/sprites/block.svg", 1, hotspot);
-                          
-                            this.scale.x = width / defaults.width;
-                            this.scale.y = height / defaults.height;
-                          
-                            this.boundingBox = {
-                                left: -width / 2, right: width / 2,
-                                top: -height / 2, bottom: height/ 2
-                            };
-                          }});
+        this.currentSprite = SpriteFactory.createSprite("img/sprites/block.svg", 1, hotspot);
+
+        this.scale.x = width / defaults.width;
+        this.scale.y = height / defaults.height;
+
+        this.boundingBox = {
+            left: -width / 2,
+            right: width / 2,
+            top: -height / 2,
+            bottom: height / 2
+        };
+    }
+});
 
 /**
 A solid block object
@@ -28,18 +42,19 @@ A solid block object
  */
 ObjectFactory.Block = function(args) {
 
-	GameObject.call(this, args);
+    GameObject.call(this, args);
 
-	
-	//================================
-	// Private functions and variables
-	//================================
 
-	var standardWidth = 32, standardHeight = 32;
+    //================================
+    // Private functions and variables
+    //================================
+
+    var standardWidth = 32,
+        standardHeight = 32;
 
     var width = +params.width || standardWidth;
     var height = +params.height || standardHeight;
-    
+
     /*
 	// Set values for width and height
 	if (typeof(width) === "undefined") {
@@ -49,33 +64,37 @@ ObjectFactory.Block = function(args) {
 		height = standardHeight;
 	}
      */
-    
-	var hotspot = {x: width / 2, y: height / 2};
-	
 
-	//==============
-	// Add behaviors
-	//==============
-	
-	this.addBehavior(Behavior.Renderable);
-	this.addBehavior(Behavior.Physical);
-	this.addBehavior(Behavior.Solid);
+    var hotspot = {
+        x: width / 2,
+        y: height / 2
+    };
 
 
-	//=================
-	// Public interface
-	//=================
+    //==============
+    // Add behaviors
+    //==============
 
-	this.currentSprite = SpriteFactory.createSprite("img/sprites/block.svg", 1, hotspot);
+    this.addBehavior(Behavior.Renderable);
+    this.addBehavior(Behavior.Physical);
+    this.addBehavior(Behavior.Solid);
 
-	this.scale.x = width / standardWidth;
-	this.scale.y = height / standardHeight;
 
-	this.boundingBox = {
-		left: -width / 2, right: width / 2,
-		top: -height / 2, bottom: height/ 2
-	};
+    //=================
+    // Public interface
+    //=================
+
+    this.currentSprite = SpriteFactory.createSprite("img/sprites/block.svg", 1, hotspot);
+
+    this.scale.x = width / standardWidth;
+    this.scale.y = height / standardHeight;
+
+    this.boundingBox = {
+        left: -width / 2,
+        right: width / 2,
+        top: -height / 2,
+        bottom: height / 2
+    };
 }
 
 ObjectFactory.Block.prototype = new GameObject();
-

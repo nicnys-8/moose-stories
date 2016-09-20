@@ -1,7 +1,13 @@
+"use strict";
+
+var ObjectFactory = require("./objects/object-factory"),
+	AudioFactory = require("./audio-factory"),
+	Background = require("./background");
+
 /**
-Returns an object describing the state of a gaming session
+Returns the constructor of an object describing the state of a gaming session
 */
-function GameState() {
+module.exports = function() {
 
 	//================================
 	// Private functions and variables
@@ -198,7 +204,7 @@ function GameState() {
 	@TODO: Parsaren ska fungera annorlunda i framtiden...!
 	*/
 	this.parseLevel = function(description) {
-		var objDesc, obj, bkgDes, bkg, i, len;
+		var objDesc, obj, bkgDesc, bkg, i, len;
 
         // Clear the level first!
         this.objects = [];

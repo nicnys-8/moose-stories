@@ -1,3 +1,5 @@
+"use strict";
+
 /**
 Constructor of a camera object.
 */
@@ -38,3 +40,5 @@ function Camera() {
 	};
 
 }
+
+module.exports = Camera;

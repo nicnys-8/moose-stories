@@ -1,3 +1,9 @@
+"use strict";
+
+var ObjectFactory = require('./../object-factory'),
+    GameObject = require("./../game-object"),
+    Behaviors = require("./../../behaviors");
+
 ObjectFactory.defineClass("Character", {
     superClass: "GameObject",
     behaviors: ["Renderable", "Physical", "Solid", "Moving", "Platform", "FaceDirection", "Controllable"],
@@ -34,13 +40,13 @@ ObjectFactory.Character = function(args) {
         this.currentSprite = (Math.abs(this.hSpeed) > threshold) ? this.sprites.walk : this.sprites.stand;
         if (!this.onGround) this.currentSprite = this.sprites.jump;
     });
-    this.addBehavior(Behavior.Renderable);
-    this.addBehavior(Behavior.Physical);
-    this.addBehavior(Behavior.Solid);
-    this.addBehavior(Behavior.Moving);
-    this.addBehavior(Behavior.Platform);
-    this.addBehavior(Behavior.FaceDirection);
-    this.addBehavior(Behavior.Controllable);
+    this.addBehavior(Behaviors.Renderable);
+    this.addBehavior(Behaviors.Physical);
+    this.addBehavior(Behaviors.Solid);
+    this.addBehavior(Behaviors.Moving);
+    this.addBehavior(Behaviors.Platform);
+    this.addBehavior(Behaviors.FaceDirection);
+    this.addBehavior(Behaviors.Controllable);
 
 
     //=================
