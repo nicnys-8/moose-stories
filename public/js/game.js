@@ -6,15 +6,8 @@ var GameState = require("./game-state"),
     Camera = require("./camera"),
     Keyboard = require("./keyboard"),
     Levels = require("./levels"),
-    AudioFactory = require('./audio-factory');
-
-// Move this somewhere else:
-require("./objects/game-object");
-require("./objects/block");
-require("./objects/characters/character");
-require("./objects/characters/giri");
-
-var canvas = document.getElementById("view"),
+    AudioFactory = require('./audio-factory'),
+    canvas = document.getElementById("view"),
     state = new GameState(),
     camera = new Camera(),
     keyboard = new Keyboard(),
@@ -34,7 +27,7 @@ document.body.onmousedown = function(event) {
 
     var block = ObjectFactory.createObject({
         name: "Block",
-        x: 32 * Math.round(x / 32),
+        x: 32 * Math.round(x / 32), // FIXME: Vi borde kanske inte ha en massa lösa trettitvåor liggandes överallt...
         y: 32 * Math.round(y / 32),
     });
     state.addObject(block);

@@ -36,21 +36,28 @@ module.exports = function(grunt) {
         jsonlint: {
             all: []
         },
+
         browserify: {
             game: {
-                src: "public/js/game.js",
-                dest: "public/dist/js/game-bundle.js"
+                src: ['public/js/objects/**/*.js', 'public/js/game.js'],
+                dest: 'public/dist/js/game-bundle.js',
+                options: {
+                    browserifyOptions: {
+                        debug: true
+                    }
+                },
             },
             editor: {
-                src: "public/js/editor.js",
-                dest: "public/dist/js/editor-bundle.js"
-            },
-            options: {
-                browserifyOptions: {
-                    debug: true
-                }
-            },
+                src: ['public/js/objects/**/*.js', 'public/js/editor.js'],
+                dest: 'public/dist/js/editor-bundle.js',
+                options: {
+                    browserifyOptions: {
+                        debug: true
+                    }
+                },
+            }
         },
+
         watch: {
             game: {
                 files: ['public/js/**'],
@@ -60,14 +67,7 @@ module.exports = function(grunt) {
                 },
             }
         },
-        concurrent: {
-            dev: {
-                tasks: ['nodemon', 'watch'],
-                options: {
-                    logConcurrentOutput: true
-                }
-            }
-        },
+
         // Run the server
         nodemon: {
             script: "server.js",
@@ -78,8 +78,17 @@ module.exports = function(grunt) {
                     "config/*"
                 ]
             }
-        }
+        },
+
+        concurrent: {
+            dev: {
+                tasks: ['nodemon', 'watch'],
+                options: {
+                    logConcurrentOutput: true
+                }
+            }
+        },
     });
     grunt.registerTask("lint", ["jshint", "jsonlint"]);
-    grunt.registerTask("default", ["lint", "browserify", "concurrent"]);
+    grunt.registerTask("default", ["browserify", "concurrent"]);
 };

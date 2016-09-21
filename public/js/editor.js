@@ -4,15 +4,9 @@ var GameState = require("./game-state"),
     Camera = require("./camera"),
     Keyboard = require("./keyboard"),
     Levels = require("./levels"),
-    AudioFactory = require('./audio-factory');
-
-// Move this somewhere else:
-require("./objects/game-object");
-require("./objects/block");
-require("./objects/characters/character");
-require("./objects/characters/giri");
-
-var canvas = document.getElementById("view"),
+    AudioFactory = require("./audio-factory"),
+    Background = require("./background"),
+    canvas = document.getElementById("view"),
     state = new GameState(),
     camera = new Camera(),
     keyboard = new Keyboard(),
@@ -29,8 +23,8 @@ var UI = function() {
     function addCategory(name) {
         var clone = $("#menuCategoryPrototype").clone().removeClass("prototype").attr("id", ""),
             panelId = "menuCategory-" + name.replace(" ", "-");
-
         clone.find(".mcToggler").attr("href", "#" + panelId).text(name);
+        clone.find(".mcToggler").text(name);
         clone.find(".mcToggled").attr("id", panelId);
         $("#menuCategories").append(clone);
     }
@@ -154,7 +148,7 @@ var levelSettings = {
     "Name": "New level",
     "Width": 800,
     "Height": 600,
-    "Snap to grid": false,
+    "Snap to grid": true,
     "Grid size x": 32,
     "Grid size y": 32
 };
@@ -237,6 +231,7 @@ $.get("/backgrounds",
                 this.style.backgroundColor = "#eee";
                 selectedBackground = this;
                 bgPath = name;
+                console.log(bgPath);
             };
         }
 
