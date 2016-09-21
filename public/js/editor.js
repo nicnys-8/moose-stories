@@ -6,6 +6,7 @@ var GameState = require("./game-state"),
     Levels = require("./levels"),
     AudioFactory = require("./audio-factory"),
     Background = require("./background"),
+    config = require("./config"),
     canvas = document.getElementById("view"),
     state = new GameState(),
     camera = new Camera(),
@@ -146,11 +147,11 @@ var testObj = {
 
 var levelSettings = {
     "Name": "New level",
-    "Width": 800,
-    "Height": 600,
+    "Width": 20 * config.tileSize,
+    "Height": 10 * config.tileSize,
+    "Grid size x": config.tileSize,
+    "Grid size y": config.tileSize
     "Snap to grid": true,
-    "Grid size x": 32,
-    "Grid size y": 32
 };
 
 // $("#sidebar-left").append(UI.createForm(testObj));
@@ -331,7 +332,7 @@ setTimeout(function() {
 // Handle mouse presses
 //=====================
 
-var newObject = null;
+var selectedObject = null;
 
 function calculatePlacement(event) {
     var x = camera.x + event.offsetX - canvas.width / 2,
@@ -347,31 +348,59 @@ function calculatePlacement(event) {
 
 $("#view")
     .mousedown(function(event) {
-
         var p = calculatePlacement(event);
-
-        newObject = ObjectFactory.createObject({
-            name: currentClass,
-            x: p.x,
-            y: p.y,
-        });
-
-        // $("#sidebar-left").prepend(UI.createForm(block));
-        state.addObject(newObject);
+        event.preventDefault();
+        selectedObject = state.objectAtPosition(p.x, p.y);
+        switch (event.which) {
+            case 1:
+                // Left mouse button pressed
+                if (!selectedObject) {
+                    selectedObject = ObjectFactory.createObject({
+                        name: currentClass,
+                        x: p.x,
+                        y: p.y,
+                    });
+                    state.addObject(selectedObject);
+                }
+                break;
+            case 2:
+                // Middle mouse button pressed
+                break;
+            case 3:
+                // Right mouse button pressed;
+                if (selectedObject) {
+                    state.removeObject(selectedObject);
+                    selectedObject = null;
+                }
+                break;
+            default:
+                console.log('You have a strange mouse!');
+        }
     })
     .mousemove(function(event) {
 
         var p = calculatePlacement(event);
 
-        if (newObject) {
-            newObject.x = p.x;
-            newObject.y = p.y;
+        if (selectedObject) {
+            selectedObject.x = p.x;
+            selectedObject.y = p.y;
         }
 
         $("#mouseX").text(p.x);
         $("#mouseY").text(p.y);
 
     })
-    .bind("mouseup mouseleave mouseout", function(event) {
-        newObject = null;
+    .bind("mouseup", function(event) {
+        selectedObject = null;
+    })
+    .bind("mouseout", function(event) {
+        if (selectedObject) {
+            state.removeObject(selectedObject);
+        }
+        selectedObject = null;
     });
+
+// Disable the context menu that appears on right click on the canvas
+$('body').on('contextmenu', '#view', function(e) {
+    return false;
+});

@@ -80,6 +80,7 @@ module.exports = function(grunt) {
             }
         },
 
+        // Run the project, watch the server and client code in parallel
         concurrent: {
             dev: {
                 tasks: ['nodemon', 'watch'],
@@ -87,7 +88,7 @@ module.exports = function(grunt) {
                     logConcurrentOutput: true
                 }
             }
-        },
+        }
     });
     grunt.registerTask("lint", ["jshint", "jsonlint"]);
     grunt.registerTask("default", ["browserify", "concurrent"]);

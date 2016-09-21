@@ -3,14 +3,15 @@
 var ObjectFactory = require("./object-factory"),
     GameObject = require("./game-object"),
     SpriteFactory = require("./../sprite-factory"),
-    Behaviors = require("./../behaviors");
+    Behaviors = require("./../behaviors"),
+    config = require("./../config.js");
 
 ObjectFactory.defineClass("Block", {
     superClass: "GameObject",
     behaviors: ["Renderable", "Physical", "Solid"],
     defaults: {
-        width: 32,
-        height: 32
+        width: config.tileSize,
+        height: config.tileSize
     },
     init: function(args, defaults) {
         var width = args.width,

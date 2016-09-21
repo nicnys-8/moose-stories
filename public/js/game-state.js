@@ -164,7 +164,7 @@ module.exports = function() {
 	};
 
 	/**
-	Returns all objects that intersect the specified area
+	* Returns all objects that intersect the specified area.
 	*/
 	this.objectsInZone = function(left, right, top, bottom) {
 		var pObjects = this.filter("Physical");
@@ -182,6 +182,23 @@ module.exports = function() {
 		}
 		return result;
 	};
+
+	/**
+	* Returns all objects at the specified position.
+	*/
+	this.objectsAtPosition = function(x, y) {
+		this.objectsInZone(x, x, y, y);
+	}
+
+	/**
+	* If there are any objects at the specified position, one of these is returned.
+	* Otherwise null.
+	* TODO: Return the object with the lowest z-index
+	*/
+	this.objectAtPosition = function(x, y) {
+		var closest = this.objectsInZone(x, x, y, y)[0];
+		return closest || null;
+	}
 
 	/**
 	Returns the object with the specified UID
