@@ -1,9 +1,9 @@
-'use strict';
+"use strict";
 
-var express = require('express'),
+var express = require("express"),
     router = express.Router(),
-    passport = require('passport'),
-    User = require('../models/user');
+    passport = require("passport"),
+    User = require("../models/user");
 
 /**
  * Generates a JSON representation of a specified user with sensitive data
@@ -24,7 +24,7 @@ function isAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         next();
     } else {
-        res.status(400).send('Access denied.');
+        res.status(400).send("Access denied.");
     }
 }
 
@@ -32,11 +32,11 @@ function isAdmin(req, res, next) {
     if (req.user.admin) {
         next();
     } else {
-        res.status(400).send('Access denied.');
+        res.status(400).send("Access denied.");
     }
 }
 
-router.get('/', isAuthenticated, function(req, res) {
+router.get("/", isAuthenticated, function(req, res) {
 
     User.find(function(err, users) {
         var result = [];
@@ -54,7 +54,7 @@ router.get('/', isAuthenticated, function(req, res) {
     });
 });
 
-router.get('/:userId', isAuthenticated, function(req, res) {
+router.get("/:userId", isAuthenticated, function(req, res) {
     var query = {
         _id: req.params.userId
     };
@@ -70,16 +70,16 @@ router.get('/:userId', isAuthenticated, function(req, res) {
     });
 });
 
-router.delete('/:userId', isAdmin, function(req, res) {
+router.delete("/:userId", isAdmin, function(req, res) {
     var query = {
         _id: req.params.userId
     };
 
     User.remove(query, function(err) {
         if (err) {
-            res.status(404).send('Error');
+            res.status(404).send("Error");
         } else {
-            res.send('OK');
+            res.send("OK");
         }
     });
 });

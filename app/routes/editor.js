@@ -1,10 +1,9 @@
-var express = require('express'),
-    fs = require('fs'),
+var express = require("express"),
+    fs = require("fs"),
+    path = require("path"),
     router = express.Router(),
-    path = require('path'),
     levelDirectory = path.join(__dirname, "../../public/levels"),
     levels = {},
-    sprites = [],
     backgrounds = [];
 
 function loadLevels() {
@@ -26,7 +25,7 @@ function loadLevels() {
 
 function loadPaths(dst, dir, sub) {
 
-    var filepath = path.join(__dirname, '../../public/', dir, sub),
+    var filepath = path.join(__dirname, "../../public/", dir, sub),
         files = fs.readdirSync(filepath),
         i, filename, stats;
 
@@ -43,12 +42,8 @@ function loadPaths(dst, dir, sub) {
 }
 
 loadLevels();
-loadPaths(sprites, "/img/sprites", "/");
 loadPaths(backgrounds, "/img/backgrounds", "/");
 
-router.get("/sprites", function(req, res) {
-    res.send(sprites);
-});
 router.get("/backgrounds", function(req, res) {
     res.send(backgrounds);
 });

@@ -164,6 +164,17 @@ module.exports = function() {
 	};
 
 	/**
+	* Completely resets the game state
+	*/
+	this.clear = function() {
+		this.objects = [];
+		this.backgrounds = [];
+	    this.objectsByUID = {};
+	    this.music = null;
+		clearCache();
+	};
+
+	/**
 	* Returns all objects that intersect the specified area.
 	*/
 	this.objectsInZone = function(left, right, top, bottom) {
@@ -188,7 +199,7 @@ module.exports = function() {
 	*/
 	this.objectsAtPosition = function(x, y) {
 		this.objectsInZone(x, x, y, y);
-	}
+	};
 
 	/**
 	* If there are any objects at the specified position, one of these is returned.
@@ -198,7 +209,7 @@ module.exports = function() {
 	this.objectAtPosition = function(x, y) {
 		var closest = this.objectsInZone(x, x, y, y)[0];
 		return closest || null;
-	}
+	};
 
 	/**
 	Returns the object with the specified UID
@@ -214,12 +225,8 @@ module.exports = function() {
 	this.parseLevel = function(description) {
 		var objDesc, obj, bkgDesc, bkg, i, len;
 
-        // Clear the level first!
-        this.objects = [];
-        this.backgrounds = [];
-        this.objectsByUID = {};
-        this.music = null;
-        clearCache();
+        // Clear the state first!
+        this.clear();
 
         len = description.objects && description.objects.length || 0;
 		for (i = 0; i < len; i++) {

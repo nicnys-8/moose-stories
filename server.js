@@ -6,13 +6,13 @@ var http = require("http"),
     app = express(),
     bodyParser = require("body-parser"),
     fs = require("fs"),
-    flash = require('connect-flash'),
-    mongoose = require('mongoose'),
-    passport = require('passport'),
-    ExpressSession = require('express-session'),
+    flash = require("connect-flash"),
+    mongoose = require("mongoose"),
+    passport = require("passport"),
+    ExpressSession = require("express-session"),
     config = require("./config/config.js"),
-    strategies = require('./config/strategies'),
-    routes = require('./app/routes/index'),
+    strategies = require("./config/strategies"),
+    routes = require("./app/routes/index"),
     MongoStore = require("connect-mongo")(ExpressSession),
     sessionStore = new MongoStore({
         mongooseConnection: mongoose.connection
@@ -51,8 +51,8 @@ app.use(function(req, res, next) {
 });
 
 // View engine setup
-app.set('views', __dirname + '/app/views');
-app.set('view engine', config.templateEngine);
+app.set("views", __dirname + "/app/views");
+app.set("view engine", config.templateEngine);
 
 // Use flash to display messages in templates
 app.use(flash());
@@ -65,7 +65,7 @@ app.use(bodyParser.json());
 
 // Set up routes
 app.use(express.static(__dirname + "/public"));
-app.use('/', routes);
+app.use("/", routes);
 
 
 // Start Express http server

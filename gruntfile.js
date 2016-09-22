@@ -26,7 +26,10 @@ module.exports = function(grunt) {
                 options: {
                     "node": true,
                     "browser": true,
-                    "validthis": true
+                    "validthis": true,
+                    "globals": {
+                        "$": false
+                    }
                 }
             }
         },
@@ -48,7 +51,7 @@ module.exports = function(grunt) {
                 },
             },
             editor: {
-                src: ['public/js/objects/**/*.js', 'public/js/editor.js'],
+                src: ['public/js/objects/**/*.js', 'public/js/editor/editor.js'],
                 dest: 'public/dist/js/editor-bundle.js',
                 options: {
                     browserifyOptions: {
@@ -91,5 +94,5 @@ module.exports = function(grunt) {
         }
     });
     grunt.registerTask("lint", ["jshint", "jsonlint"]);
-    grunt.registerTask("default", ["browserify", "concurrent"]);
+    grunt.registerTask("default", ["lint", "browserify", "concurrent"]);
 };

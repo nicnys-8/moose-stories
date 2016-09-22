@@ -1,12 +1,12 @@
-var GameState = require("./game-state"),
-    GameController = require("./game-controller"),
-    ObjectFactory = require("./objects/object-factory"),
-    Camera = require("./camera"),
-    Keyboard = require("./keyboard"),
-    Levels = require("./levels"),
-    AudioFactory = require("./audio-factory"),
-    Background = require("./background"),
-    config = require("./config"),
+var GameState = require("./../game-state"),
+    GameController = require("./../game-controller"),
+    ObjectFactory = require("./../objects/object-factory"),
+    Camera = require("./../camera"),
+    Keyboard = require("./../keyboard"),
+    Levels = require("./../levels"),
+    AudioFactory = require("./../audio-factory"),
+    Background = require("./../background"),
+    config = require("./../config"),
     canvas = document.getElementById("view"),
     state = new GameState(),
     camera = new Camera(),
@@ -19,116 +19,9 @@ var GameState = require("./game-state"),
 
 // state.parseLevel(Levels.level1);
 
-var UI = function() {
-
-    function addCategory(name) {
-        var clone = $("#menuCategoryPrototype").clone().removeClass("prototype").attr("id", ""),
-            panelId = "menuCategory-" + name.replace(" ", "-");
-        clone.find(".mcToggler").attr("href", "#" + panelId).text(name);
-        clone.find(".mcToggler").text(name);
-        clone.find(".mcToggled").attr("id", panelId);
-        $("#menuCategories").append(clone);
-    }
-
-    function addListItem(item, categoryName) {
-        var panelId = "#menuCategory-" + categoryName.replace(" ", "-");
-        $(panelId).find(".media-list").append(item);
-    }
-
-    function createListItem(image, heading, text) {
-        var clone = $("#menuListItemPrototype").clone().removeClass("prototype").attr("id", "");
-        $(image).addClass("media-object");
-        clone.find(".mc-media-container").append(image);
-        clone.find(".media-heading").html(heading);
-        clone.find(".media-body").append(text);
-        return clone;
-    }
-
-    function createFormItem(object, key, callback, prefix) {
-
-        var value = object[key],
-            type = typeof(value),
-            name = prefix ? (prefix + "." + key) : key,
-            formGroup = $('<div class="form-group"></div>'),
-            label = $('<label>' + name + '</label>'), // '<label for="' + id + name + '">'
-            convertFn,
-            input, i;
-
-        switch (type) {
-            case "string":
-                input = $('<input type="text" class="form-control" value="' + value + '" />');
-                formGroup.append(label);
-                formGroup.append(input);
-                convertFn = function(src) {
-                    return "" + src.value;
-                };
-                break;
-            case "number":
-                input = $('<input type="number" class="form-control" value=' + value + ' />');
-                formGroup.append(label);
-                formGroup.append(input);
-                convertFn = function(src) {
-                    return +src.value || 0;
-                };
-                break;
-            case "boolean":
-                formGroup = $('<div class="checkbox"></div>');
-                label = $('<label></label>');
-                input = $('<input type="checkbox" ' + ((value) ? 'checked' : '') + ' />');
-                formGroup.append(label);
-                formGroup.append(input);
-                formGroup.append(name);
-                convertFn = function(src) {
-                    return !!src.checked;
-                };
-                break;
-            case "object":
-                if ($.isArray(value)) {
-                    input = $('<select multiple class="form-control"></select>');
-                    for (i in value) {
-                        input.append($('<option>' + value[i] + '</option>'));
-                    }
-                    formGroup.append(label);
-                    formGroup.append(input);
-                } else {
-                    // return createForm(value, callback);
-                    for (i in value) {
-                        formGroup.append(createFormItem(value, i, callback, name));
-                    }
-                }
-                return formGroup;
-            default:
-                return null;
-        }
-
-        input.change(function() {
-            object[key] = convertFn(this);
-            if (callback) {
-                callback(name, object[key]);
-            }
-        });
-
-        return formGroup;
-    }
-
-    function createForm(obj, callback) {
-        var form = $('<form role="form"></form>');
-        for (var i in obj) {
-            form.append(createFormItem(obj, i, callback));
-        }
-        return form;
-    }
-
-    return {
-        addCategory: addCategory,
-        addListItem: addListItem,
-        createListItem: createListItem,
-        createForm: createForm
-    };
-}();
+var UI = require("./editor-ui");
 
 UI.addCategory("Game Objects");
-UI.addCategory("Sprites");
 UI.addCategory("Backgrounds");
 UI.addCategory("Music");
 
@@ -149,12 +42,9 @@ var levelSettings = {
     "Name": "New level",
     "Width": 20 * config.tileSize,
     "Height": 10 * config.tileSize,
-    "Grid size x": config.tileSize,
-    "Grid size y": config.tileSize
-    "Snap to grid": true,
+    "Snap to grid": true
 };
 
-// $("#sidebar-left").append(UI.createForm(testObj));
 $("#sidebar-right").append(UI.createForm(levelSettings,
     function(key, value) {
         switch (key) {
@@ -169,11 +59,11 @@ $("#sidebar-right").append(UI.createForm(levelSettings,
     }));
 
 function createNewLevel() {
-    // state.clear();empty();?
+    state.clear();
+    /*
     $("#newLevelModal").modal({
         backdrop: "static"
-    }); // options)
-    // $("#newLevelModal").find(".modal-body").append(UI.createForm(testObj));
+    });*/
 }
 
 $.get("/levels",
@@ -205,17 +95,6 @@ $.get("/levels",
         // Start the game loop
         //====================
         gameController.startGame();
-    });
-
-$.get("/sprites",
-    function(data) {
-        var img, item, i;
-        for (i in data) {
-            img = new Image();
-            img.src = data[i];
-            item = UI.createListItem(img, "&nbsp;", data[i]);
-            UI.addListItem(item, "Sprites");
-        }
     });
 
 $.get("/backgrounds",
@@ -327,6 +206,14 @@ setTimeout(function() {
     }
 }, 1000); // TODO: Actually wait until the graphics are loaded
 
+//===============
+// Set up buttons
+//===============
+
+$("#clear-button").on("click", function() {
+    selectedObject = null;
+    state.clear();
+});
 
 //=====================
 // Handle mouse presses
@@ -338,8 +225,8 @@ function calculatePlacement(event) {
     var x = camera.x + event.offsetX - canvas.width / 2,
         y = camera.y + event.offsetY - canvas.height / 2,
         snap = levelSettings["Snap to grid"], // blää
-        snapX = levelSettings["Grid size x"],
-        snapY = levelSettings["Grid size y"];
+        snapX = config.tileSize,
+        snapY = config.tileSize;
     return {
         x: snap ? (snapX * Math.round(x / snapX)) : Math.round(x),
         y: snap ? (snapY * Math.round(y / snapY)) : Math.round(y)
@@ -348,12 +235,16 @@ function calculatePlacement(event) {
 
 $("#view")
     .mousedown(function(event) {
-        var p = calculatePlacement(event);
+        var p = calculatePlacement(event),
+            leftMouseButton = 1,
+            middleMouseButton = 2,
+            rightMouseButton = 3;
+
         event.preventDefault();
         selectedObject = state.objectAtPosition(p.x, p.y);
+
         switch (event.which) {
-            case 1:
-                // Left mouse button pressed
+            case leftMouseButton:
                 if (!selectedObject) {
                     selectedObject = ObjectFactory.createObject({
                         name: currentClass,
@@ -363,11 +254,9 @@ $("#view")
                     state.addObject(selectedObject);
                 }
                 break;
-            case 2:
-                // Middle mouse button pressed
+            case middleMouseButton:
                 break;
-            case 3:
-                // Right mouse button pressed;
+            case rightMouseButton:
                 if (selectedObject) {
                     state.removeObject(selectedObject);
                     selectedObject = null;

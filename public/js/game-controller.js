@@ -30,7 +30,9 @@ module.exports = function(gameState, canvas, camera, keyboard) {
     */
     this.tick = function() {
         var ctx = canvas.getContext("2d"),
-			self = this;
+            renderList = this.gameState.filter("Renderable"),
+			self = this,
+            i;
 
         // Repeat the function before each frame is rendered:
         window.requestAnimationFrame(
@@ -38,9 +40,6 @@ module.exports = function(gameState, canvas, camera, keyboard) {
                 self.tick();
             }
         );
-
-        var renderList = this.gameState.filter("Renderable");
-        var i;
 
         //================
         // Move all this...
@@ -75,7 +74,6 @@ module.exports = function(gameState, canvas, camera, keyboard) {
         //==========
         // Rendering
         //==========
-
         // Clear the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
