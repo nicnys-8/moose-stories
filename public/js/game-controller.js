@@ -15,6 +15,7 @@ module.exports = function(gameState, canvas, camera, keyboard) {
 
     var controlled = null;
 
+
     //=================
     // Public Interface
     //=================
@@ -104,8 +105,13 @@ module.exports = function(gameState, canvas, camera, keyboard) {
         this.setControlled(controllable[0]);
         // Play music
         if (this.gameState.music) this.gameState.music.play(); // hrmhrmhrm
+
         // Start the main game loop
         this.tick();
+    };
+
+    this.pauseGame = function() {
+        //TODO: Implement!
     };
 
     /**

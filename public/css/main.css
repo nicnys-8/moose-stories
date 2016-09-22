@@ -7,6 +7,10 @@ body {
     margin-bottom: 60px;
     padding-bottom: 60px;
 }
+.navbar-fixed-top {
+    border-bottom:1px solid gray;
+    background-color: white;
+}
 .hidden {
     display: none;
 }

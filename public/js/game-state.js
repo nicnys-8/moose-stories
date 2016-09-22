@@ -1,26 +1,23 @@
 "use strict";
 
 var ObjectFactory = require("./objects/object-factory"),
-	AudioFactory = require("./audio-factory"),
-	Background = require("./background");
+    AudioFactory = require("./audio-factory"),
+    Background = require("./background");
 
 /**
 Returns the constructor of an object describing the state of a gaming session
 */
 module.exports = function() {
 
-	//================================
-	// Private functions and variables
-	//================================
+    //================================
+    // Private functions and variables
+    //================================
 
-	// Cache for storing filter queries
-	var cache = {
-        exlude:{},
-        include:{}
+    // Cache for storing filter queries
+    var cache = {
+        exlude: {},
+        include: {}
     };
-
-    this.cacheHits = 0;
-    this.cacheMisses = 0;
 
     function clearCache() {
         cache.exlude = {};
@@ -28,17 +25,20 @@ module.exports = function() {
     }
 
 
-	//=================
-	// Public Interface
-	//=================
+    //=================
+    // Public Interface
+    //=================
 
-	this.objects = [];
-	this.backgrounds = [];
+    this.objects = [];
+    this.backgrounds = [];
     this.objectsByUID = {};
     this.music = null;
 
-	this.addObject = function(obj) {
-		this.objects.push(obj);
+    this.cacheHits = 0;
+    this.cacheMisses = 0;
+
+    this.addObject = function(obj) {
+        this.objects.push(obj);
 
         if (obj.uid !== null && (typeof obj.uid !== "undefined")) { // obj.uid is false when uid == 0...
 
@@ -50,7 +50,7 @@ module.exports = function() {
         }
 
         clearCache();
-	};
+    };
 
     this.removeObject = function(obj) {
         var index = this.objects.indexOf(obj);
@@ -63,37 +63,37 @@ module.exports = function() {
         }
     };
 
-	this.addBackground = function(bkg) {
-		this.backgrounds.push(bkg);
-	};
+    this.addBackground = function(bkg) {
+        this.backgrounds.push(bkg);
+    };
 
-	/**
-	 * Filters a list of GameObjects. Can extract all GameObjects matching:
-	 * 		-  any behavior in the filter set
-	 * 		-  no behavior in the filter set
-	 * 	depending on whether type parameter is set to "include" or "exlude"
-	 * 	respectively.
-	 *
-	 * Can be called as:
-	 * 		- filter( "Moving" );
-	 * 			Returns all moving GameObjects in this.objects.
-	 * 		- filter( ["Moving", "Solid"] );
-	 * 			Returns all 'solid and moving' GameObjects in this.objects.
-	 * 		- filter( "Controllable", "exclude");
-	 * 			Returns all non-controllable GameObjects in this.objects.
-	 * 		- filter( ["Moving", "Solid"], "include", filter("Controllable", "exclude")) );
-	 * 			Returns all non-controllable GameObjects that are moving and solid in this.objects.
-	 *
-	 * @param  {[string]} 		filter 		Behaviors that act as filters
-	 * @param  {string} 		type 		Either "include" or "exclude". Default is "include".
-	 * @param  {[GameObject]} 	objects 	A list of objects which to filter. Default is this.objects.
-	 * @return {[GameObject]}				Filtered list of GameObjects
-	 */
-	this.filter = function (filter, type, objects) {
-		//@TODO: Cache lookups to increase efficiency!
-		// filter  = (typeof filter  !== 'string')    ? filter  : [filter];
-		type    = (typeof type    !== 'undefined') ? type    : "include";
-		// objects = (typeof objects !== 'undefined') ? objects : this.objects;
+    /**
+     * Filters a list of GameObjects. Can extract all GameObjects matching:
+     * 		-  any behavior in the filter set
+     * 		-  no behavior in the filter set
+     * 	depending on whether type parameter is set to "include" or "exlude"
+     * 	respectively.
+     *
+     * Can be called as:
+     * 		- filter( "Moving" );
+     * 			Returns all moving GameObjects in this.objects.
+     * 		- filter( ["Moving", "Solid"] );
+     * 			Returns all 'solid and moving' GameObjects in this.objects.
+     * 		- filter( "Controllable", "exclude");
+     * 			Returns all non-controllable GameObjects in this.objects.
+     * 		- filter( ["Moving", "Solid"], "include", filter("Controllable", "exclude")) );
+     * 			Returns all non-controllable GameObjects that are moving and solid in this.objects.
+     *
+     * @param  {[string]} 		filter 		Behaviors that act as filters
+     * @param  {string} 		type 		Either "include" or "exclude". Default is "include".
+     * @param  {[GameObject]} 	objects 	A list of objects which to filter. Default is this.objects.
+     * @return {[GameObject]}				Filtered list of GameObjects
+     */
+    this.filter = function(filter, type, objects) {
+        //@TODO: Cache lookups to increase efficiency!
+        // filter  = (typeof filter  !== 'string')    ? filter  : [filter];
+        type = (typeof type !== 'undefined') ? type : "include";
+        // objects = (typeof objects !== 'undefined') ? objects : this.objects;
 
         var query,
             cachedQuery,
@@ -141,7 +141,7 @@ module.exports = function() {
                     }
                 }
                 break;
-            //case "include":
+                //case "include":
             default:
                 for (i = 0; i < objects.length; i++) {
                     currentObject = objects[i];
@@ -161,97 +161,98 @@ module.exports = function() {
         }
 
         return filteredObjects;
-	};
+    };
 
-	/**
-	* Completely resets the game state
-	*/
-	this.clear = function() {
-		this.objects = [];
-		this.backgrounds = [];
-	    this.objectsByUID = {};
-	    this.music = null;
-		clearCache();
-	};
+    /**
+     * Completely resets the game state
+     */
+    this.clear = function() {
+        this.objects = [];
+        this.backgrounds = [];
+        this.objectsByUID = {};
+        this.music = null;
+        clearCache();
+    };
 
-	/**
-	* Returns all objects that intersect the specified area.
-	*/
-	this.objectsInZone = function(left, right, top, bottom) {
-		var pObjects = this.filter("Physical");
-		var result = [];
-		var obj;
-		for (var i = 0; i < pObjects.length; i++) {
-			obj = pObjects[i];
-			if (!(
-				obj.x + obj.boundingBox.left >= right ||
-				obj.x + obj.boundingBox.right <= left ||
-				obj.y + obj.boundingBox.top >= bottom ||
-				obj.y + obj.boundingBox.bottom <= top)) {
-				result.push(obj);
-			}
-		}
-		return result;
-	};
+    /**
+     * Returns all objects that intersect the specified area.
+     */
+    this.objectsInZone = function(left, right, top, bottom) {
+        var pObjects = this.filter("Physical");
+        var result = [];
+        var obj;
+        for (var i = 0; i < pObjects.length; i++) {
+            obj = pObjects[i];
+            if (!(
+                    obj.x + obj.boundingBox.left >= right ||
+                    obj.x + obj.boundingBox.right <= left ||
+                    obj.y + obj.boundingBox.top >= bottom ||
+                    obj.y + obj.boundingBox.bottom <= top)
+				) {
+                result.push(obj);
+            }
+        }
+        return result;
+    };
 
-	/**
-	* Returns all objects at the specified position.
-	*/
-	this.objectsAtPosition = function(x, y) {
-		this.objectsInZone(x, x, y, y);
-	};
+    /**
+     * Returns all objects at the specified position.
+     */
+    this.objectsAtPosition = function(x, y) {
+        this.objectsInZone(x, x, y, y);
+    };
 
-	/**
-	* If there are any objects at the specified position, one of these is returned.
-	* Otherwise null.
-	* TODO: Return the object with the lowest z-index
-	*/
-	this.objectAtPosition = function(x, y) {
-		var closest = this.objectsInZone(x, x, y, y)[0];
-		return closest || null;
-	};
+    /**
+     * If there are any objects at the specified position, one of these is returned.
+     * Otherwise null.
+     * TODO: Return the object with the lowest z-index
+     */
+    this.objectAtPosition = function(x, y) {
+        var closest = this.objectsInZone(x, x, y, y)[0];
+        return closest || null;
+    };
 
-	/**
-	Returns the object with the specified UID
-	*/
-	this.getObjectByUID = function(uid) {
+    /**
+    Returns the object with the specified UID
+    */
+    this.getObjectByUID = function(uid) {
         return this.objectsByUID[uid];
-	};
+    };
 
-	/**
-	Creates all objects from a level description
-	@TODO: Parsaren ska fungera annorlunda i framtiden...!
-	*/
-	this.parseLevel = function(description) {
-		var objDesc, obj, bkgDesc, bkg, i, len;
+    /**
+    Creates all objects from a level description
+    @TODO: Parsaren ska fungera annorlunda i framtiden...!
+    */
+    this.parseLevel = function(description) {
+        var objDesc, obj, bkgDesc, bkg, i, len;
 
         // Clear the state first!
         this.clear();
 
         len = description.objects && description.objects.length || 0;
-		for (i = 0; i < len; i++) {
-			objDesc = description.objects[i];
+        for (i = 0; i < len; i++) {
+            objDesc = description.objects[i];
             obj = ObjectFactory.createObject(objDesc);
             this.addObject(obj);
-		}
+        }
 
         len = description.backgrounds && description.backgrounds.length || 0;
-		for (i = 0; i < len; i++) {
-			bkgDesc = description.backgrounds[i];
-			bkg = new Background(bkgDesc);
-			this.addBackground(bkg);
-		}
+        for (i = 0; i < len; i++) {
+            bkgDesc = description.backgrounds[i];
+            bkg = new Background(bkgDesc);
+            this.addBackground(bkg);
+        }
 
         if (description.music) {
             this.music = AudioFactory.createSound(description.music);
             // this.music.play();
         }
-	};
+    };
 
     this.exportJSON = function() {
         var type, src, dst, i, j, len,
             // Properties to export
-            exports = [ "objects", "backgrounds", "music" ],
+            exports = ["objects", "backgrounds", "music"],
             // Result
             json = {};
 
@@ -284,12 +285,12 @@ module.exports = function() {
         return json;
     };
 
-	/**
-	Perform update functions for all in-game objects
-	*/
-	this.tick = function() {
-		for (var i = 0; i < this.objects.length; i++) {
-			this.objects[i].tick(this);
-		}
-	};
+    /**
+    Perform update functions for all in-game objects
+    */
+    this.tick = function() {
+        for (var i = 0; i < this.objects.length; i++) {
+            this.objects[i].tick(this);
+        }
+    };
 };

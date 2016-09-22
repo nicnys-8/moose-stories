@@ -17,8 +17,6 @@ var GameState = require("./../game-state"),
     levels,
     currentLevelName = null;
 
-// state.parseLevel(Levels.level1);
-
 var UI = require("./editor-ui");
 
 UI.addCategory("Game Objects");
@@ -60,10 +58,6 @@ $("#sidebar-right").append(UI.createForm(levelSettings,
 
 function createNewLevel() {
     state.clear();
-    /*
-    $("#newLevelModal").modal({
-        backdrop: "static"
-    });*/
 }
 
 $.get("/levels",
@@ -128,8 +122,6 @@ $.get("/backgrounds",
             clone.find(".media-body").append(data[i]);
             clone.click(selectFn(data[i]));
             list.append(clone);
-            // item = UI.createListItem(img, "&nbsp;", data[i]);
-            // UI.addListItem(item, "Backgrounds");
         }
         var settings = {
             x: 0,
@@ -213,6 +205,14 @@ setTimeout(function() {
 $("#clear-button").on("click", function() {
     selectedObject = null;
     state.clear();
+});
+
+$("#pause-button").on("click", function() {
+    gameController.pause();
+});
+
+$("#pause-button").on("click", function() {
+    gameController.play();
 });
 
 //=====================
