@@ -122,9 +122,6 @@ var behavior = {};
 behavior.getProperties = function() {
     return {
         // variables
-        x: 0,
-        y: 0,
-        weight: 1,
         boundingBox: null, // e.g. {left: -8, right: 8, top: -8, bottom: 8}
         onGround: true,
         wasOnGround: true,

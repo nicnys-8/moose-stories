@@ -16,8 +16,6 @@ var Behaviors = {};
 * @param {object} behavior - The object to store.
 */
 function register(behaviorName, behavior) {
-    console.log("Registering behavior " + behaviorName);
-    console.log(behavior);
     Behaviors[behaviorName] = behavior;
 }
 

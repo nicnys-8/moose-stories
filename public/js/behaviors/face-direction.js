@@ -28,6 +28,4 @@ behavior.tick = function(gameState) {
     }
 };
 
-console.log("iiiiiiiiiiiiiiiiiiiii");
-console.log(behavior);
 Behaviors.register("FaceDirection", behavior);

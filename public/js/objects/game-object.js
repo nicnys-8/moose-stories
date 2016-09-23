@@ -4,20 +4,24 @@ var ObjectFactory = require("./object-factory"),
     Behaviors = require("./../behaviors");
 
 /**
-* Constructor function for a game object
-*/
+ * Constructor function for a game object
+ */
 function GameObject(args, defaults) {
 
     //===================
     // Instance variables
     //===================
 
-    this.behaviors = {}; // [];
+    this.behaviors = {};
     this.ticks = [];
     this.uid = args && args.uid; // This is set in GameState, when the level is parsed
     this.setNumber("x", args, 0);
     this.setNumber("y", args, 0);
 }
+
+//=================
+// Public functions
+//=================
 
 GameObject.prototype.setNumber = function(name, args, defaultValue) {
     var value = (args && +args[name]);
@@ -30,11 +34,6 @@ GameObject.prototype.setNumber = function(name, args, defaultValue) {
 GameObject.prototype.setString = function(name, args, defaultValue) {
     this[name] = ("" + args[name]) || defaultValue;
 };
-
-
-//=================
-// Public functions
-//=================
 
 /**
  * Returns true if the object has the given behavior, false otherwise.
@@ -79,7 +78,7 @@ GameObject.prototype.addBehavior = function(behaviorName) {
 
     // Add all behavior properties
     for (i in properties) {
-        // Don't overwrite already existing properties
+        // Check for duplicate property names
         if (this.hasOwnProperty(i)) {
             console.trace("Trying to add duplicate of property " + i);
         } else {
