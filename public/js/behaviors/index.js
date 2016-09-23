@@ -1,14 +1,40 @@
+/**
+ * Container for storing game object behaviors.
+ */
+
 "use strict";
 
+//================================
+// Private functions and variables
+//================================
+
+var Behaviors = {};
+
 /**
-Container object for all behaviors
+* Stores a behavior.
+* @param {string} behaviorName - The name that will be used when to access the behavior.
+* @param {object} behavior - The object to store.
 */
+function register(behaviorName, behavior) {
+    console.log("Registering behavior " + behaviorName);
+    console.log(behavior);
+    Behaviors[behaviorName] = behavior;
+}
+
+/**
+* Returns the behavior registered with the specified name.
+* @param {string} behaviorName - The name of the behavior to retrieve.
+*/
+function get(behaviorName) {
+    return Behaviors[behaviorName] || null;
+}
+
+
+//=================
+// Public interface
+//=================
+
 module.exports = {
-    Controllable: require('./controllable'),
-    FaceDirection: require('./face-direction'),
-    Moving: require('./moving'),
-    Physical: require('./physical'),
-    Platform: require('./platform'),
-    Renderable: require('./renderable'),
-    Solid: require('./solid')
+    register: register,
+    get: get
 };

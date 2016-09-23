@@ -3,6 +3,9 @@
 var ObjectFactory = require("./object-factory"),
     Behaviors = require("./../behaviors");
 
+/**
+* Constructor function for a game object
+*/
 function GameObject(args, defaults) {
 
     //===================
@@ -34,46 +37,53 @@ GameObject.prototype.setString = function(name, args, defaultValue) {
 //=================
 
 /**
-Returns true if the object has the given behavior, false otherwise
-*/
-GameObject.prototype.hasBehavior = function(behavior) {
-    return !!this.behaviors[behavior];
+ * Returns true if the object has the given behavior, false otherwise.
+ * @param {String} behaviorName - Name of the behavior to check for.
+ */
+GameObject.prototype.hasBehavior = function(behaviorName) {
+    return !!this.behaviors[behaviorName];
 };
 
 /**
-Adds a behavior to the sprite object
-*/
-GameObject.prototype.addBehavior = function(behavior) {
+ * Adds an additional function to be performed each tick in the game loop.
+ */
+GameObject.prototype.addTick = function(fn) {
+    this.ticks.push(fn);
+};
 
-    if (typeof behavior === "function") {
-        // Subclasses can add custom behavior with functions
-        this.ticks.push(behavior);
-        return;
-    }
+/**
+ * Adds a behavior to the sprite object.
+ * @param {String} behaviorName - Name of the behavior to be added.
+ */
+GameObject.prototype.addBehavior = function(behaviorName) {
+    var behavior = Behaviors.get(behaviorName),
+        properties,
+        i;
 
     // Check if the behavior has already been added
-    if (this.hasBehavior(behavior.name)) {
-        console.trace("Trying to add behavior " + behavior.name + "again...");
+    if (this.hasBehavior(behaviorName)) {
+        console.trace("Trying to add behavior " + behaviorName + " again...");
         return;
     }
 
-    // Add the name of the behavior
-    this.behaviors[behavior.name] = true;
+    this.behaviors[behaviorName] = true;
 
     // Add behavior dependencies first!
     if (behavior.dependencies) {
-        for (var i in behavior.dependencies) {
+        for (i in behavior.dependencies) {
             this.addBehavior(Behaviors[i]);
         }
     }
 
-    var properties = behavior.getProperties();
+    properties = behavior.getProperties();
 
     // Add all behavior properties
-    for (var p in properties) {
+    for (i in properties) {
         // Don't overwrite already existing properties
-        if (!this.hasOwnProperty(p)) {
-            this[p] = properties[p];
+        if (this.hasOwnProperty(i)) {
+            console.trace("Trying to add duplicate of property " + i);
+        } else {
+            this[i] = properties[i];
         }
     }
 
@@ -87,11 +97,12 @@ GameObject.prototype.addBehavior = function(behavior) {
 Actions to perform at each iteration of the game loop
 */
 GameObject.prototype.tick = function(gameState) {
-    for (var i = 0; i < this.ticks.length; i++) {
+    var i;
+    for (i = 0; i < this.ticks.length; i++) {
         this.ticks[i].call(this, gameState);
     }
 };
 
-// Just den här biten kanske inte blev så klockren..?
+// Just den här biten kanske inte blev så klockren...?
 ObjectFactory.defineBaseClass("GameObject", GameObject);
 module.exports = GameObject;

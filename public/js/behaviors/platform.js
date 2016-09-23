@@ -1,43 +1,42 @@
+/**
+ * Behavior describing a platform character
+ */
+
 "use strict";
 
-/**
-Behavior describing a platform character
- */
-module.exports = function() {
+//================================
+// Private functions and variables
+//================================
 
-	//================================
-	// Private functions and variables
-	//================================
+var Behaviors = require("./../behaviors"),
+    AudioFactory = require("./../audio-factory"),
+    jumpSound = AudioFactory.createSound("audio/jump.wav"),
+    landSound = AudioFactory.createSound("audio/land.wav");
 
-	var AudioFactory = require("./../audio-factory"),
-		jumpSound = AudioFactory.createSound("audio/jump.wav"),
-		landSound = AudioFactory.createSound("audio/land.wav");
-
-	function jump() {
-		this.vSpeed = -5;
-		jumpSound.play();
-	}
+function jump() {
+    this.vSpeed = -5;
+    jumpSound.play();
+}
 
 
-	//=================
-	// Public interface
-	//=================
+//=================
+// Public interface
+//=================
 
-	var behavior = {};
+var behavior = {};
 
-	behavior.name = "Platform";
+behavior.name = "Platform";
 
-	behavior.getProperties = function() {
-		return {
-			jump: jump
-		};
-	};
+behavior.getProperties = function() {
+    return {
+        jump: jump
+    };
+};
 
-	behavior.tick = function(gameState) {
-		if (this.onGround && !this.wasOnGround) {
-			landSound.play();
-		}
-	};
+behavior.tick = function(gameState) {
+    if (this.onGround && !this.wasOnGround) {
+        landSound.play();
+    }
+};
 
-	return behavior;
-}();
+Behaviors.register("Platform", behavior);

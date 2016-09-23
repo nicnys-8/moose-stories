@@ -1,57 +1,51 @@
-"use strict";
-
 /**
-Describes the behavior of a solid object -
-The object solidity can be turned on or off
-with the function setSolid
+ * Describes the behavior of a platform object that can be controlled by the
+ * player.
  */
-module.exports = function() {
 
-	//================================
-	// Private functions and variables
-	//================================
+ "use strict";
 
-	var wasMoved = false,
-		standardAcceleration = 0.5;
+//================================
+// Private functions and variables
+//================================
 
-	function moveLeft() {
-		wasMoved = true;
-		this.hAcceleration = -standardAcceleration;
-	}
+var Behaviors = require("./../behaviors"),
+	wasMoved = false,
+    standardAcceleration = 0.5;
 
-	function moveRight() {
-		wasMoved = true;
-		this.hAcceleration = standardAcceleration;
-	}
+function moveLeft() {
+    wasMoved = true;
+    this.hAcceleration = -standardAcceleration;
+}
+
+function moveRight() {
+    wasMoved = true;
+    this.hAcceleration = standardAcceleration;
+}
 
 
-	//=================
-	// Public interface
-	//=================
+//=================
+// Public interface
+//=================
 
-	var behavior = {};
+var behavior = {};
 
-	behavior.name = "Controllable";
+behavior.getProperties = function() {
+    return {
+        // Variables
+        isControllable: true,
 
-	behavior.requires = ["Platform"]; //TODO: Implement?
+        // Functions
+        moveLeft: moveLeft,
+        moveRight: moveRight
+    };
+};
 
-	behavior.getProperties = function() {
-		return {
-			// Variables
-			isControllable: true,
+behavior.tick = function(gameState) {
+    if (!wasMoved) {
+        this.hAcceleration = -this.hSpeed / 5;
+    }
+    wasMoved = false;
+};
 
-			// Functions
-			moveLeft: moveLeft,
-			moveRight: moveRight
-		};
-	};
-
-	behavior.tick = function(gameState) {
-		if (!wasMoved) {
-			this.hAcceleration = -this.hSpeed / 5;
-		}
-		wasMoved = false;
-	};
-
-	return behavior;
-}();
+Behaviors.register("Controllable", behavior);

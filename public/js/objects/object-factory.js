@@ -1,13 +1,8 @@
-"use strict";
-
 /**
-A thing for creating things... GAH!
-Näämen, den här borde döpas om eller nå.
-Alla spelobject sätts fast på den här, t.ex. ObjectFactory.Moving;
-det gör att man kan parsa banor lite snyggare i gamestate,
-då alla objekttyper kan accessas som properties på det här objektet
+* Factory singleton that handles registering of game object types.
 */
-var Behaviors = require("./../behaviors");
+
+"use strict";
 
 module.exports = {
 
@@ -84,11 +79,11 @@ module.exports = {
             superConstr.call(this, args, defaults);
 
             for (var i = 0; i < behaviors.length; i++) {
-                this.addBehavior(Behaviors[behaviors[i]]);
+                this.addBehavior(behaviors[i]);
             }
 
             if (tick) {
-                this.addBehavior(tick);
+                this.addTick(tick);
             }
 
             initFn.call(this, args, defaults);

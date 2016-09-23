@@ -1,62 +1,60 @@
-"use strict";
-
 /**
 Describes an object that can be rendered on the screen
 */
-module.exports = function() {
 
-    //================================
-    // Private functions and variables
-    //================================
+"use strict";
 
-    /**
-     Render the object
-     @param ctx A 2D rendering context
-     */
-    function render(ctx) {
-        if (this.currentSprite) {
-            this.currentSprite.render(
-                ctx,
-                this.x,
-                this.y,
-                this.scale,
-                this.rotation,
-                this.alpha
-            );
-        }
+//================================
+// Private functions and variables
+//================================
+
+var Behaviors = require("./../behaviors");
+
+/**
+ Render the object
+ @param ctx A 2D rendering context
+ */
+function render(ctx) {
+    if (this.currentSprite) {
+        this.currentSprite.render(
+            ctx,
+            this.x,
+            this.y,
+            this.scale,
+            this.rotation,
+            this.alpha
+        );
     }
+}
 
 
-    //=================
-    // Public interface
-    //=================
+//=================
+// Public interface
+//=================
 
-    var behavior = {};
+var behavior = {};
 
-    behavior.name = "Renderable";
+behavior.getProperties = function() {
+    return {
+        // Variables
+        currentSprite: null,
+        frame: 0,
+        rotation: 0,
+        scale: {
+            x: 1,
+            y: 1
+        },
+        alpha: 1,
 
-    behavior.getProperties = function() {
-        return {
-            // Variables
-            currentSprite: null,
-            frame: 0,
-            rotation: 0,
-            scale: {
-                x: 1,
-                y: 1
-            },
-            alpha: 1,
-
-            // Functions
-            render: render
-        };
+        // Functions
+        render: render
     };
+};
 
-    behavior.tick = function(gameState) {
-        if (this.currentSprite.imageSpeed > 0) {
-            this.currentSprite.tick();
-        }
-    };
+behavior.tick = function(gameState) {
+    if (this.currentSprite.imageSpeed > 0) {
+        this.currentSprite.tick();
+    }
+};
 
-    return behavior;
-}();
+Behaviors.register("Renderable", behavior);

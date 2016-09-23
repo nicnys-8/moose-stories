@@ -1,46 +1,44 @@
+/**
+ * Describes the behavior of a solid object -
+ * The object solidity can be turned on or off
+ * with the function setSolid
+ */
+
 "use strict";
 
+//================================
+// Private functions and variables
+//================================
+
+var Behaviors = require("./../behaviors"),
+    currentlySolid = true;
+
 /**
-Describes the behavior of a solid object -
-The object solidity can be turned on or off
-with the function setSolid
- */
-module.exports = function() {
+Returns whether or not the object is currently solid
+*/
+function isSolid() {
+    return currentlySolid;
+}
 
-	//================================
-	// Private functions and variables
-	//================================
+/**
+Sets the solidity of the object
+*/
+function setSolid(bool) {
+    currentlySolid = bool;
+}
 
-	var currentlySolid = true;
+//=================
+// Public interface
+//=================
 
-	/**
-	Returns whether or not the object is currently solid
-	*/
-	function isSolid() {
-		return currentlySolid;
-	}
+var behavior = {};
 
-	/**
-	Sets the solidity of the object
-	*/
-	function setSolid(bool) {
-		currentlySolid = bool;
-	}
 
-	//=================
-	// Public interface
-	//=================
+behavior.getProperties = function() {
+    return {
+        isSolid: isSolid,
+        currentlySolid: currentlySolid
+    };
+};
 
-	var behavior = {};
-
-	behavior.name = "Solid";
-
-	behavior.getProperties = function() {
-		return {
-			isSolid: isSolid,
-			currentlySolid: currentlySolid
-		};
-	};
-
-	return behavior;
-}();
+Behaviors.register("Solid", behavior);

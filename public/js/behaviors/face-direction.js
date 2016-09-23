@@ -1,35 +1,33 @@
+/**
+ * This behavior makes an object face the direction in which it is moving.
+ */
+
 "use strict";
 
-/**
-This behavior makes an object face the direction in which it is moving
- */
-module.exports = function() {
+//================================
+// Private functions and variables
+//================================
 
-	//================================
-	// Private functions and variables
-	//================================
+var Behaviors = require("./../behaviors");
 
-	// ...
+//=================
+// Public interface
+//=================
 
-	//=================
-	// Public interface
-	//=================
+var behavior = {};
 
-	var behavior = {};
+behavior.getProperties = function() {
+    return {};
+};
 
-	behavior.name = "FaceDirection";
+behavior.tick = function(gameState) {
+    if (this.hSpeed > 0) {
+        this.scale.x = Math.abs(this.scale.x);
+    } else if (this.hSpeed < 0) {
+        this.scale.x = -Math.abs(this.scale.x);
+    }
+};
 
-	behavior.getProperties = function() {
-		return {};
-	};
-
-	behavior.tick = function(gameState) {
-		if (this.hSpeed > 0) {
-			this.scale.x = Math.abs(this.scale.x);
-		} else if (this.hSpeed < 0) {
-			this.scale.x = -Math.abs(this.scale.x);
-		}
-	};
-
-	return behavior;
-}();
+console.log("iiiiiiiiiiiiiiiiiiiii");
+console.log(behavior);
+Behaviors.register("FaceDirection", behavior);

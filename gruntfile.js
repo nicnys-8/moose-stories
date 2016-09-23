@@ -42,8 +42,8 @@ module.exports = function(grunt) {
 
         browserify: {
             game: {
-                src: ['public/js/objects/**/*.js', 'public/js/game.js'],
-                dest: 'public/dist/js/game-bundle.js',
+                src: ["public/js/behaviors/**/*.js", "public/js/objects/**/*.js", "public/js/game.js"],
+                dest: "public/dist/js/game-bundle.js",
                 options: {
                     browserifyOptions: {
                         debug: true
@@ -51,8 +51,8 @@ module.exports = function(grunt) {
                 },
             },
             editor: {
-                src: ['public/js/objects/**/*.js', 'public/js/editor/editor.js'],
-                dest: 'public/dist/js/editor-bundle.js',
+                src: ["public/js/behaviors/**/*.js", "public/js/objects/**/*.js", "public/js/editor/editor.js"],
+                dest: "public/dist/js/editor-bundle.js",
                 options: {
                     browserifyOptions: {
                         debug: true
@@ -63,8 +63,8 @@ module.exports = function(grunt) {
 
         watch: {
             game: {
-                files: ['public/js/**'],
-                tasks: ['browserify'],
+                files: ["public/js/**"],
+                tasks: ["browserify"],
                 options: {
                     spawn: false,
                 },
@@ -86,7 +86,7 @@ module.exports = function(grunt) {
         // Run the project, watch the server and client code in parallel
         concurrent: {
             dev: {
-                tasks: ['nodemon', 'watch'],
+                tasks: ["nodemon", "watch"],
                 options: {
                     logConcurrentOutput: true
                 }
