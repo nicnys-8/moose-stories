@@ -43,13 +43,16 @@ module.exports = function(gameState, canvas, camera, keyboard) {
             }
         );
 
+        //===========
+        // Game logic
+        //===========
+
+        this.keyboard.tick();
         if (paused) {
             return;
-            /* TODO: We need to stop the keyboard object from caching key events
-            while the game is paused, or empty the cache when the game is
-            unpaused. I don't know which solution I like more, so I leave it for
-            now (for EVER?!).*/
         }
+        this.camera.tick();
+        this.gameState.tick();
 
         //================>
         // Move all this...
@@ -68,15 +71,6 @@ module.exports = function(gameState, canvas, camera, keyboard) {
         }
         // ... somewhere else
         //<==================
-
-        //===========
-        // Game logic
-        //===========
-
-        this.camera.tick();
-        this.keyboard.tick();
-        this.gameState.tick();
-
 
         //==========
         // Rendering
@@ -120,7 +114,7 @@ module.exports = function(gameState, canvas, camera, keyboard) {
         paused = true;
     };
 
-    this.play = function() {
+    this.resume = function() {
         paused = false;
     };
 
