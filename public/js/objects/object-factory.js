@@ -10,7 +10,6 @@ module.exports = {
     classes: {
         "GameObject": GameObject
     },
-    baseClass: "GameObject",
 
     // Nåt sånt här kan man också ha, men då måste vi skriva om
     // konstruktÖrerna så att de tar alla parametrar i ett objekt.
@@ -45,9 +44,6 @@ module.exports = {
             return primary;
         }
 
-        if (!this.baseClass) {
-            throw "The base class is undefined, please do that first!!!!!:D";
-        }
         if (this.classes[name]) {
             throw "Trying to redefine class " + name + ". Aborting!";
         }
@@ -56,7 +52,7 @@ module.exports = {
             behaviors = definition.behaviors || [],
             initFn = definition.init || NOOP,
             tick = definition.tick,
-            superClass = definition.superClass || this.baseClass,
+            superClass = definition.superClass || GameObject,
             superConstr = this.classes[superClass],
             prototype = definition.prototype, // Add more stuff to the prototype (confusing with superClass and prototype?? Maybe let the 'superClass' argument be any object instead of just a string?)
             constr, i;
