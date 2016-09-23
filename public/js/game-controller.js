@@ -51,26 +51,22 @@ module.exports = function(gameState, canvas, camera, keyboard) {
         if (paused) {
             return;
         }
-        this.camera.tick();
-        this.gameState.tick();
 
-        //================>
-        // Move all this...
-        if (this.keyboard.down("left")) {
-            controlled.hAcceleration = -0.5; // Cursed number!
-        } else if (this.keyboard.down("right")) {
-            controlled.hAcceleration = 0.5; // Magic!!
-        } else {
-            controlled.hAcceleration = -controlled.hSpeed / 5; // GAAH?!
-        }
-
-        if (this.keyboard.pressed("up")) {
-            if (controlled.onGround) {
-                controlled.jump();
+        if (controlled) {
+            if (this.keyboard.down("left")) {
+                controlled.moveLeft();
+            } else if (this.keyboard.down("right")) {
+                controlled.moveRight();
+            }
+            if (this.keyboard.pressed("up")) {
+                if (controlled.onGround) {
+                    controlled.jump();
+                }
             }
         }
-        // ... somewhere else
-        //<==================
+
+        this.camera.tick();
+        this.gameState.tick();
 
         //==========
         // Rendering

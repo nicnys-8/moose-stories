@@ -7,6 +7,24 @@ with the function setSolid
  */
 module.exports = function() {
 
+	//================================
+	// Private functions and variables
+	//================================
+
+	var wasMoved = false,
+		standardAcceleration = 0.5;
+
+	function moveLeft() {
+		wasMoved = true;
+		this.hAcceleration = -standardAcceleration;
+	}
+
+	function moveRight() {
+		wasMoved = true;
+		this.hAcceleration = standardAcceleration;
+	}
+
+
 	//=================
 	// Public interface
 	//=================
@@ -15,10 +33,24 @@ module.exports = function() {
 
 	behavior.name = "Controllable";
 
+	behavior.requires = ["Platform"]; //TODO: Implement?
+
 	behavior.getProperties = function() {
 		return {
-			isControllable: true
+			// Variables
+			isControllable: true,
+
+			// Functions
+			moveLeft: moveLeft,
+			moveRight: moveRight
 		};
+	};
+
+	behavior.tick = function(gameState) {
+		if (!wasMoved) {
+			this.hAcceleration = -this.hSpeed / 5;
+		}
+		wasMoved = false;
 	};
 
 	return behavior;
