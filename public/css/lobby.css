@@ -5,3 +5,9 @@
     margin-left: -200px;
     background-color: white;
 }
+
+.room-button {
+    display: block;
+    margin: 10px;
+    font-size: 24px;
+}

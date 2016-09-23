@@ -92,59 +92,7 @@ $.get("/levels",
     });
 
 $.get("/backgrounds",
-    function(data) {
-
-        var selectedBackground = null,
-            bgPath = null;
-
-        function selectFn(name) {
-            return function() {
-                if (selectedBackground) {
-                    selectedBackground.style.backgroundColor = "";
-                }
-                this.style.backgroundColor = "#eee";
-                selectedBackground = this;
-                bgPath = name;
-                console.log(bgPath);
-            };
-        }
-
-        var img, item, i, clone;
-        var list = $("#newBackgroundModal").find(".modal-body-left ul");
-        for (i in data) {
-            img = new Image();
-            img.src = data[i];
-
-            clone = $("#backgroundListItemPrototype").clone().removeClass("prototype").attr("id", "");
-            $(img).addClass("media-object");
-            clone.find(".mc-media-container").append(img);
-            clone.find(".media-heading").html("&nbsp;");
-            clone.find(".media-body").append(data[i]);
-            clone.click(selectFn(data[i]));
-            list.append(clone);
-        }
-        var settings = {
-            x: 0,
-            y: 0,
-            tiledX: false,
-            tiledY: false
-        };
-        $("#newBackgroundModal")
-            .find(".modal-body-right")
-            .append(UI.createForm(settings));
-        $("#newBackgroundModal")
-            .find(".saveButton")
-            .click(function() {
-                if (bgPath) {
-                    settings.filePath = bgPath;
-                    state.addBackground(new Background(settings));
-                    $("#newBackgroundModal").modal("hide");
-                }
-            });
-        $("#newBackgroundModal").modal({
-            backdrop: "static"
-        });
-    });
+    function(data) {});
 
 
 var currentClass = "Block",
