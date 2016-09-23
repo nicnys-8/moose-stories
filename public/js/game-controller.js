@@ -13,7 +13,8 @@ module.exports = function(gameState, canvas, camera, keyboard) {
     // Private functions and variables
     //================================
 
-    var controlled = null;
+    var controlled = null,
+        paused = false;
 
 
     //=================
@@ -42,9 +43,16 @@ module.exports = function(gameState, canvas, camera, keyboard) {
             }
         );
 
-        //================
+        if (paused) {
+            return;
+            /* TODO: We need to stop the keyboard object from caching key events
+            while the game is paused, or empty the cache when the game is
+            unpaused. I don't know which solution I like more, so I leave it for
+            now (for EVER?!).*/
+        }
+
+        //================>
         // Move all this...
-        //=================
         if (this.keyboard.down("left")) {
             controlled.hAcceleration = -0.5; // Cursed number!
         } else if (this.keyboard.down("right")) {
@@ -58,10 +66,8 @@ module.exports = function(gameState, canvas, camera, keyboard) {
                 controlled.jump();
             }
         }
-        //===================
         // ... somewhere else
-        //===================
-
+        //<==================
 
         //===========
         // Game logic
@@ -110,8 +116,12 @@ module.exports = function(gameState, canvas, camera, keyboard) {
         this.tick();
     };
 
-    this.pauseGame = function() {
-        //TODO: Implement!
+    this.pause = function() {
+        paused = true;
+    };
+
+    this.play = function() {
+        paused = false;
     };
 
     /**

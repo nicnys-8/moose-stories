@@ -159,7 +159,7 @@ $("#pause-button").on("click", function() {
     gameController.pause();
 });
 
-$("#pause-button").on("click", function() {
+$("#play-button").on("click", function() {
     gameController.play();
 });
 
