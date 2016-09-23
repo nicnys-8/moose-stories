@@ -4,10 +4,6 @@
 
 "use strict";
 
-//================================
-// Private functions and variables
-//================================
-
 var ObjectFactory = require("./../object-factory"),
     SpriteFactory = require("./../../sprite-factory");
 

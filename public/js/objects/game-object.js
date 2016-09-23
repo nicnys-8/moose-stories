@@ -102,6 +102,4 @@ GameObject.prototype.tick = function(gameState) {
     }
 };
 
-// Just den här biten kanske inte blev så klockren...?
-ObjectFactory.defineBaseClass("GameObject", GameObject);
 module.exports = GameObject;

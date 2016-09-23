@@ -9,10 +9,6 @@ Returns a game controller object (controller of the MVC pattern)
 */
 module.exports = function(gameState, canvas, camera, keyboard) {
 
-    //================================
-    // Private functions and variables
-    //================================
-
     var controlled = null,
         paused = false;
 

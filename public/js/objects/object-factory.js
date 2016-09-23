@@ -4,7 +4,13 @@
 
 "use strict";
 
+var GameObject = require("./game-object");
+
 module.exports = {
+    classes: {
+        "GameObject": GameObject
+    },
+    baseClass: "GameObject",
 
     // Nåt sånt här kan man också ha, men då måste vi skriva om
     // konstruktÖrerna så att de tar alla parametrar i ett objekt.
@@ -18,18 +24,6 @@ module.exports = {
             console.warn("Trying to create unknown object " + description.name);
         }
         return object;
-    },
-
-    classes: {},
-    baseClass: null,
-
-    defineBaseClass: function(name, constructor) {
-        // TODO: Add defaults and stuff here as well
-        if (this.baseClass) {
-            throw "Trying to overwrite base class " + this.baseClass + " with class " + name + ". Aborting!";
-        }
-        this.baseClass = name;
-        this.classes[name] = constructor;
     },
 
     /**
@@ -111,4 +105,5 @@ module.exports = {
 
         this.classes[name] = constr;
     }
+
 };

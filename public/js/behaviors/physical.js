@@ -4,10 +4,6 @@
 
 "use strict";
 
-//================================
-// Private functions and variables
-//================================
-
 var Behaviors = require("./../behaviors");
 // @TODO: Rename functions to specifiy whether they work with objects or other things. e.g. overlapsObjectOffset ??? (note: this is a question)
 

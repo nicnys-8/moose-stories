@@ -5,10 +5,6 @@
 
  "use strict";
 
-//================================
-// Private functions and variables
-//================================
-
 var Behaviors = require("./../behaviors"),
 	wasMoved = false,
     standardAcceleration = 0.5;

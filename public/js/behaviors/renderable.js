@@ -4,10 +4,6 @@ Describes an object that can be rendered on the screen
 
 "use strict";
 
-//================================
-// Private functions and variables
-//================================
-
 var Behaviors = require("./../behaviors");
 
 /**

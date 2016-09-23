@@ -4,15 +4,12 @@
 
 "use strict";
 
-//================================
-// Private functions and variables
-//================================
-
 var ObjectFactory = require("./object-factory"),
     GameObject = require("./game-object"),
     SpriteFactory = require("./../sprite-factory"),
     Behaviors = require("./../behaviors"),
     config = require("./../config.js");
+
 
 //=========================
 // Register the object type

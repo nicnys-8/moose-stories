@@ -6,10 +6,6 @@
 
 "use strict";
 
-//================================
-// Private functions and variables
-//================================
-
 var Behaviors = require("./../behaviors"),
     currentlySolid = true;
 
@@ -32,7 +28,6 @@ function setSolid(bool) {
 //=================
 
 var behavior = {};
-
 
 behavior.getProperties = function() {
     return {

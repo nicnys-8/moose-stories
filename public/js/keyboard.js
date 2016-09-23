@@ -6,10 +6,6 @@ events in the game through key presses
 */
 function Keyboard() {
 
-	//================================
-	// Private functions and variables
-	//================================
-
 	// Lookup object for translating key codes to key names
 	var keyMappings = {
 		37: "left",
@@ -108,7 +104,7 @@ function Keyboard() {
 	*/
 	this.tick = function() {
 		var key;
-		
+
 		for (key in keyStates) {
 			if (keyStates[key] === "released") {
 				keyStates[key] = "up";

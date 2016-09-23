@@ -4,10 +4,6 @@
 
 "use strict";
 
-//================================
-// Private functions and variables
-//================================
-
 var Behaviors = require("./../behaviors"),
     AudioFactory = require("./../audio-factory"),
     jumpSound = AudioFactory.createSound("audio/jump.wav"),

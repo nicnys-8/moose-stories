@@ -9,10 +9,6 @@ Returns the constructor of an object describing the state of a gaming session
 */
 module.exports = function() {
 
-    //================================
-    // Private functions and variables
-    //================================
-
     // Cache for storing filter queries
     var cache = {
         exlude: {},
