@@ -1,10 +1,24 @@
 /**
-* Factory singleton that handles registering of game object types.
-*/
+ * Factory singleton that handles registering of game object types.
+ */
 
 "use strict";
 
 var GameObject = require("./game-object");
+
+function NOOP() {}
+
+function mergeArgs(primary, secondary) {
+    primary = primary || {};
+    for (var i in secondary) {
+        if (typeof secondary[i] === "object") {
+            primary[i] = mergeArgs(primary[i], secondary[i]);
+        } else if (!primary.hasOwnProperty(i)) {
+            primary[i] = secondary[i];
+        }
+    }
+    return primary;
+}
 
 module.exports = {
     classes: {
@@ -30,35 +44,17 @@ module.exports = {
      */
     defineClass: function(name, definition) {
 
-        function NOOP() {}
-
-        function mergeArgs(primary, secondary) {
-            primary = primary || {};
-            for (var i in secondary) {
-                if (typeof secondary[i] === "object") {
-                    primary[i] = mergeArgs(primary[i], secondary[i]);
-                } else if (!primary.hasOwnProperty(i)) {
-                    primary[i] = secondary[i];
-                }
-            }
-            return primary;
-        }
-
-        if (this.classes[name]) {
-            throw "Trying to redefine class " + name + ". Aborting!";
-        }
-
         var defaults = definition.defaults || {},
             behaviors = definition.behaviors || [],
             initFn = definition.init || NOOP,
             tick = definition.tick,
-            superClass = definition.superClass || GameObject,
+            superClass = definition.superClass || "GameObject",
             superConstr = this.classes[superClass],
             prototype = definition.prototype, // Add more stuff to the prototype (confusing with superClass and prototype?? Maybe let the 'superClass' argument be any object instead of just a string?)
             constr, i;
 
-        if (!superConstr) {
-            throw "Gah! Superclass " + superClass + " not found!";
+        if (this.classes[name]) {
+            throw "Trying to redefine class " + name + ". Aborting!";
         }
 
         constr = function(args, defaultsFromSubclass) {

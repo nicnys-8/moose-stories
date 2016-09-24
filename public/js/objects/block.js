@@ -16,7 +16,6 @@ var ObjectFactory = require("./object-factory"),
 //=========================
 
 ObjectFactory.defineClass("Block", {
-    superClass: "GameObject",
     behaviors: ["Renderable", "Physical", "Solid"],
     defaults: {
         width: config.tileSize,

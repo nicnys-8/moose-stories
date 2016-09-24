@@ -14,7 +14,6 @@ var ObjectFactory = require('./../object-factory'),
 //=========================
 
 ObjectFactory.defineClass("Character", {
-    superClass: "GameObject",
     behaviors: ["Renderable", "Physical", "Solid", "Moving", "Platform", "FaceDirection", "Controllable"],
     tick: function(gameState) {
         var threshold = 0.1;
