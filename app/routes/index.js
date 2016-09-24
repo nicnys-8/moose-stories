@@ -1,80 +1,80 @@
-'use strict';
+"use strict";
 
-var express = require('express'),
+var express = require("express"),
     router = express.Router(),
-    UserRoutes = require('./users'),
-    EditorRoutes = require('./editor'),
-    passport = require('passport');
+    UserRoutes = require("./users"),
+    EditorRoutes = require("./editor"),
+    passport = require("passport");
 
 function isAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
         return next();
     }
-    res.redirect('/login');
+    res.redirect("/login");
 }
 
 function isAdmin(req, res, next) {
     if (req.user.admin) {
         return next();
     }
-    res.redirect('/access-denied');
+    res.redirect("/access-denied");
 }
 
-router.get('/', isAuthenticated, function(req, res) {
-    res.render('lobby');
+router.get("/", isAuthenticated, function(req, res) {
+    res.render("lobby");
 });
 
-router.get('/login', function(req, res) {
-    res.render('login', {
-        message: req.flash('message')
+router.get("/login", function(req, res) {
+    res.render("login", {
+        message: req.flash("message")
     });
 });
 
-router.post('/login', passport.authenticate('local-login', {
-    successRedirect: '/lobby',
-    failureRedirect: '/',
+router.post("/login", passport.authenticate("local-login", {
+    successRedirect: "/lobby",
+    failureRedirect: "/",
     failureFlash: true
 }));
 
-router.get('/signup', function(req, res) {
-    res.render('signup', {
-        message: req.flash('message')
+router.get("/signup", function(req, res) {
+    res.render("signup", {
+        message: req.flash("message")
     });
 });
 
-router.post('/signup', passport.authenticate('local-signup', {
-    successRedirect: '/lobby',
-    failureRedirect: '/signup',
+router.post("/signup", passport.authenticate("local-signup", {
+    successRedirect: "/lobby",
+    failureRedirect: "/signup",
     failureFlash: true
 }));
 
-router.get('/lobby', isAuthenticated, function(req, res) {
-    res.render('lobby');
+router.get("/lobby", isAuthenticated, function(req, res) {
+    res.render("lobby");
 });
 
-router.get('/game', isAuthenticated, function(req, res) {
-    res.render('game');
+router.get("/game", isAuthenticated, function(req, res) {
+    res.render("game");
 });
 
-router.get('/editor', isAuthenticated, function(req, res) {
-    res.render('editor');
+router.get("/editor", isAuthenticated, function(req, res) {
+    res.render("editor");
 });
 
-router.get('/admin', isAuthenticated, isAdmin, function(req, res) {
-    res.render('admin');
+router.get("/admin", isAuthenticated, isAdmin, function(req, res) {
+    res.render("admin");
 });
 
-router.get('/access-denied', isAuthenticated, function(req, res) {
-    res.render('access-denied');
+router.get("/access-denied", isAuthenticated, function(req, res) {
+    res.render("access-denied");
 });
 
-router.get('/signout', function(req, res) {
+router.get("/signout", function(req, res) {
     req.logout();
-    res.redirect('/');
+    res.redirect("/");
 });
 
 // Add the remaining roots
-router.use('/users', UserRoutes);
-router.use(EditorRoutes); //TODO: Mount at '/editor'?
+router.use("/users", UserRoutes);
+router.use(EditorRoutes); //TODO: Mount on "/editor"?
 
 module.exports = router;
