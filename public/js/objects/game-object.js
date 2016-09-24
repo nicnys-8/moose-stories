@@ -19,10 +19,6 @@ function GameObject(args, defaults) {
     this.setNumber("y", args, 0);
 }
 
-//=================
-// Public functions
-//=================
-
 GameObject.prototype.setNumber = function(name, args, defaultValue) {
     var value = (args && +args[name]);
     if (!value && value !== 0) {
