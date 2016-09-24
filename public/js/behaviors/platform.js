@@ -1,5 +1,6 @@
 /**
- * Behavior describing a platform character
+ * Describes the behavior of a platform object that can be controlled by the
+ * player.
  */
 
 "use strict";
@@ -7,13 +8,24 @@
 var Behaviors = require("./../behaviors"),
     AudioFactory = require("./../audio-factory"),
     jumpSound = AudioFactory.createSound("audio/jump.wav"),
-    landSound = AudioFactory.createSound("audio/land.wav");
+    landSound = AudioFactory.createSound("audio/land.wav"),
+    standardXForce = 12,
+    jumpForce = 200;
 
-function jump() {
-    this.ySpeed = -5;
-    jumpSound.play();
+function moveLeft() {
+    this.applyForceX(-standardXForce);
 }
 
+function moveRight() {
+    this.applyForceX(standardXForce);
+}
+
+function jump() {
+    if (this.onGround) {
+        this.applyForceY(-jumpForce);
+        jumpSound.play();
+    }
+}
 
 //=================
 // Public interface
@@ -21,18 +33,21 @@ function jump() {
 
 var behavior = {};
 
-behavior.dependencies = ["Moving", "FaceDirection"];
+behavior.dependencies = ["Moving"];
 
 behavior.getProperties = function() {
     return {
+        // Variables
+        isControllable: true,
+
+        // Functions
+        moveLeft: moveLeft,
+        moveRight: moveRight,
         jump: jump
     };
 };
 
 behavior.tick = function(gameState) {
-    if (this.onGround && !this.wasOnGround) {
-        landSound.play();
-    }
 };
 
 Behaviors.register("Platform", behavior);

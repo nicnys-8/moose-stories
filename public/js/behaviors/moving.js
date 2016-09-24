@@ -65,10 +65,10 @@ behavior.getProperties = function() {
     return {
         // Variables
         xAcceleration: 0,
-        yAcceleration: 0.3,
+        yAcceleration: 0, 
         xSpeed: 0,
         ySpeed: 0,
-        maxXSpeed: 4,
+        maxXSpeed: 3,
         maxYSpeed: 7,
         weight: 32,
         frictionForce: 0.2,

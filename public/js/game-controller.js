@@ -9,7 +9,7 @@ Returns a game controller object (controller of the MVC pattern)
 */
 module.exports = function(gameState, canvas, camera, keyboard) {
 
-    var controlled = null,
+    var player = null,
         paused = false;
 
 
@@ -48,15 +48,13 @@ module.exports = function(gameState, canvas, camera, keyboard) {
             return;
         }
 
-        if (controlled) {
-            if (this.keyboard.down("left")) {
-                controlled.moveLeft();
-            } else if (this.keyboard.down("right")) {
-                controlled.moveRight();
-            }
-            if (this.keyboard.pressed("up")) {
-                controlled.jump();
-            }
+        if (this.keyboard.down("left")) {
+            player.moveLeft();
+        } else if (this.keyboard.down("right")) {
+            player.moveRight();
+        }
+        if (this.keyboard.pressed("up")) {
+            player.jump();
         }
 
         this.camera.tick();
@@ -91,8 +89,8 @@ module.exports = function(gameState, canvas, camera, keyboard) {
 
     this.startGame = function() {
         // Start controlling a random guy...
-        var controllable = this.gameState.filter("Controllable");
-        this.setControlled(controllable[0]);
+        player = this.gameState.filter("Platform")[0];
+        this.camera.target = player;
         // Play music
         if (this.gameState.music) this.gameState.music.play(); // hrmhrmhrm
 
@@ -106,20 +104,6 @@ module.exports = function(gameState, canvas, camera, keyboard) {
 
     this.resume = function() {
         paused = false;
-    };
-
-    /**
-    Sets which character is currently controlled by the player
-    @param object A 'GameObject' instance with 'Controllable' behavior
-    */
-    this.setControlled = function(object) {
-        // Stop the currently controlled character from moving
-        if (controlled) {
-            controlled.hAcceleration = 0;
-            controlled.hSpeed = 0;
-        }
-        controlled = object;
-        this.camera.target = controlled;
     };
 
 };
