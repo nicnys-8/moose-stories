@@ -34,7 +34,6 @@ behavior.dependencies = ["Physical"];
 behavior.getProperties = function() {
     return {
         isSolid: isSolid,
-        currentlySolid: currentlySolid
     };
 };
 

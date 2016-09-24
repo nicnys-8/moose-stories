@@ -79,7 +79,7 @@ function overlapsBy(obj, coordinate) {
     }
 }
 
-//@TODO: horizontalOverlap and verticalOverlap are deprecated. Use overlapsby instead. Remove all uses of the deprected functions.
+//@TODO: horizontalOverlap and verticalOverlap are deprecated. Use overlapsby instead. Remove all uses of the deprecated functions.
 
 function horizontalOverlap(obj) {
     console.warn("Deprecated function");

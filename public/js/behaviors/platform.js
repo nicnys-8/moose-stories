@@ -10,7 +10,7 @@ var Behaviors = require("./../behaviors"),
     landSound = AudioFactory.createSound("audio/land.wav");
 
 function jump() {
-    this.vSpeed = -5;
+    this.ySpeed = -5;
     jumpSound.play();
 }
 

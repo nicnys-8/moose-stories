@@ -55,9 +55,7 @@ module.exports = function(gameState, canvas, camera, keyboard) {
                 controlled.moveRight();
             }
             if (this.keyboard.pressed("up")) {
-                if (controlled.onGround) {
-                    controlled.jump();
-                }
+                controlled.jump();
             }
         }
 

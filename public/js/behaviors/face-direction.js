@@ -19,9 +19,9 @@ behavior.getProperties = function() {
 };
 
 behavior.tick = function(gameState) {
-    if (this.hSpeed > 0) {
+    if (this.xSpeed > 0) {
         this.scale.x = Math.abs(this.scale.x);
-    } else if (this.hSpeed < 0) {
+    } else if (this.xSpeed < 0) {
         this.scale.x = -Math.abs(this.scale.x);
     }
 };
