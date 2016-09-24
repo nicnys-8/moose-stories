@@ -56,6 +56,9 @@ module.exports = function(gameState, canvas, camera, keyboard) {
         if (this.keyboard.pressed("up")) {
             player.jump();
         }
+        if (this.keyboard.released("up")) {
+            player.cancelJump();
+        }
 
         this.camera.tick();
         this.gameState.tick();

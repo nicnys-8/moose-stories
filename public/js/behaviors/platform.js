@@ -8,8 +8,8 @@ var Behaviors = require("./../behaviors"),
     AudioFactory = require("./../audio-factory"),
     jumpSound = AudioFactory.createSound("audio/jump.wav"),
     landSound = AudioFactory.createSound("audio/land.wav"),
-    xForce = 12,
-    moveForce = 200;
+    moveForce = 12,
+    jumpForce = 200;
 
 function moveLeft() {
     this.applyForceX(-moveForce);
@@ -23,6 +23,12 @@ function jump() {
     if (this.onGround) {
         this.applyForceY(-jumpForce);
         jumpSound.play();
+    }
+}
+
+function cancelJump() {
+    if (this.ySpeed < 0) {
+        this.ySpeed /= 2;
     }
 }
 
@@ -42,7 +48,8 @@ behavior.getProperties = function() {
         // Functions
         moveLeft: moveLeft,
         moveRight: moveRight,
-        jump: jump
+        jump: jump,
+        cancelJump: cancelJump
     };
 };
 

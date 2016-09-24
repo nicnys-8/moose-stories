@@ -20,6 +20,7 @@ function move(gameState) {
         overlap,
         i;
 
+    // TODO: Cram these silly loops into one
     this.x += this.xSpeed;
     for (i = 0; i < solids.length; i++) {
         solid = solids[i];
@@ -31,6 +32,7 @@ function move(gameState) {
             overlap = this.overlapsBy(solid, "x");
 
             if (overlap !== 0) {
+                //this.x -= overlap;
                 this.x = Math.round(this.x - overlap);
                 this.xSpeed = 0;
                 break;
@@ -42,10 +44,14 @@ function move(gameState) {
     for (i = 0; i < solids.length; i++) {
         solid = solids[i];
         if (this.overlapsObject(solid)) {
-            if (solid === this) continue;
+            // Don't check for collisions with itself
+            if (solid === this) {
+                continue;
+            }
             overlap = this.overlapsBy(solid, "y");
 
             if (overlap !== 0) {
+                //this.y -= overlap;
                 this.y = Math.round(this.y - overlap);
                 this.ySpeed = 0;
                 break;
