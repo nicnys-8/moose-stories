@@ -12,6 +12,8 @@ var Behaviors = require("./../behaviors");
 
 var behavior = {};
 
+behavior.dependencies = ["Moving"];
+
 behavior.getProperties = function() {
     return {};
 };

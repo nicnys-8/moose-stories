@@ -209,6 +209,8 @@ function tryMove(delta, coordinate, gameState) {
 
 var behavior = {};
 
+behavior.dependencies = ["Physical"];
+
 behavior.getProperties = function() {
     return {
         // Variables

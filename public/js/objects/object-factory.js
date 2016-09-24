@@ -58,13 +58,14 @@ module.exports = {
         }
 
         constr = function(args, defaultsFromSubclass) {
+            var i;
 
             defaults = mergeArgs(defaultsFromSubclass, defaults);
             args = mergeArgs(args, defaults);
 
             superConstr.call(this, args, defaults);
 
-            for (var i = 0; i < behaviors.length; i++) {
+            for (i = 0; i < behaviors.length; i++) {
                 this.addBehavior(behaviors[i]);
             }
 

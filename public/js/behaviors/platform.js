@@ -21,7 +21,7 @@ function jump() {
 
 var behavior = {};
 
-behavior.name = "Platform";
+behavior.dependencies = ["Moving", "FaceDirection"];
 
 behavior.getProperties = function() {
     return {

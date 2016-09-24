@@ -29,6 +29,8 @@ function setSolid(bool) {
 
 var behavior = {};
 
+behavior.dependencies = ["Physical"];
+
 behavior.getProperties = function() {
     return {
         isSolid: isSolid,

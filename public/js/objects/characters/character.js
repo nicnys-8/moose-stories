@@ -14,7 +14,7 @@ var ObjectFactory = require('./../object-factory'),
 //=========================
 
 ObjectFactory.defineClass("Character", {
-    behaviors: ["Renderable", "Physical", "Solid", "Moving", "Platform", "FaceDirection", "Controllable"],
+    behaviors: ["Renderable", "Solid", "Platform", "Controllable"],
     tick: function(gameState) {
         var threshold = 0.1;
         this.currentSprite = (Math.abs(this.hSpeed) > threshold) ? this.sprites.walk : this.sprites.stand;

@@ -61,16 +61,15 @@ GameObject.prototype.addBehavior = function(behaviorName) {
 
     // Check if the behavior has already been added
     if (this.hasBehavior(behaviorName)) {
-        console.trace("Trying to add behavior " + behaviorName + " again...");
         return;
     }
 
     this.behaviors[behaviorName] = true;
 
-    // Add behavior dependencies first!
+
     if (behavior.dependencies) {
-        for (i in behavior.dependencies) {
-            this.addBehavior(Behaviors[i]);
+        for (i = 0; i < behavior.dependencies.length; i++) {
+            this.addBehavior(behavior.dependencies[i]);
         }
     }
 

@@ -12,7 +12,11 @@ var Behaviors = {};
 * @param {object} behavior - The object to store.
 */
 function register(behaviorName, behavior) {
-    Behaviors[behaviorName] = behavior;
+    if (behavior) {
+        Behaviors[behaviorName] = behavior;
+    } else {
+        console.log("Trying to invalid behavior as "+ behaviorName);
+    }
 }
 
 /**
