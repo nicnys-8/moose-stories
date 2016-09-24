@@ -4,14 +4,16 @@
 
 "use strict";
 
-var Behaviors = require("./../behaviors");
+var Behaviors = require("./../behaviors"),
+    friction = 0.2, // TODO: Move to gameState? Or somewhere else?
+    gravity = 0.3; // TODO: Move to gameState
 
 function applyForceX(force) {
-    this.xAcceleration += force / this.weight;
+    this.acceleration.x += force / this.weight;
 }
 
 function applyForceY(force) {
-    this.yAcceleration += force / this.weight;
+    this.acceleration.y += force / this.weight;
 }
 
 function move(gameState) {
@@ -21,7 +23,7 @@ function move(gameState) {
         i;
 
     // TODO: Cram these silly loops into one
-    this.x += this.xSpeed;
+    this.x += this.speed.x;
     for (i = 0; i < solids.length; i++) {
         solid = solids[i];
         if (this.overlapsObject(solid)) {
@@ -34,13 +36,13 @@ function move(gameState) {
             if (overlap !== 0) {
                 //this.x -= overlap;
                 this.x = Math.round(this.x - overlap);
-                this.xSpeed = 0;
+                this.speed.x = 0;
                 break;
             }
         }
     }
 
-    this.y += this.ySpeed;
+    this.y += this.speed.y;
     for (i = 0; i < solids.length; i++) {
         solid = solids[i];
         if (this.overlapsObject(solid)) {
@@ -53,7 +55,7 @@ function move(gameState) {
             if (overlap !== 0) {
                 //this.y -= overlap;
                 this.y = Math.round(this.y - overlap);
-                this.ySpeed = 0;
+                this.speed.y = 0;
                 break;
             }
         }
@@ -71,14 +73,19 @@ behavior.dependencies = ["Physical"];
 behavior.getProperties = function() {
     return {
         // Variables
-        xAcceleration: 0,
-        yAcceleration: 0,
-        xSpeed: 0,
-        ySpeed: 0,
-        maxXSpeed: 3,
-        maxYSpeed: 7,
+        speed: {
+            x: 0,
+            y: 0,
+        },
+        maxSpeed: {
+            x: 2.5,
+            y: 9
+        },
+        acceleration: {
+            x: 0,
+            y: 0,
+        },
         weight: 32,
-        frictionForce: 0.2,
 
         // Functions
         applyForceX: applyForceX,
@@ -90,23 +97,23 @@ behavior.getProperties = function() {
 behavior.tick = function(gameState) {
     var obj, solidObjects;
 
-    this.xSpeed += this.xAcceleration;
-    this.ySpeed += this.yAcceleration;
+    this.speed.x += this.acceleration.x;
+    this.speed.y += this.acceleration.y;
 
     // Limit horizontal and vertical speed
-    this.xSpeed = Math.max(Math.min(this.xSpeed, this.maxXSpeed), -this.maxXSpeed);
-    this.ySpeed = Math.max(Math.min(this.ySpeed, this.maxYSpeed), -this.maxYSpeed);
+    this.speed.x = Math.max(Math.min(this.speed.x, this.maxSpeed.x), -this.maxSpeed.x);
+    this.speed.y = Math.max(Math.min(this.speed.y, this.maxSpeed.y), -this.maxSpeed.y);
 
     this.move(gameState);
 
     // Friction and gravity
-    if (Math.abs(this.xSpeed) > this.frictionForce) {
-        this.xAcceleration = -Math.sign(this.xSpeed) * this.frictionForce;
+    if (Math.abs(this.speed.x) > friction) {
+        this.acceleration.x = -Math.sign(this.speed.x) * friction;
     } else {
-        this.xAcceleration = 0;
-        this.xSpeed = 0;
+        this.acceleration.x = 0;
+        this.speed.x = 0;
     }
-    this.yAcceleration = 0.3; // TODO: Replace with gravity
+    this.acceleration.y = gravity;
 };
 
 Behaviors.register("Moving", behavior);

@@ -27,8 +27,8 @@ function jump() {
 }
 
 function cancelJump() {
-    if (this.ySpeed < 0) {
-        this.ySpeed /= 2;
+    if (this.speed.y < 0) {
+        this.speed.y /= 2;
     }
 }
 
