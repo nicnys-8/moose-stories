@@ -7,7 +7,7 @@ var Levels = {
 
     level1: {
         objects: [{
-            name: "Giri",
+            name: "Player",
             x: 64,
             y: 112,
             uid: 1

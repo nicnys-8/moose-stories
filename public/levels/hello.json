@@ -1,7 +1,7 @@
 {
     "objects": [
         {
-            "name": "Giri",
+            "name": "Player",
             "x": 64,
             "y": 208,
             "uid": 1

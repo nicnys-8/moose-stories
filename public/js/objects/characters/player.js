@@ -12,7 +12,7 @@ var ObjectFactory = require("./../object-factory"),
 // Register the object type
 //=========================
 
-ObjectFactory.defineClass("Giri", {
+ObjectFactory.defineClass("Player", {
     superClass: "Character",
     init: function(args) {
         var hotspot = {
