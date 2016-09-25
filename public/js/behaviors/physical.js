@@ -4,7 +4,8 @@
 
 "use strict";
 
-var Behaviors = require("./../behaviors");
+var GameState = require("./../game-state"),
+    Behaviors = require("./../behaviors");
 // @TODO: Rename functions to specifiy whether they work with objects or other things. e.g. overlapsObjectOffset ??? (note: this is a question)
 
 
@@ -133,8 +134,8 @@ behavior.getProperties = function() {
     };
 };
 
-behavior.tick = function(gameState) {
-    var solids = gameState.filter("Solid"),
+behavior.tick = function() {
+    var solids = GameState.filter("Solid"),
         i;
 
     this.wasOnGround = this.onGround;

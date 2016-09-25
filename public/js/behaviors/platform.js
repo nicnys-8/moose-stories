@@ -53,7 +53,4 @@ behavior.getProperties = function() {
     };
 };
 
-behavior.tick = function(gameState) {
-};
-
 Behaviors.register("Platform", behavior);

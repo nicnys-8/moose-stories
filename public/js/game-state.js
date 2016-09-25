@@ -2,12 +2,13 @@
 
 var ObjectFactory = require("./objects/object-factory"),
     AudioFactory = require("./audio-factory"),
-    Background = require("./background");
+    Background = require("./background"),
+    GameState;
 
 /**
 Returns the constructor of an object describing the state of a gaming session
 */
-module.exports = function() {
+GameState = function() {
 
     // Cache for storing filter queries
     var cache = {
@@ -286,7 +287,9 @@ module.exports = function() {
     */
     this.tick = function() {
         for (var i = 0; i < this.objects.length; i++) {
-            this.objects[i].tick(this);
+            this.objects[i].tick();
         }
     };
 };
+
+module.exports = new GameState();

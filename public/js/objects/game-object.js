@@ -90,10 +90,10 @@ GameObject.prototype.addBehavior = function(behaviorName) {
 /**
 Actions to perform at each iteration of the game loop
 */
-GameObject.prototype.tick = function(gameState) {
+GameObject.prototype.tick = function() {
     var i;
     for (i = 0; i < this.ticks.length; i++) {
-        this.ticks[i].call(this, gameState);
+        this.ticks[i].call(this);
     }
 };
 

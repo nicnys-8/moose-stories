@@ -9,12 +9,11 @@ var GameState = require("./game-state"),
     AudioFactory = require("./audio-factory"),
     config = require("./config"),
     canvas = document.getElementById("view"),
-    state = new GameState(),
     camera = new Camera(),
     keyboard = new Keyboard(),
-    gameController = new GameController(state, canvas, camera, keyboard),
+    gameController = new GameController(canvas, camera, keyboard),
     controlledCharacterUID = 0,
     audio = AudioFactory.createSound("audio/fnurk.mp3");
 
-state.parseLevel(Levels.level1);
+GameState.parseLevel(Levels.level1);
 gameController.startGame();

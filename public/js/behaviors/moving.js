@@ -4,9 +4,10 @@
 
 "use strict";
 
-var Behaviors = require("./../behaviors"),
-    friction = 0.2, // TODO: Move to gameState? Or somewhere else?
-    gravity = 0.3; // TODO: Move to gameState
+var GameState = require("./../game-state"),
+    Behaviors = require("./../behaviors"),
+    friction = 0.2, // TODO: Move to GameState? Or somewhere else?
+    gravity = 0.3; // TODO: Move to GameState
 
 function applyForceX(force) {
     this.acceleration.x += force / this.weight;
@@ -16,8 +17,8 @@ function applyForceY(force) {
     this.acceleration.y += force / this.weight;
 }
 
-function move(gameState) {
-    var solids = gameState.filter("Solid"),
+function move() {
+    var solids = GameState.filter("Solid"),
         solid,
         overlap,
         i;
@@ -94,7 +95,7 @@ behavior.getProperties = function() {
     };
 };
 
-behavior.tick = function(gameState) {
+behavior.tick = function() {
     var obj, solidObjects;
 
     this.speed.x += this.acceleration.x;
@@ -104,7 +105,7 @@ behavior.tick = function(gameState) {
     this.speed.x = Math.max(Math.min(this.speed.x, this.maxSpeed.x), -this.maxSpeed.x);
     this.speed.y = Math.max(Math.min(this.speed.y, this.maxSpeed.y), -this.maxSpeed.y);
 
-    this.move(gameState);
+    this.move();
 
     // Friction and gravity
     if (Math.abs(this.speed.x) > friction) {

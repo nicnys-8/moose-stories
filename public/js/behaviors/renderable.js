@@ -47,7 +47,7 @@ behavior.getProperties = function() {
     };
 };
 
-behavior.tick = function(gameState) {
+behavior.tick = function() {
     if (this.currentSprite.imageSpeed > 0) {
         this.currentSprite.tick();
     }

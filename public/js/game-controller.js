@@ -1,13 +1,14 @@
 "use strict";
 
+var GameState = require("./game-state");
+
 /**
 Returns a game controller object (controller of the MVC pattern)
-@param gameState Object describing the entire gamestate (model of the MVC pattern)
 @param canvas A HTML5 canvas (view of the MVC pattern)
 @param camera A camera object used to render the game
 @param keyboard An object for reacting to keyboard input
 */
-module.exports = function(gameState, canvas, camera, keyboard) {
+module.exports = function(canvas, camera, keyboard) {
 
     var player = null,
         paused = false;
@@ -17,7 +18,6 @@ module.exports = function(gameState, canvas, camera, keyboard) {
     // Public Interface
     //=================
 
-    this.gameState = gameState;
     this.camera = camera;
     this.keyboard = keyboard;
 
@@ -28,7 +28,7 @@ module.exports = function(gameState, canvas, camera, keyboard) {
     */
     this.tick = function() {
         var ctx = canvas.getContext("2d"),
-            renderList = this.gameState.filter("Renderable"),
+            renderList = GameState.filter("Renderable"),
 			self = this,
             i;
 
@@ -61,7 +61,7 @@ module.exports = function(gameState, canvas, camera, keyboard) {
         }
 
         this.camera.tick();
-        this.gameState.tick();
+        GameState.tick();
 
         //==========
         // Rendering
@@ -70,8 +70,8 @@ module.exports = function(gameState, canvas, camera, keyboard) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // Render all backgrounds
-        for (i = 0; i < this.gameState.backgrounds.length; i++) {
-            this.gameState.backgrounds[i].render(ctx);
+        for (i = 0; i < GameState.backgrounds.length; i++) {
+            GameState.backgrounds[i].render(ctx);
         }
 
         ctx.save();
@@ -92,10 +92,10 @@ module.exports = function(gameState, canvas, camera, keyboard) {
 
     this.startGame = function() {
         // Start controlling a random guy...
-        player = this.gameState.filter("Platform")[0];
+        player = GameState.filter("Platform")[0];
         this.camera.target = player;
         // Play music
-        if (this.gameState.music) this.gameState.music.play(); // hrmhrmhrm
+        if (GameState.music) GameState.music.play(); // hrmhrmhrm
 
         // Start the main game loop
         this.tick();
