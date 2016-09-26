@@ -1,42 +1,22 @@
-var GameState = require("./../game-state"),
-    GameController = require("./../game-controller"),
+var gameState = require("./../game-state"),
+    gameController = require("./../game-controller"),
     ObjectFactory = require("./../objects/object-factory"),
-    Camera = require("./../camera"),
-    Keyboard = require("./../keyboard"),
+    camera = require("./../camera"),
     Levels = require("./../levels"),
-    AudioFactory = require("./../audio-factory"),
     Background = require("./../background"),
+    UI = require("./editor-ui"),
     config = require("./../config"),
     canvas = document.getElementById("view"),
-    state = new GameState(),
-    camera = new Camera(),
-    keyboard = new Keyboard(),
-    gameController = new GameController(state, canvas, camera, keyboard),
     controlledCharacterUID = -1,
-    audio = AudioFactory.createSound("audio/fnurk.mp3"),
+    currentLevelName = null,
     levels,
-    currentLevelName = null;
-
-var UI = require("./editor-ui");
+    levelSettings;
 
 UI.addCategory("Game Objects");
 UI.addCategory("Backgrounds");
 UI.addCategory("Music");
 
-var testObj = {
-    x: 1,
-    y: true,
-    bbox: {
-        left: 5,
-        top: {
-            e: 1,
-            oo: [1, 2, 3, "hehe"]
-        }
-    },
-    huu: "hehe"
-};
-
-var levelSettings = {
+levelSettings = {
     "Name": "New level",
     "Width": 20 * config.tileSize,
     "Height": 10 * config.tileSize,
@@ -57,7 +37,7 @@ $("#sidebar-right").append(UI.createForm(levelSettings,
     }));
 
 function createNewLevel() {
-    state.clear();
+    gameState.clear();
 }
 
 $.get("/levels",
@@ -80,14 +60,12 @@ $.get("/levels",
         }
 
         if (currentLevelName) {
-            state.parseLevel(levels[currentLevelName]);
+            gameState.parseLevel(levels[currentLevelName]);
         } else {
             createNewLevel();
         }
 
-        //====================
-        // Start the game loop
-        //====================
+        gameController.setCanvas(canvas);
         gameController.startGame();
     });
 
@@ -152,7 +130,7 @@ setTimeout(function() {
 
 $("#clear-button").on("click", function() {
     selectedObject = null;
-    state.clear();
+    gameState.clear();
 });
 
 $("#pause-button").on("click", function() {
@@ -189,7 +167,7 @@ $("#view")
             rightMouseButton = 3;
 
         event.preventDefault();
-        selectedObject = state.objectAtPosition(p.x, p.y);
+        selectedObject = gameState.objectAtPosition(p.x, p.y);
 
         switch (event.which) {
             case leftMouseButton:
@@ -199,14 +177,14 @@ $("#view")
                         x: p.x,
                         y: p.y,
                     });
-                    state.addObject(selectedObject);
+                    gameState.addObject(selectedObject);
                 }
                 break;
             case middleMouseButton:
                 break;
             case rightMouseButton:
                 if (selectedObject) {
-                    state.removeObject(selectedObject);
+                    gameState.removeObject(selectedObject);
                     selectedObject = null;
                 }
                 break;
@@ -232,7 +210,7 @@ $("#view")
     })
     .bind("mouseout", function(event) {
         if (selectedObject) {
-            state.removeObject(selectedObject);
+            gameState.removeObject(selectedObject);
         }
         selectedObject = null;
     });

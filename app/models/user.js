@@ -1,6 +1,6 @@
-'use strict';
+"use strict";
 
-var mongoose = require('mongoose'),
+var mongoose = require("mongoose"),
   UserSchema = new mongoose.Schema({
     username: {
       type: String,
@@ -17,4 +17,4 @@ var mongoose = require('mongoose'),
     }
   });
 
-module.exports = mongoose.model('User', UserSchema);
+module.exports = mongoose.model("User", UserSchema);

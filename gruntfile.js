@@ -12,7 +12,8 @@ module.exports = function(grunt) {
             server: {
                 src: [
                     "gruntfile.js",
-                    "server.js"
+                    "server.js",
+                    "app/**/*.js"
                 ],
                 options: {
                     "strict": "global",

@@ -1,36 +1,33 @@
 "use strict";
 
-var GameState = require("./game-state");
+var gameState = require("./game-state"),
+    keyboard = require("./keyboard"),
+    camera = require("./camera");
 
 /**
-Returns a game controller object (controller of the MVC pattern)
-@param canvas A HTML5 canvas (view of the MVC pattern)
-@param camera A camera object used to render the game
-@param keyboard An object for reacting to keyboard input
+Returns a game controller object (controller in the MVC pattern)
 */
-module.exports = function(canvas, camera, keyboard) {
+function GameController() {
 
     var player = null,
+        canvas = null,
         paused = false;
 
-
-    //=================
-    // Public Interface
-    //=================
-
-    this.camera = camera;
-    this.keyboard = keyboard;
-
     /**
-    Runs the main game loop
-    @param ctx A 2D rendering context (view of the MVC pattern)
-    //@TODO: Red ut varför hejn inte kan deklareras som this.tick
-    */
+     * Runs the main game loop
+     * Updates all in-game objects and renders the screen,
+     * i.e. a single step in the main game loop.
+     */
     this.tick = function() {
-        var ctx = canvas.getContext("2d"),
-            renderList = GameState.filter("Renderable"),
-			self = this,
+        var renderList = gameState.filter("Renderable"),
+            self = this,
+            ctx,
             i;
+
+        if (!canvas) {
+            console.warn("Set a canvas element using gameController.setCanvas.");
+            return;
+        }
 
         // Repeat the function before each frame is rendered:
         window.requestAnimationFrame(
@@ -43,45 +40,47 @@ module.exports = function(canvas, camera, keyboard) {
         // Game logic
         //===========
 
-        this.keyboard.tick();
+        keyboard.tick();
         if (paused) {
             return;
         }
 
-        if (this.keyboard.down("left")) {
+        if (keyboard.down("left")) {
             player.moveLeft();
-        } else if (this.keyboard.down("right")) {
+        } else if (keyboard.down("right")) {
             player.moveRight();
         }
-        if (this.keyboard.pressed("up")) {
+        if (keyboard.pressed("up")) {
             player.jump();
         }
-        if (this.keyboard.released("up")) {
+        if (keyboard.released("up")) {
             player.cancelJump();
         }
 
-        this.camera.tick();
-        GameState.tick();
+        camera.tick();
+        gameState.tick();
 
         //==========
         // Rendering
         //==========
+
+        ctx = canvas.getContext("2d");
         // Clear the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
         // Render all backgrounds
-        for (i = 0; i < GameState.backgrounds.length; i++) {
-            GameState.backgrounds[i].render(ctx);
+        for (i = 0; i < gameState.getBackgrounds().length; i++) {
+            gameState.getBackgrounds()[i].render(ctx);
         }
 
         ctx.save();
 
         ctx.translate(
-            Math.round(-this.camera.x + (canvas.width / 2)),
-            Math.round(-this.camera.y + (canvas.height / 2))
+            Math.round(-camera.x + (canvas.width / 2)),
+            Math.round(-camera.y + (canvas.height / 2))
         );
-        ctx.scale(this.camera.scale.x, this.camera.scale.y);
-        ctx.rotate(this.camera.rotation);
+        ctx.scale(camera.scale.x, camera.scale.y);
+        ctx.rotate(camera.rotation);
 
         // Render in-game objects
         for (i = 0; i < renderList.length; i++) {
@@ -92,21 +91,38 @@ module.exports = function(canvas, camera, keyboard) {
 
     this.startGame = function() {
         // Start controlling a random guy...
-        player = GameState.filter("Platform")[0];
-        this.camera.target = player;
+        player = gameState.filter("Platform")[0];
+        camera.target = player;
         // Play music
-        if (GameState.music) GameState.music.play(); // hrmhrmhrm
+        if (gameState.getMusic()) {
+            gameState.getMusic().play();
+        }
 
         // Start the main game loop
         this.tick();
     };
 
+    /**
+     * Pauses the game loop.
+     */
     this.pause = function() {
         paused = true;
     };
 
+    /**
+     * Resumes the game loop.
+     */
     this.resume = function() {
         paused = false;
     };
 
-};
+    /**
+     * Sets the canvas used for rendering graphics.
+     * @param {HTMLCanvasElement} canvas - A HTML5 canvas element (view in the MVC pattern)
+     */
+    this.setCanvas = function(canvasArg) {
+        canvas = canvasArg;
+    };
+}
+
+module.exports = new GameController();

@@ -41,4 +41,4 @@ function Camera() {
 
 }
 
-module.exports = Camera;
+module.exports = new Camera();

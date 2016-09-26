@@ -1,9 +1,9 @@
+/**
+A controller object that handles keyboard events.
+*/
+
 "use strict";
 
-/**
-A controller object that can be used to control
-events in the game through key presses
-*/
 function Keyboard() {
 
 	// Lookup object for translating key codes to key names
@@ -123,4 +123,4 @@ function Keyboard() {
 	};
 }
 
-module.exports = Keyboard;
+module.exports = new Keyboard();

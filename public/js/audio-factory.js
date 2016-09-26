@@ -1,39 +1,28 @@
-"use strict";
-
 /**
 A singleton factory used to create new sound objects.
 These are pretty much just wrappers around audio tags.
 */
 
-	//==================
-	// Private variables
-	//==================
+"use strict";
 
-	var cache = {};
+var Audio = require("./audio"),
+    cache = {},
+    AudioFactory = {};
 
+/**
+Returns a sound object
+* @param {string} filePath - Relative path of the audio file.
+*/
+AudioFactory.createSound = function(filePath) {
+    var audio;
 
-	//===========
-	// Public API
-	//===========
-
-	var AudioFactory = {};
-
-	/**
-	Returns a sound object
-	@param filePath Path to the audio file
-	*/
-	AudioFactory.createSound = function(filePath) {
-		var audioTag;
-
-		if (cache[filePath]) {
-			audioTag = cache[filePath];
-		} else {
-			audioTag = document.createElement("audio");
-			audioTag.src = filePath;
-			audioTag.load();
-			cache[filePath] = audioTag;
-		}
-		return audioTag;
-	};
+    if (cache[filePath]) {
+        audio = cache[filePath];
+    } else {
+        audio = new Audio(filePath);
+        cache[filePath] = audio;
+    }
+    return audio;
+};
 
 module.exports = AudioFactory;

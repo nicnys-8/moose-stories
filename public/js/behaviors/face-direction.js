@@ -18,10 +18,10 @@ behavior.getProperties = function() {
     return {};
 };
 
-behavior.tick = function(gameState) {
-    if (this.speed.x > 0) {
+behavior.tick = function() {
+    if (this.acceleration.x < 0) {
         this.scale.x = Math.abs(this.scale.x);
-    } else if (this.speed.x < 0) {
+    } else if (this.acceleration.x > 0) {
         this.scale.x = -Math.abs(this.scale.x);
     }
 };

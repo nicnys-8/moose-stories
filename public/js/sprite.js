@@ -4,28 +4,18 @@
 Constructor of a sprite object. A sprite is an object that can be
 rendered on screen, consisting of an arbitrary number of frames
 of equal size
-@param Canvas A Canvas object containing the animation frames
-@param numFrames The number of frames of the animation
-@param width Width of each frame
-@param height Height of each frame
-@param hotspot Anchorpoint of the sprite relative to
-the upper corner of each frame, e.g. {x: 8, y: 8}
+@param {HTMLCanvasElement} canvas - A Canvas object containing the animation frames
+@param {number} numFrames - The number of frames of the animation
+@param {number} width - Width of each frame
+@param {number} height - Height of each frame
+@param {object} hotspot - Anchorpoint of the sprite relative to the upper corner of each frame, e.g. {x: 8, y: 8}
 */
 function Sprite(canvas, numFrames, hotspot) {
-
-    //=================
-    // Public variables
-    //=================
 
     this.numFrames = numFrames;
     this.hotspot = hotspot;
     this.currentFrame = 0;
     this.imageSpeed = 0;
-
-
-    //=================
-    // Public functions
-    //=================
 
     /**
     Action to perform at each iteration of the game loop
