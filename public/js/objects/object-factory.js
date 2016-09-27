@@ -42,7 +42,7 @@ function defineClass(name, definition) {
         tick = definition.tick,
         superClass = definition.superClass || "GameObject",
         superConstr = this.classes[superClass],
-        prototype = definition.prototype, // Add more stuff to the prototype (confusing with superClass and prototype?? Maybe let the 'superClass' argument be any object instead of just a string?)
+        //prototype = definition.prototype, // Add more stuff to the prototype (confusing with superClass and prototype?? Maybe let the 'superClass' argument be any object instead of just a string?)
         constr, i;
 
     if (this.classes[name]) {
