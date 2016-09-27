@@ -1,7 +1,7 @@
 {
-  "name": "Grymt",
+  "name": "Moose Stories",
   "version": "0.0.0",
-  "description": "Grymt spela",
+  "description": "We're busy, make your own damn levels!",
   "main": "server.js",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",

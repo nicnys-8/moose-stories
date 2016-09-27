@@ -1,6 +1,6 @@
 {
-  "name": "grymt",
-  "description": "Grymt spela",
+  "name": "Moose Stories",
+  "description": "We're busy, make your own damn levels!",
   "main": "server.js",
   "authors": [
     "NiriVonSiri et al. est-il"

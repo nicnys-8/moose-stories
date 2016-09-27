@@ -47,7 +47,7 @@ GameObject.prototype.addTick = function(fn) {
 };
 
 /**
- * Adds a behavior to the sprite object.
+ * Adds a behavior to the game object.
  * @param {String} behaviorName - Name of the behavior to be added.
  */
 GameObject.prototype.addBehavior = function(behaviorName) {

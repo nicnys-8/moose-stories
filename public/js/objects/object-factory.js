@@ -82,11 +82,11 @@ function defineClass(name, definition) {
     };
 
     constr.prototype = new superConstr(); // new superConstr(defaults);?
-    if (prototype) {
+    /*if (prototype) {
         for (i in prototype) {
             constr.prototype[i] = prototype[i];
         }
-    }
+    }*/
 
     this.classes[name] = constr;
 }
