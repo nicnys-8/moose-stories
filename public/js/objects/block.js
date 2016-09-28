@@ -1,6 +1,6 @@
 /**
-* A block object
-*/
+ * A block object
+ */
 
 "use strict";
 

@@ -9,6 +9,9 @@ var GameObject = require("./game-object"),
         "GameObject": GameObject
     };
 
+/**
+ * Performs no work and thinks it can get away with it.
+ */
 function NOOP() {}
 
 function mergeArgs(primary, secondary) {

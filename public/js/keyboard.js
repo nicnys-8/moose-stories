@@ -1,6 +1,6 @@
 /**
-A controller object that handles keyboard events.
-*/
+ * A controller object that handles keyboard events.
+ */
 
 "use strict";
 
@@ -32,9 +32,10 @@ function Keyboard() {
 	}
 
 	/**
-	Function to call when a key is pressed -
-	updates keyEvents accordingly
-	*/
+	 * Function to call when a key is pressed - updates "keyEvents" accordingly.
+	 *
+	 * @param {Event} event A keyboard event.
+	 */
 	function onKeyDown(event) {
 		var code = event.keyCode;
 		var key = keyMappings[code];
@@ -44,9 +45,10 @@ function Keyboard() {
 	}
 
 	/**
-	Function to call when a key is released -
-	updates keyEvents accordingly
-	*/
+	 * Function to call when a key is released - updates keyEvents accordingly.
+	 *
+	 * @param {Event} event A keyboard event.
+	 */
 	function onKeyUp(event) {
 		var code = event.keyCode;
 		var key = keyMappings[code];
@@ -64,9 +66,9 @@ function Keyboard() {
 	//=================
 
 	/**
-	Returns true if the key is not pressed
-	@param key Name of the key to check, e.g. "up"
-	*/
+	 * @param {string} key Name of the key to check, e.g. "up"
+	 * @return {boolean} True if the key is not pressed.
+	 */
 	this.up = function(key) {
 		return (!keyStates.hasOwnProperty(key) ||
 			keyStates[key] === "up" ||
@@ -74,34 +76,34 @@ function Keyboard() {
 	};
 
 	/**
-	Returns true if the key is down
-	@param key Name of the key to check, e.g. "up"
-	*/
+	 * @param {string} key Name of the key to check, e.g. "up"
+	 * @return {boolean} True if the key is pressed.
+	 */
 	this.down = function(key) {
 		return (keyStates[key] === "down" ||
 			keyStates[key] === "pressed");
 	};
 
 	/**
-	Returns true if the key was pressed during the current tick
-	@param key Name of the key to check, e.g. "up"
-	*/
+	 * @param {string} key Name of the key to check, e.g. "up"
+	 * @return {boolean} true if the key was pressed during the current tick
+	 */
 	this.pressed = function(key) {
 		return (keyStates[key] === "pressed");
 	};
 
 	/**
-	Returns true if the key was released during the current tick
-	@param key Name of the key to check, e.g. "up"
-	*/
+	 * @param {string} key Name of the key to check, e.g. "up".
+	 * @return {boolean} True if the key was released during the current tick.
+	 */
 	this.released = function(key) {
 		return (keyStates[key] === "released");
 	};
 
 	/**
-	Function to call on every game loop iteration,
-	updates keyStates based on the keyEvents that have occured since the last tick
-	*/
+	 * Function to call on every game loop iteration,
+	 * updates keyStates based on the keyEvents that have occured since the last tick
+	 */
 	this.tick = function() {
 		var key;
 

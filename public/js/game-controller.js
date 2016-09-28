@@ -5,8 +5,8 @@ var gameState = require("./game-state"),
     camera = require("./camera");
 
 /**
-Returns a game controller object (controller in the MVC pattern)
-*/
+ * @return {GameController} Controller in the MVC pattern sense of the word.
+ */
 function GameController() {
 
     var player = null,
@@ -118,7 +118,8 @@ function GameController() {
 
     /**
      * Sets the canvas used for rendering graphics.
-     * @param {HTMLCanvasElement} canvas - A HTML5 canvas element (view in the MVC pattern)
+     *
+     * @param {HTMLCanvasElement} canvas - A HTML5 canvas element (view in the MVC pattern).
      */
     this.setCanvas = function(canvasArg) {
         canvas = canvasArg;

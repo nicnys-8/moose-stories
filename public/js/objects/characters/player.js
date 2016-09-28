@@ -1,6 +1,6 @@
 /**
-* A stylish guy
-*/
+ * A stylish guy
+ */
 
 "use strict";
 

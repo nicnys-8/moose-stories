@@ -1,7 +1,7 @@
 /**
-A singleton factory used to create new sound objects.
-These are pretty much just wrappers around audio tags.
-*/
+ * A singleton factory used to create new sound objects.
+ * These are pretty much just wrappers around audio tags.
+ */
 
 "use strict";
 
@@ -10,9 +10,9 @@ var Audio = require("./audio"),
     AudioFactory = {};
 
 /**
-Returns a sound object
-* @param {string} filePath - Relative path of the audio file.
-*/
+ * @param {string} filePath Relative path of the audio file.
+ * @return {Audio} A sound object for playing the specified file.
+ */
 AudioFactory.createSound = function(filePath) {
     var audio;
 

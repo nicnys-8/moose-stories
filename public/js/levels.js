@@ -1,8 +1,9 @@
+/**
+ * A collection of platform levels
+ */
+
 "use strict";
 
-/**
-A collection of platform levels
-*/
 var Levels = {
 
     level1: {
@@ -51,9 +52,9 @@ var Levels = {
 };
 
 /*
-@TODO: Förstås ska det bara vara ett block för alla de här,
-men än så länge följer inte grafiken med då man sätter width på objekt
-*/
+ * @TODO: Förstås ska det bara vara ett block för alla de här,
+ * men än så länge följer inte grafiken med då man sätter width på objekt
+ */
 for (var i = 0; i < 12; i++) {
     Levels.level1.objects.push({
         name: "Block",

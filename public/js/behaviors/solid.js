@@ -10,17 +10,19 @@ var Behaviors = require("./../behaviors"),
     currentlySolid = true;
 
 /**
-Returns whether or not the object is currently solid
-*/
+ * @returns {boolean} Whether or not the object is currently solid
+ */
 function isSolid() {
     return currentlySolid;
 }
 
 /**
-Sets the solidity of the object
-*/
-function setSolid(bool) {
-    currentlySolid = bool;
+ * Sets the solidity of the object
+ *
+ * @param {boolean} bool True if it should be solid, false otherwise.
+ */
+function setSolid(solid) {
+    currentlySolid = solid;
 }
 
 //=================

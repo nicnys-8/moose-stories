@@ -1,14 +1,15 @@
 /**
-Describes an object that can be rendered on the screen
-*/
+ * Describes an object that can be rendered on the screen
+ */
 
 "use strict";
 
 var Behaviors = require("./../behaviors");
 
 /**
- Render the object
- @param ctx A 2D rendering context
+ * Renders the object.
+ *
+ * @param {CanvasRenderingContext2D} ctx - 2D rendering context.
  */
 function render(ctx) {
     if (this.currentSprite) {

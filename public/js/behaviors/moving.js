@@ -9,10 +9,20 @@ var GameState = require("./../game-state"),
     friction = 0.2, // TODO: Move to GameState? Or somewhere else?
     gravity = 0.3; // TODO: Move to GameState
 
+/**
+ * Applies a force on the object, affecting its horizontal acceleration.
+ *
+ * @param {number} force The applied force, negative values for left, positive for right.
+ */
 function applyForceX(force) {
     this.acceleration.x += force / this.weight;
 }
 
+/**
+ * Applies a force on the object, affecting its vertical acceleration.
+ *
+ * @param {number} force The applied force, negative values for up, positive for down.
+ */
 function applyForceY(force) {
     this.acceleration.y += force / this.weight;
 }

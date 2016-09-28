@@ -5,8 +5,8 @@ var ObjectFactory = require("./objects/object-factory"),
     Background = require("./background");
 
 /**
-Returns the constructor of an object describing the state of a gaming session
-*/
+ * @return {GameState} An object describing the state of a gaming session.
+ */
 function GameState() {
 
     var objects = [],
@@ -156,7 +156,7 @@ function GameState() {
     };
 
     /**
-     * Completely resets the game state
+     * Completely resets the game state.
      */
     this.clear = function() {
         objects = [];
@@ -168,6 +168,11 @@ function GameState() {
 
     /**
      * Returns all objects that intersect the specified area.
+     *
+     * @param {number} left Left position
+     * @param {number} right Right position
+     * @param {number} top Top position
+     * @param {number} bottom I'll leave the last one as an exercise for the reader.
      */
     this.objectsInZone = function(left, right, top, bottom) {
         var pObjects = this.filter("Physical");
@@ -188,7 +193,7 @@ function GameState() {
     };
 
     /**
-     * Returns all objects at the specified position.
+     * @return {[GameObject]} All game objects at the specified position.
      */
     this.objectsAtPosition = function(x, y) {
         this.objectsInZone(x, x, y, y);
@@ -197,24 +202,31 @@ function GameState() {
     /**
      * If there are any objects at the specified position, one of these is returned.
      * Otherwise null.
-     * TODO: Return the object with the lowest z-index
+     *
+     * @param {number} x Horizontal position.
+     * @param {number} y Vertical position.
+     * @return {GameObject} The object at the given position.
      */
     this.objectAtPosition = function(x, y) {
+        // TODO: Return the object with the lowest z-index
         var closest = this.objectsInZone(x, x, y, y)[0];
         return closest || null;
     };
 
     /**
-    Returns the object with the specified UID
-    */
+     * @param {number} uid A unique GameObject ID.
+     * @return {GameObject} The object with the given UID.
+     */
     this.getObjectByUID = function(uid) {
         return this.objectsByUID[uid];
     };
 
     /**
-    Creates all objects from a level description
-    @TODO: Parsaren ska fungera annorlunda i framtiden...!
-    */
+     * Creates all objects from a level description.
+     *
+     * @TODO: Parsaren ska fungera annorlunda i framtiden...!
+     * @param {object} description ...  @TODO: Needs a description :)
+     */
     this.parseLevel = function(description) {
         var objDesc, obj, bkgDesc, bkg, i, len;
 
@@ -289,8 +301,8 @@ function GameState() {
     };
 
     /**
-    * Updates all in-game objects, i.e. a single step in the main game loop.
-    */
+     * Updates all in-game objects, i.e. a single step in the main game loop.
+     */
     this.tick = function() {
         for (var i = 0; i < objects.length; i++) {
             objects[i].tick();

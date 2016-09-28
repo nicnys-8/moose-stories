@@ -10,22 +10,23 @@ var GameState = require("./../game-state"),
 
 
 /**
-Check whether this object overlaps another.
-@param obj The object to check for overlap with
-@return true if an overlap was detected, false otherwise
-*/
+ * Check whether this object overlaps another.
+ *
+ * @param {GameObject} obj The object to check for overlap with
+ * @return {boolean} True if an overlap was detected, false otherwise
+ */
 function overlapsObject(obj) {
     return this.overlapsAtOffset(obj, 0, 0);
 }
 
 /**
-Check whether this object would overlap another if it was moved
-to a specified point.
-@param obj The object to check for overlap with
-@param offsetX The horizontal distance to check
-@param offsetY The vertical distance to check
-@return true if an overlap was detected, false otherwise
-*/
+ * Check whether this object would overlap another if it were moved by the specified offset.
+ *
+ * @param {GameObject} obj The object to check for overlap with
+ * @param {number} offsetX The horizontal distance to check
+ * @param {number} offsetY The vertical distance to check
+ * @return {boolean} True if an overlap was detected, false otherwise
+ */
 function overlapsAtOffset(obj, offsetX, offsetY) {
     return !(
         this.x + offsetX + this.boundingBox.left >= obj.x + obj.boundingBox.right ||
@@ -36,11 +37,12 @@ function overlapsAtOffset(obj, offsetX, offsetY) {
 }
 
 /**
-Check whether this object overlaps a point.
-@param x x-position of point
-@param y y-position of point
-@return true if an overlap was detected, false otherwise
-*/
+ * Check whether this object overlaps a point.
+ *
+ * @param {number} x Horizontal position of point,
+ * @param {number} y Vertical position of point,
+ * @return {boolean} True if an overlap was detected, false otherwise,
+ */
 function overlapsPoint(x, y) {
     return !(
         this.x + this.boundingBox.left >= x ||
@@ -51,12 +53,12 @@ function overlapsPoint(x, y) {
 }
 
 /**
-Check by how much this objects overlaps another along a specified
-coordinate.
-@param obj The object to check for collisions with
-@param coordinate The coordinate along which check
-@return The amount of overlap
-*/
+ * Check by how much this objects overlaps another along a specified coordinate.
+ *
+ * @param {GameObject} obj The object to check for collisions with.
+ * @param {string} coordinate The coordinate along which to check, either "x" or "y".
+ * @return {number} The amount of overlap.
+ */
 function overlapsBy(obj, coordinate) {
     var boundingBoxVar1,
         boundingBoxVar2;
@@ -101,8 +103,8 @@ function verticalOverlap(obj) {
 }
 
 /**
-Returns true if the object is standing on the other one
-*/
+ * @return {boolean} True if the object is standing on the other one.
+ */
 function onTopOf(obj) {
     return (!(this.x + this.boundingBox.left >= obj.x + obj.boundingBox.right ||
             this.x + this.boundingBox.right <= obj.x + obj.boundingBox.left) &&

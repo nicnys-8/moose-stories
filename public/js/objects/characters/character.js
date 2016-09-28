@@ -1,6 +1,6 @@
 /**
-* Base class for playable platform characters
-*/
+ * Base class for playable platform characters
+ */
 
 "use strict";
 

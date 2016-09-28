@@ -1,13 +1,10 @@
-"use strict";
-
 /**
-Constructor of a camera object.
-*/
-function Camera() {
+ * Constructor of a camera object.
+ */
 
-	//==================
-	// Private variables
-	//==================
+ "use strict";
+
+function Camera() {
 
 	var sensitivity = 0.2;
 

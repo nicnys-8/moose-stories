@@ -1,16 +1,14 @@
 /**
-A background image object
-@param {string} args.filePath Path to the image file on disk
-@param {number} args.width Width of the image
-@param {number} args.height Height of the image
-@param {boolean} args.tiledX True if the background should be tiled horizontally
-@param {boolean} args.tiledY True if the background should be tiled vertically
-*/
+ * Instantiates a background image object
+ *
+ * @param {string} args.filePath Path to the image file on disk
+ * @param {number} args.width Width of the image
+ * @param {number} args.height Height of the image
+ * @param {boolean} args.tiledX True if the background should be tiled horizontally
+ * @param {boolean} args.tiledY True if the background should be tiled vertically
+ * @return {Background} The created object.
+ */
 function Background(args) {
-
-    //==================
-    // Private variables
-    //==================
 
     var imgPath = (args + "" === args) ? args : args.filePath,
         canvas = document.createElement("canvas"), //@TODO: Cash canvases CASH!?! :D
@@ -84,7 +82,6 @@ function Background(args) {
                 );
             }
         }
-
         ctx.restore();
     };
 

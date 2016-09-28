@@ -7,10 +7,11 @@
 var Behaviors = {};
 
 /**
-* Stores a behavior.
-* @param {string} behaviorName - The name that will be used when to access the behavior.
-* @param {object} behavior - The object to store.
-*/
+ * Stores a behavior.
+ *
+ * @param {string} behaviorName The name that will be used when to access the behavior.
+ * @param {object} behavior The behavior object to store.
+ */
 function register(behaviorName, behavior) {
     if (behavior) {
         Behaviors[behaviorName] = behavior;
@@ -20,9 +21,11 @@ function register(behaviorName, behavior) {
 }
 
 /**
-* Returns the behavior registered with the specified name.
-* @param {string} behaviorName - The name of the behavior to retrieve.
-*/
+ * Returns the behavior registered with the specified name.
+ *
+ * @param {string} behaviorName The name of the behavior to retrieve.
+ * @return {object} The registered behavior.
+ */
 function get(behaviorName) {
     return Behaviors[behaviorName] || null;
 }
