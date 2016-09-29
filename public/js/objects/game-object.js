@@ -62,14 +62,18 @@ GameObject.prototype.addBehavior = function(behaviorName) {
         properties,
         i;
 
-    // Check if the behavior has already been added
+    // Check if the behavior exists
+    if (behavior === null) {
+        throw new Error(behaviorName + " is not a registered behavior.");
+        return;
+    }
+
+    // Check if the behavior has already been added to this object
     if (this.hasBehavior(behaviorName)) {
         return;
     }
 
     this.behaviors[behaviorName] = true;
-
-
     if (behavior.dependencies) {
         for (i = 0; i < behavior.dependencies.length; i++) {
             this.addBehavior(behavior.dependencies[i]);

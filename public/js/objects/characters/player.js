@@ -4,8 +4,7 @@
 
 "use strict";
 
-var ObjectFactory = require("./../object-factory"),
-    SpriteFactory = require("./../../sprite-factory");
+var ObjectFactory = require("./../object-factory");
 
 
 //=========================
@@ -27,10 +26,25 @@ ObjectFactory.defineClass("Player", {
             bottom: 32
         };
 
-        this.sprites.stand = SpriteFactory.createSprite("img/sprites/giri/stand.svg", 1, hotspot);
-        this.sprites.walk = SpriteFactory.createSprite("img/sprites/giri/walk.svg", 2, hotspot);
-        this.sprites.jump = SpriteFactory.createSprite("img/sprites/giri/jump.svg", 1, hotspot);
-        this.sprites.walk.imageSpeed = 0.1;
+        this.sprites.stand = ObjectFactory.createObject({
+            name: "Sprite",
+            imgPath: "img/sprites/giri/stand.svg",
+            numFrames: 1,
+            hotspot: hotspot
+        });
+        this.sprites.walk = ObjectFactory.createObject({
+            name: "Sprite",
+            imgPath: "img/sprites/giri/walk.svg",
+            numFrames: 2,
+            hotspot: hotspot,
+            imageSpeed: 0.1
+        });
+        this.sprites.jump = ObjectFactory.createObject({
+            name: "Sprite",
+            imgPath: "img/sprites/giri/jump.svg",
+            numFrames: 1,
+            hotspot: hotspot
+        });
         this.currentSprite = this.sprites.stand;
     }
 });

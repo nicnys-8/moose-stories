@@ -1,5 +1,6 @@
 /**
  * Base class for playable platform characters
+ * TODO: Make this a behavior instead?
  */
 
 "use strict";

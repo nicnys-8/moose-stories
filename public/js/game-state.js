@@ -5,20 +5,23 @@ var ObjectFactory = require("./objects/object-factory"),
     Background = require("./background");
 
 /**
- * @return {GameState} An object describing the state of a gaming session.
+ * Instantiates an object describing the state of a gaming session.
+ *
+ * @constructor
+ * @this {GameState}
  */
 function GameState() {
 
     var objects = [],
-    backgrounds = [],
-    objectsByUID = {},
-    music = null,
-    cache = { // Cache for storing filter queries
-        exlude: {},
-        include: {}
-    },
-    cacheHits = 0,
-    cacheMisses = 0;
+        backgrounds = [],
+        objectsByUID = {},
+        music = null,
+        cache = { // Cache for storing filter queries
+            exlude: {},
+            include: {}
+        },
+        cacheHits = 0,
+        cacheMisses = 0;
 
     function clearCache() {
         cache.exlude = {};
@@ -61,7 +64,7 @@ function GameState() {
 
     /**
      * Filters a list of GameObjects. Can extract all GameObjects matching:
-     * 		-  any behavior in the filter set
+     *      -  any behavior in the filter set
      * 		-  no behavior in the filter set
      * 	depending on whether type parameter is set to "include" or "exlude"
      * 	respectively.
@@ -82,10 +85,7 @@ function GameState() {
      * @return {[GameObject]}				Filtered list of GameObjects
      */
     this.filter = function(filter, type, unfiltered) {
-        //@TODO: Cache lookups to increase efficiency!
-        // filter  = (typeof filter  !== 'string')    ? filter  : [filter];
         type = (typeof type !== 'undefined') ? type : "include";
-        // objects = (typeof objects !== 'undefined') ? objects : this.objects;
 
         var query,
             cachedQuery,
@@ -184,8 +184,7 @@ function GameState() {
                     obj.x + obj.boundingBox.left >= right ||
                     obj.x + obj.boundingBox.right <= left ||
                     obj.y + obj.boundingBox.top >= bottom ||
-                    obj.y + obj.boundingBox.bottom <= top)
-				) {
+                    obj.y + obj.boundingBox.bottom <= top)) {
                 result.push(obj);
             }
         }

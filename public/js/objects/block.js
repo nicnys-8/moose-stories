@@ -5,9 +5,6 @@
 "use strict";
 
 var ObjectFactory = require("./object-factory"),
-    GameObject = require("./game-object"),
-    SpriteFactory = require("./../sprite-factory"),
-    Behaviors = require("./../behaviors"),
     config = require("./../config.js");
 
 
@@ -29,8 +26,12 @@ ObjectFactory.defineClass("Block", {
                 y: height / 2
             };
 
-        this.currentSprite = SpriteFactory.createSprite("img/sprites/block.svg", 1, hotspot);
-
+        this.currentSprite = ObjectFactory.createObject({
+            name: "Sprite",
+            imgPath: "img/sprites/block.svg",
+            numFrames: 1,
+            hotspot: hotspot
+        });
         this.scale.x = width / defaults.width;
         this.scale.y = height / defaults.height;
 

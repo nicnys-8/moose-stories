@@ -27,12 +27,12 @@ function mergeArgs(primary, secondary) {
 }
 
 function createObject(description) {
-    var constr = this.classes[description.name] || this[description.name],
+    var constr = this.classes[description.name] || this[description.name], // TODO: Is the "|| this[description.name]" necessary?
         object = null;
     if (constr) {
         object = new constr(description);
     } else {
-        console.warn("Trying to create unknown object " + description.name);
+        console.trace("Trying to create unknown object " + description.name);
     }
     return object;
 }

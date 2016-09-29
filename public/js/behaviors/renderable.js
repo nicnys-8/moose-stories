@@ -49,7 +49,7 @@ behavior.getProperties = function() {
 };
 
 behavior.tick = function() {
-    if (this.currentSprite.imageSpeed > 0) {
+    if (this.currentSprite && this.currentSprite.imageSpeed > 0) {
         this.currentSprite.tick();
     }
 };
