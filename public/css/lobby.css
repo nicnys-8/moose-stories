@@ -6,8 +6,40 @@
     background-color: white;
 }
 
-.room-button {
+.fun-button {
     display: block;
     margin: 10px;
     font-size: 24px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, .4);
+    border-radius: 150px;
+    width: 200px;
+    height: 200px;
+    padding-top: 70px;
+    position: absolute;
+    opacity: 0.8;
+    color: white;
+    text-shadow: 1px 1px 1px black;
+    font-size: 50px;
+}
+
+#build-button {
+    top: 180px;
+    left: 0px;
+}
+
+#play-button {
+    top: 280px;
+    left: 140px;
+}
+
+#discuss-button {
+    top: 180px;
+    left: 230px;
+    background-color: #ffff77;
+    border-color: #d5d51d;
+}
+
+#about-button {
+    top: 280px;
+    left: 330px;
 }
