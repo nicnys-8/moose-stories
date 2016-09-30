@@ -4,10 +4,10 @@
 
 "use strict";
 
-var Behaviors = require("./../behaviors"),
-    AudioFactory = require("./../audio-factory"),
-    jumpSound = AudioFactory.createSound("audio/jump.wav"),
-    landSound = AudioFactory.createSound("audio/land.wav"),
+var Behaviors = require("../behaviors"),
+    Audio = require("../audio"),
+    jumpSound = new Audio("audio/jump.wav"),
+    landSound = new Audio("audio/land.wav"),
     moveForce = 12,
     jumpForce = 200;
 

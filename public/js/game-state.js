@@ -1,7 +1,7 @@
 "use strict";
 
 var GameObject = require("./objects/game-object"),
-    AudioFactory = require("./audio-factory"),
+    Audio = require("./audio"),
     Background = require("./background");
 
 /**
@@ -247,7 +247,7 @@ function GameState() {
         }
 
         if (description.music) {
-            music = AudioFactory.createSound(description.music);
+            music = new Audio(description.music);
         }
     };
 
