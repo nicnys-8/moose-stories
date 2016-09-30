@@ -16,7 +16,7 @@ function register(behaviorName, behavior) {
     if (behavior) {
         Behaviors[behaviorName] = behavior;
     } else {
-        console.log("Trying to invalid behavior as "+ behaviorName);
+        console.log("Trying to add invalid behavior as "+ behaviorName);
     }
 }
 

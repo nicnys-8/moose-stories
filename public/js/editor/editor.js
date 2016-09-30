@@ -1,6 +1,5 @@
 var gameState = require("./../game-state"),
     gameController = require("./../game-controller"),
-    ObjectFactory = require("./../objects/object-factory"),
     camera = require("./../camera"),
     Levels = require("./../levels"),
     Background = require("./../background"),

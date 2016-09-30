@@ -4,15 +4,27 @@
 
 "use strict";
 
+var uid = 0;
 var Levels = {
 
     level1: {
         objects: [{
-            name: "Player",
-            x: 64,
-            y: 112,
-            uid: 1
-        }],
+                behaviors: "Player",
+                args: {
+                    x: 64,
+                    y: 112,
+                    uid: uid++
+                }
+            }
+            /*,
+
+                    {
+                        name: "Block",
+                        x: 64,
+                        y: 146,
+                        uid: uid++
+                    }*/
+        ],
 
         backgrounds: [{
                 filePath: "img/backgrounds/sun.svg",
@@ -57,19 +69,25 @@ var Levels = {
  */
 for (var i = 0; i < 12; i++) {
     Levels.level1.objects.push({
-        name: "Block",
-        x: 64 * i,
-        y: 256,
-        width: 64,
-        height: 32
+        behaviors: "Block",
+        args: {
+            x: 64 * i,
+            y: 256,
+            width: 64,
+            height: 32,
+            uid: uid++
+        }
     });
 
     Levels.level1.objects.push({
-        name: "Block",
-        x: 256 * i,
-        y: 224,
-        width: 64,
-        height: 32
+        behaviors: "Block",
+        args: {
+            x: 256 * i,
+            y: 224,
+            width: 64,
+            height: 32,
+            uid: uid++
+        }
     });
 }
 

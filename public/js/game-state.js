@@ -1,6 +1,6 @@
 "use strict";
 
-var ObjectFactory = require("./objects/object-factory"),
+var GameObject = require("./objects/game-object"),
     AudioFactory = require("./audio-factory"),
     Background = require("./background");
 
@@ -235,7 +235,7 @@ function GameState() {
         len = description.objects && description.objects.length || 0;
         for (i = 0; i < len; i++) {
             objDesc = description.objects[i];
-            obj = ObjectFactory.createObject(objDesc);
+            obj = new GameObject(objDesc.behaviors, objDesc.args);
             this.addObject(obj);
         }
 

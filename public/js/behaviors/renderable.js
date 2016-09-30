@@ -4,7 +4,7 @@
 
 "use strict";
 
-var Behaviors = require("./../behaviors");
+var Behaviors = require("../behaviors");
 
 /**
  * Renders the object.
@@ -13,14 +13,7 @@ var Behaviors = require("./../behaviors");
  */
 function render(ctx) {
     if (this.currentSprite) {
-        this.currentSprite.render(
-            ctx,
-            this.x,
-            this.y,
-            this.scale,
-            this.rotation,
-            this.alpha
-        );
+        this.currentSprite.render(ctx, this.x, this.y, this.scale, this.rotation, this.alpha);
     }
 }
 
