@@ -121,7 +121,12 @@ var behavior = {};
 behavior.getProperties = function() {
     return {
         // variables
-        boundingBox: null, // e.g. {left: -8, right: 8, top: -8, bottom: 8}
+        boundingBox: { // FIXME: Defaults from config?
+            left: -8,
+            right: 8,
+            top: -8,
+            bottom: 8
+        },
         onGround: true,
         wasOnGround: true,
 

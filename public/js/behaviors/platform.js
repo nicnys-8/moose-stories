@@ -38,12 +38,17 @@ function cancelJump() {
 
 var behavior = {};
 
-behavior.dependencies = ["Moving"];
+behavior.dependencies = ["Moving", "Animated"];
 
 behavior.getProperties = function() {
     return {
         // Variables
         isControllable: true,
+        animations = {
+            stand: null,
+            walk: null,
+            jump: null
+        };
 
         // Functions
         moveLeft: moveLeft,

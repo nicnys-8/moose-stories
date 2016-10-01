@@ -42,8 +42,6 @@ function render(ctx, x, y, scale, rotation, alpha) {
 }
 
 
-require("./renderable"); // FIXME!
-require("./load-image"); // FIXME!
 //=================
 // Public interface
 //=================
@@ -86,4 +84,4 @@ behavior.tick = function() {
     this.currentFrame = (this.currentFrame + this.imageSpeed) % (this.numFrames - 1);
 };
 
-Behaviors.register("Sprite", behavior);
+Behaviors.register("Animation", behavior);

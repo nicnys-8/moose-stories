@@ -91,9 +91,11 @@ GameObject.prototype.addBehavior = function(behaviorName, args) {
     }
 
     // Add behavior properties
-    properties = behavior.getProperties();
-    for (i in properties) {
-        this[i] = properties[i];
+    if (behavior.getProperties) {
+        properties = behavior.getProperties();
+        for (i in properties) {
+            this[i] = properties[i];
+        }
     }
 
     // Modify the target's tick function

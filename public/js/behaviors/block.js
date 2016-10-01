@@ -4,8 +4,6 @@
 
 "use strict";
 
-require("./sprite");
-
 var Behaviors = require("../behaviors"),
     GameObject = require("../objects/game-object"),
     hotspot = {
@@ -17,12 +15,7 @@ var Behaviors = require("../behaviors"),
         right: 16,
         top: -32,
         bottom: 32
-    },
-    sprite = new GameObject("Sprite", {
-        imgPath: "img/sprites/block.svg",
-        numFrames: 1,
-        hotspot: hotspot
-    });
+    };
 
 //=================
 // Public interface
@@ -30,15 +23,29 @@ var Behaviors = require("../behaviors"),
 
 var behavior = {};
 
-behavior.dependencies = ["Solid", "Renderable"];
+behavior.dependencies = ["Solid", "Animated"];
 
+/**
+* Returns the public variables and methods associated with this behavior.
+* @return {object} An object containing behavior variables and methods.
+*/
 behavior.getProperties = function() {
     return {
         // Variables
         boundingBox: boundingBox,
-        hotspot: hotspot,
-        currentSprite: sprite
+        hotspot: hotspot
     };
+};
+
+/**
+* Function that is called on an object when this behavior is added to it.
+*/
+behavior.init = function() {
+    this.currentAnimation = new GameObject("Animation", {
+        imgPath: "img/sprites/block.svg",
+        numFrames: 1,
+        hotspot: hotspot
+    });
 };
 
 Behaviors.register("Block", behavior);
