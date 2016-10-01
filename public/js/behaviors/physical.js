@@ -118,6 +118,10 @@ function onTopOf(obj) {
 
 var behavior = {};
 
+/**
+* Returns the public variables and methods associated with this behavior.
+* @return {object} An object containing behavior variables and methods.
+*/
 behavior.getProperties = function() {
     return {
         // variables
@@ -141,6 +145,9 @@ behavior.getProperties = function() {
     };
 };
 
+/**
+* Updates the state of the target object.
+*/
 behavior.tick = function() {
     var solids = GameState.filter("Solid"),
         i;

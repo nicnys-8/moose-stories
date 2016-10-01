@@ -81,6 +81,10 @@ var behavior = {};
 
 behavior.dependencies = ["Physical"];
 
+/**
+* Returns the public variables and methods associated with this behavior.
+* @return {object} An object containing behavior variables and methods.
+*/
 behavior.getProperties = function() {
     return {
         // Variables
@@ -105,6 +109,9 @@ behavior.getProperties = function() {
     };
 };
 
+/**
+* Updates the state of the target object.
+*/
 behavior.tick = function() {
     var obj, solidObjects;
 

@@ -31,6 +31,10 @@ var behavior = {};
 
 behavior.dependencies = ["FaceDirection", "Platform"];
 
+/**
+* Returns the public variables and methods associated with this behavior.
+* @return {object} An object containing behavior variables and methods.
+*/
 behavior.getProperties = function() {
   return {
     hotspot: hotspot,
@@ -38,25 +42,31 @@ behavior.getProperties = function() {
   };
 };
 
+/**
+* Updates the state of the target object.
+*/
 behavior.tick = function() {
     this.currentAnimation = (Math.abs(this.speed.x) > 0) ? animations.walk : animations.stand;
     if (!this.onGround) this.currentAnimation = animations.jump;
 };
 
+/**
+* Initialization function, called on an object when this behavior is added to it.
+*/
 behavior.init = function() {
   animations.stand = new GameObject("Animation", {
-      imgPath: "img/sprites/giri/stand.svg",
+      imagePath: "img/sprites/giri/stand.svg",
       numFrames: 1,
       hotspot: hotspot
   });
   animations.walk = new GameObject("Animation", {
-      imgPath: "img/sprites/giri/walk.svg",
+      imagePath: "img/sprites/giri/walk.svg",
       numFrames: 2,
       hotspot: hotspot,
       imageSpeed: 0.1
   });
   animations.jump = new GameObject("Animation", {
-      imgPath: "img/sprites/giri/jump.svg",
+      imagePath: "img/sprites/giri/jump.svg",
       numFrames: 1,
       hotspot: hotspot
   });

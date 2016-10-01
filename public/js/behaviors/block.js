@@ -23,7 +23,7 @@ var Behaviors = require("../behaviors"),
 
 var behavior = {};
 
-behavior.dependencies = ["Solid", "Animated"];
+behavior.dependencies = ["Solid", "HasAnimation"];
 
 /**
 * Returns the public variables and methods associated with this behavior.
@@ -42,7 +42,7 @@ behavior.getProperties = function() {
 */
 behavior.init = function() {
     this.currentAnimation = new GameObject("Animation", {
-        imgPath: "img/sprites/block.svg",
+        imagePath: "img/sprites/block.svg",
         numFrames: 1,
         hotspot: hotspot
     });

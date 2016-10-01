@@ -1,11 +1,3 @@
-#lobby-jumbotron {
-    top: 100px;
-    width: 400px;
-    left: 50%;
-    margin-left: -200px;
-    background-color: white;
-}
-
 .fun-button {
     display: block;
     margin: 10px;
@@ -21,24 +13,32 @@
     text-shadow: 1px 1px 1px black;
     font-size: 50px;
 }
-
+#lobby-jumbotron {
+    top: 100px;
+    width: 400px;
+    left: 50%;
+    margin-left: -200px;
+    background-color: white;
+}
+#stories-text {
+    left: 190px;
+    position: absolute;
+    top: 130px;
+}
 #build-button {
-    top: 180px;
-    left: -10px;
+    top: 110px;
+    left: -70px;
 }
-
 #play-button {
-    top: 280px;
-    left: 150px;
+    top: 205px;
+    left: 100px;
 }
-
 #discuss-button {
     top: 180px;
     left: 230px;
     background-color: #ffff77;
     border-color: #d5d51d;
 }
-
 #about-button {
     top: 280px;
     left: 330px;

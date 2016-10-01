@@ -52,10 +52,13 @@ behavior.getProperties = function() {
     };
 };
 
+/**
+* Updates the state of the target object.
+*/
 behavior.tick = function() {
     if (this.currentAnimation && this.currentAnimation.imageSpeed > 0) {
         this.currentAnimation.tick();
     }
 };
 
-Behaviors.register("Animated", behavior);
+Behaviors.register("HasAnimation", behavior);

@@ -38,17 +38,21 @@ function cancelJump() {
 
 var behavior = {};
 
-behavior.dependencies = ["Moving", "Animated"];
+behavior.dependencies = ["Moving", "HasAnimation"];
 
+/**
+* Returns the public variables and methods associated with this behavior.
+* @return {object} An object containing behavior variables and methods.
+*/
 behavior.getProperties = function() {
     return {
         // Variables
         isControllable: true,
-        animations = {
+        animations: {
             stand: null,
             walk: null,
             jump: null
-        };
+        },
 
         // Functions
         moveLeft: moveLeft,

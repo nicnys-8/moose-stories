@@ -43,6 +43,10 @@ function loadImage(imagePath) {
 
 var behavior = {};
 
+/**
+* Returns the public variables and methods associated with this behavior.
+* @return {object} An object containing behavior variables and methods.
+*/
 behavior.getProperties = function() {
     return {
         loadImage: loadImage

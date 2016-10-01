@@ -22,6 +22,10 @@ var behavior = {};
 
 behavior.dependencies = ["LoadImage"];
 
+/**
+* Returns the public variables and methods associated with this behavior.
+* @return {object} An object containing behavior variables and methods.
+*/
 behavior.getProperties = function() {
     return {
         // Functions
