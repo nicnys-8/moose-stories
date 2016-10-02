@@ -79,6 +79,7 @@ function GameController() {
             Math.round(-camera.x + (canvas.width / 2)),
             Math.round(-camera.y + (canvas.height / 2))
         );
+
         ctx.scale(camera.scale.x, camera.scale.y);
         ctx.rotate(camera.rotation);
 

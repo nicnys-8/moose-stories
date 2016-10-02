@@ -4,8 +4,7 @@
 
 "use strict";
 
-var Behaviors = require("../behaviors");
-var skam;
+var Behaviors = require("../../behaviors");
 
 /**
  * Renders the sprite on screen.

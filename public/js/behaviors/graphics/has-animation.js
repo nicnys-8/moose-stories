@@ -4,7 +4,7 @@
 
 "use strict";
 
-var Behaviors = require("../behaviors");
+var Behaviors = require("../../behaviors");
 
 /**
  * Renders the object.
@@ -30,12 +30,6 @@ behavior.getProperties = function() {
     return {
         // Variables
         currentAnimation: null,
-        rotation: 0,
-        scale: {
-            x: 1,
-            y: 1
-        },
-        alpha: 1,
         boundingBox: {
             left: -16, // FIXME: Defaults from config?
             right: 16,
@@ -48,7 +42,7 @@ behavior.getProperties = function() {
         },
 
         // Functions
-        render: render
+        render: render // Overwrites the inherited function
     };
 };
 

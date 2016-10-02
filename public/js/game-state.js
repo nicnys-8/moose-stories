@@ -242,7 +242,8 @@ function GameState() {
         len = description.backgrounds && description.backgrounds.length || 0;
         for (i = 0; i < len; i++) {
             bkgDesc = description.backgrounds[i];
-            bkg = new Background(bkgDesc);
+            //bkg = new Background(bkgDesc);
+            bkg = new GameObject("BackgroundLayer", bkgDesc);
             this.addBackground(bkg);
         }
 

@@ -20,6 +20,7 @@ function Camera() {
 
 	this.offsetX = 0;
 	this.offsetY = -96;
+    this.rotation = 0;
 
 	this.target = null;
 

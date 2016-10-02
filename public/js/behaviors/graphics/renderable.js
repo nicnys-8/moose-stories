@@ -4,7 +4,7 @@
 
 "use strict";
 
-var Behaviors = require("../behaviors");
+var Behaviors = require("../../behaviors");
 
 /**
  * Renders the object; NOOP function to be implemented by more specific behaviors.
@@ -28,6 +28,14 @@ behavior.dependencies = ["LoadImage"];
 */
 behavior.getProperties = function() {
     return {
+        // Variables
+        rotation: 0,
+        scale: {
+            x: 1,
+            y: 1
+        },
+        alpha: 1,
+
         // Functions
         render: render
     };

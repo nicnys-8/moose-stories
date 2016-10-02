@@ -4,7 +4,7 @@
 
 "use strict";
 
-var Behaviors = require("./../behaviors");
+var Behaviors = require("../../behaviors");
 
 //=================
 // Public interface
