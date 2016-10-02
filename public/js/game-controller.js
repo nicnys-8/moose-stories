@@ -68,10 +68,7 @@ function GameController() {
         // Clear the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        // Render all backgrounds
-        for (i = 0; i < gameState.getBackgrounds().length; i++) {
-            gameState.getBackgrounds()[i].render(ctx);
-        }
+        gameState.getBackground().render(ctx);
 
         ctx.save();
 
