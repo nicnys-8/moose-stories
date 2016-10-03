@@ -1,8 +1,7 @@
 "use strict";
 
 var GameObject = require("./objects/game-object"),
-    Audio = require("./audio"),
-    Background = require("./background");
+    Audio = require("./audio");
 
 /**
  * Instantiates an object describing the state of a gaming session.
@@ -13,8 +12,8 @@ var GameObject = require("./objects/game-object"),
 function GameState() {
 
     var objects = [],
-        backgrounds = [],
         objectsByUID = {},
+        background = null,
         music = null,
         cache = { // Cache for storing filter queries
             exlude: {},
@@ -56,10 +55,6 @@ function GameState() {
             }
             clearCache();
         }
-    };
-
-    this.addBackground = function(bkg) {
-        backgrounds.push(bkg);
     };
 
     /**
@@ -160,8 +155,8 @@ function GameState() {
      */
     this.clear = function() {
         objects = [];
-        backgrounds = [];
         objectsByUID = {};
+        background = null;
         music = null;
         clearCache();
     };
@@ -239,12 +234,8 @@ function GameState() {
             this.addObject(obj);
         }
 
-        len = description.backgrounds && description.backgrounds.length || 0;
-        for (i = 0; i < len; i++) {
-            bkgDesc = description.backgrounds[i];
-            bkg = new Background(bkgDesc);
-            this.addBackground(bkg);
-        }
+        //background = new GameObject("Background", description.background);
+        background = new GameObject(description.background);
 
         if (description.music) {
             music = new Audio(description.music);
@@ -287,8 +278,8 @@ function GameState() {
         return json;
     };
 
-    this.getBackgrounds = function() {
-        return backgrounds;
+    this.getBackground = function() {
+        return background;
     };
 
     this.getMusic = function() {

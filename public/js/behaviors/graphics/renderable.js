@@ -4,18 +4,14 @@
 
 "use strict";
 
-var Behaviors = require("../behaviors");
+var Behaviors = require("../../behaviors");
 
 /**
- * Renders the object.
+ * Renders the object; NOOP function to be implemented by more specific behaviors.
  *
  * @param {CanvasRenderingContext2D} ctx - 2D rendering context.
  */
-function render(ctx) {
-    if (this.currentSprite) {
-        this.currentSprite.render(ctx, this.x, this.y, this.scale, this.rotation, this.alpha);
-    }
-}
+function render(ctx) {}
 
 
 //=================
@@ -24,11 +20,15 @@ function render(ctx) {
 
 var behavior = {};
 
+behavior.dependencies = ["LoadImage"];
+
+/**
+* Returns the public variables and methods associated with this behavior.
+* @return {object} An object containing behavior variables and methods.
+*/
 behavior.getProperties = function() {
     return {
         // Variables
-        currentSprite: null,
-        frame: 0,
         rotation: 0,
         scale: {
             x: 1,
@@ -39,12 +39,6 @@ behavior.getProperties = function() {
         // Functions
         render: render
     };
-};
-
-behavior.tick = function() {
-    if (this.currentSprite && this.currentSprite.imageSpeed > 0) {
-        this.currentSprite.tick();
-    }
 };
 
 Behaviors.register("Renderable", behavior);

@@ -4,8 +4,7 @@
 
 "use strict";
 
-var Behaviors = require("../behaviors");
-var skam;
+var Behaviors = require("../../behaviors");
 
 /**
  * Renders the sprite on screen.
@@ -42,8 +41,6 @@ function render(ctx, x, y, scale, rotation, alpha) {
 }
 
 
-require("./renderable"); // FIXME!
-require("./load-image"); // FIXME!
 //=================
 // Public interface
 //=================
@@ -52,6 +49,10 @@ var behavior = {};
 
 behavior.dependencies = ["Renderable", "LoadImage"];
 
+/**
+* Returns the public variables and methods associated with this behavior.
+* @return {object} An object containing behavior variables and methods.
+*/
 behavior.getProperties = function() {
     return {
         // Variables
@@ -72,18 +73,21 @@ behavior.getProperties = function() {
 /**
 * Initialization function, called on an object when this behavior is added to it.
 *
-* @param {string} args.imgPath Path to the image file.
+* @param {string} args.imagePath Path to the image file.
 */
 behavior.init = function(args) {
-    if (args && args.imgPath) {
-        this.canvas = this.loadImage(args.imgPath);
+    if (args && args.imagePath) {
+        this.canvas = this.loadImage(args.imagePath);
     } else {
-      throw new Error("Sprite behavior requires argument 'imgPath'.");
+      throw new Error("'HasAnimation' behavior requires argument 'imagePath'.");
     }
 };
 
+/**
+* Updates the state of the target object.
+*/
 behavior.tick = function() {
     this.currentFrame = (this.currentFrame + this.imageSpeed) % (this.numFrames - 1);
 };
 
-Behaviors.register("Sprite", behavior);
+Behaviors.register("Animation", behavior);

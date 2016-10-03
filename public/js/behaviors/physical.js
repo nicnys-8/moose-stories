@@ -118,10 +118,19 @@ function onTopOf(obj) {
 
 var behavior = {};
 
+/**
+* Returns the public variables and methods associated with this behavior.
+* @return {object} An object containing behavior variables and methods.
+*/
 behavior.getProperties = function() {
     return {
         // variables
-        boundingBox: null, // e.g. {left: -8, right: 8, top: -8, bottom: 8}
+        boundingBox: { // FIXME: Defaults from config?
+            left: -8,
+            right: 8,
+            top: -8,
+            bottom: 8
+        },
         onGround: true,
         wasOnGround: true,
 
@@ -136,6 +145,9 @@ behavior.getProperties = function() {
     };
 };
 
+/**
+* Updates the state of the target object.
+*/
 behavior.tick = function() {
     var solids = GameState.filter("Solid"),
         i;

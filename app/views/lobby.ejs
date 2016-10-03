@@ -5,33 +5,35 @@
     <meta charset="utf-8">
     <title>Grymt spel</title>
     <% include partials/common-css %>
-    <link type="text/css" rel="stylesheet" href="css/lobby.css" />
+        <link type="text/css" rel="stylesheet" href="css/lobby.css" />
 </head>
 
 <body>
 
     <% include partials/header %>
-    <div class="container">
-        <div id="lobby-jumbotron" class="jumbotron">
-            <h1>Lobby</h1>
-            <p>What do you wanna do?</p>
-            <a href="editor" id="build-button" class="fun-button btn btn-lg btn-primary">
+        <div class="container">
+            <div id="lobby-jumbotron" class="jumbotron">
+                <h1>
+                    <span id="moose-text">Moose</span>
+                    <span id="stories-text">Stories</span>
+                </h1>
+                <a href="editor" id="build-button" class="fun-button btn btn-lg btn-primary">
                 &#9874 Build
             </a>
-            <a href="game" id="play-button" class="fun-button btn btn-lg btn-success">
-                <i class="fa fa-gamepad"></i> Play
-            </a>
-            <!--a href="game" id="discuss-button" class="fun-button btn btn-lg btn-success">
+                <a href="game" id="play-button" class="fun-button btn btn-lg btn-success">
+                    <i class="fa fa-gamepad"></i> Play
+                </a>
+                <!--a href="game" id="discuss-button" class="fun-button btn btn-lg btn-success">
                 <i class="fa fa-speech-bubble"></i> Talk
             </a>
             <a href="game" id="about-button" class="fun-button btn btn-lg btn-success">
                 <i class="fa fa-speech-bubble"></i> About
             </a-->
+            </div>
         </div>
-    </div>
-	<% include partials/footer %>
+        <% include partials/footer %>
 
-    <% include partials/common-js %>
+            <% include partials/common-js %>
 
 </body>
 
