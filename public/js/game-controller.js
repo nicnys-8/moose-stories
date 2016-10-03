@@ -1,17 +1,25 @@
+/**
+* An object that controls the game ('controller' in the MVC pattern).
+*/
+
 "use strict";
 
-var gameState = require("./game-state"),
+var GameState = require("./game-state"),
     keyboard = require("./keyboard"),
-    camera = require("./camera");
+    GameObject = require("./game-object");
 
-/**
- * @return {GameController} Controller in the MVC pattern sense of the word.
- */
+ /**
+  * Instantiates a game controller object.
+  *
+  * @constructor
+  * @this {GameController}
+  */
 function GameController() {
 
     var player = null,
         canvas = null,
-        paused = false;
+        paused = false,
+        camera = new GameObject("Camera");
 
     /**
      * Runs the main game loop
@@ -19,7 +27,7 @@ function GameController() {
      * i.e. a single step in the main game loop.
      */
     this.tick = function() {
-        var renderList = gameState.filter("Renderable"),
+        var renderList = GameState.filter("Renderable"),
             self = this,
             ctx,
             i;
@@ -58,7 +66,7 @@ function GameController() {
         }
 
         camera.tick();
-        gameState.tick();
+        GameState.tick();
 
         //==========
         // Rendering
@@ -68,7 +76,7 @@ function GameController() {
         // Clear the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        gameState.getBackground().render(ctx);
+        GameState.getBackground().render(ctx);
 
         ctx.save();
 
@@ -88,12 +96,11 @@ function GameController() {
     };
 
     this.startGame = function() {
-        // Start controlling a random guy...
-        player = gameState.filter("Platform")[0];
+        player = GameState.filter("Player")[0];
         camera.target = player;
         // Play music
-        if (gameState.getMusic()) {
-            gameState.getMusic().play();
+        if (GameState.getMusic()) {
+            GameState.getMusic().play();
         }
 
         // Start the main game loop
@@ -121,6 +128,13 @@ function GameController() {
      */
     this.setCanvas = function(canvasArg) {
         canvas = canvasArg;
+    };
+
+    /**
+    * @return {Camera} The camera object.
+    */
+    this.getCamera = function() {
+        return camera;
     };
 }
 

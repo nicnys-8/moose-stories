@@ -1,10 +1,14 @@
+/**
+* An object describing the state of the game ('model' in the MVC pattern).
+*/
+
 "use strict";
 
 var GameObject = require("./game-object"),
     Audio = require("./audio");
 
 /**
- * Instantiates an object describing the state of a gaming session.
+ * Instantiates an object describing the game state.
  *
  * @constructor
  * @this {GameState}
@@ -279,7 +283,7 @@ function GameState() {
     };
 
     /**
-    * @return {GameObject} The current background.
+    * @return {Background} The current background.
     */
     this.getBackground = function() {
         return background;

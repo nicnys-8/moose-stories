@@ -1,12 +1,12 @@
 "use strict";
 
 var GameState = require("../game-state"),
-    GameController = require("../game-controller"),
     GameObject = require("../game-object"),
-    camera = require("../camera"),
+    GameController = require("../game-controller"),
     Levels = require("../levels"),
     UI = require("./editor-ui"),
     config = require("../config"),
+    camera = GameController.getCamera(),
     canvas = document.getElementById("view"),
     currentObject = "Block",
     currentLevelName = null,

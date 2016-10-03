@@ -5,7 +5,7 @@
 "use strict";
 
 
-var Behaviors = require("../behaviors"),
+var Behaviors = require("../../behaviors"),
     canvases = {}; // Private canvas cache
 
 /**
