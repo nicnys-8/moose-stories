@@ -102,8 +102,7 @@ setTimeout(function() {
         if (i === currentClass) {
             item.click();
         }
-
-        if (obj.hasBehavior("Renderable") && obj.currentSprite) {
+        if (obj.hasBehavior("Renderable")) {
             try {
                 w = 64; // obj.boundingBox.right - obj.boundingBox.left;
                 h = 64; // obj.boundingBox.bottom - obj.boundingBox.top;
