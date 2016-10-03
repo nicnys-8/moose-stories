@@ -1,6 +1,6 @@
 "use strict";
 
-var GameObject = require("./objects/game-object"),
+var GameObject = require("./game-object"),
     Audio = require("./audio");
 
 /**

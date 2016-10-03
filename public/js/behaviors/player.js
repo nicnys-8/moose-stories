@@ -5,7 +5,7 @@
 "use strict";
 
 var Behaviors = require("../behaviors"),
-    GameObject = require("../objects/game-object"),
+    GameObject = require("../game-object"),
     hotspot = {
         x: 16,
         y: 32
