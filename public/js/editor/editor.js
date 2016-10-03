@@ -1,9 +1,10 @@
-var gameState = require("./../game-state"),
-    gameController = require("./../game-controller"),
-    camera = require("./../camera"),
-    Levels = require("./../levels"),
+var GameState = require("../game-state"),
+    GameController = require("../game-controller"),
+    GameObject = require("../game-object"),
+    camera = require("../camera"),
+    Levels = require("../levels"),
     UI = require("./editor-ui"),
-    config = require("./../config"),
+    config = require("../config"),
     canvas = document.getElementById("view"),
     controlledCharacterUID = -1,
     currentLevelName = null,
@@ -35,7 +36,7 @@ $("#sidebar-right").append(UI.createForm(levelSettings,
     }));
 
 function createNewLevel() {
-    gameState.clear();
+    GameState.clear();
 }
 
 $.get("/levels",
@@ -58,13 +59,13 @@ $.get("/levels",
         }
 
         if (currentLevelName) {
-            gameState.parseLevel(levels[currentLevelName]);
+            GameState.parseLevel(levels[currentLevelName]);
         } else {
             createNewLevel();
         }
 
-        gameController.setCanvas(canvas);
-        gameController.startGame();
+        GameController.setCanvas(canvas);
+        GameController.startGame();
     });
 
 $.get("/backgrounds",
@@ -77,7 +78,7 @@ var currentClass = "Block",
 setTimeout(function() {
 
     function selectFn(name) {
-        return function() {
+        return function() { //TODO: Function not necessary anymore?
             if (selectedButton) {
                 selectedButton.style.backgroundColor = "";
             }
@@ -89,19 +90,16 @@ setTimeout(function() {
 
     var i, w, h, obj, canvas, ctx, item;
 
-    for (i in ObjectFactory.classes) {
+    var classes = ["Player", "Block"]; // TODO: Move somewhere else
+    for (i = 0; i < classes.length; i++) {
 
         canvas = document.createElement("canvas");
         ctx = canvas.getContext("2d");
-        item = UI.createListItem(canvas, "&nbsp;", i);
-        item.click(selectFn(i));
-        obj = ObjectFactory.createObject({
-            name: i,
-            x: 0,
-            y: 0
-        });
+        item = UI.createListItem(canvas, "&nbsp;", classes[i]);
+        item.click(selectFn(classes[i]));
+        obj = new GameObject(classes[i]);
 
-        if (i == currentClass) {
+        if (i === currentClass) {
             item.click();
         }
 
@@ -128,15 +126,15 @@ setTimeout(function() {
 
 $("#clear-button").on("click", function() {
     selectedObject = null;
-    gameState.clear();
+    GameState.clear();
 });
 
 $("#pause-button").on("click", function() {
-    gameController.pause();
+    GameController.pause();
 });
 
 $("#play-button").on("click", function() {
-    gameController.resume();
+    GameController.resume();
 });
 
 //=====================
@@ -165,24 +163,23 @@ $("#view")
             rightMouseButton = 3;
 
         event.preventDefault();
-        selectedObject = gameState.objectAtPosition(p.x, p.y);
+        selectedObject = GameState.objectAtPosition(p.x, p.y);
 
         switch (event.which) {
             case leftMouseButton:
                 if (!selectedObject) {
-                    selectedObject = ObjectFactory.createObject({
-                        name: currentClass,
+                    selectedObject = new GameObject(currentClass, {
                         x: p.x,
                         y: p.y,
                     });
-                    gameState.addObject(selectedObject);
+                    GameState.addObject(selectedObject);
                 }
                 break;
             case middleMouseButton:
                 break;
             case rightMouseButton:
                 if (selectedObject) {
-                    gameState.removeObject(selectedObject);
+                    GameState.removeObject(selectedObject);
                     selectedObject = null;
                 }
                 break;
@@ -208,7 +205,7 @@ $("#view")
     })
     .bind("mouseout", function(event) {
         if (selectedObject) {
-            gameState.removeObject(selectedObject);
+            GameState.removeObject(selectedObject);
         }
         selectedObject = null;
     });

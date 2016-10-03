@@ -1,0 +1,27 @@
+{
+    "objects": [{
+        "behaviors": "Player",
+        "args": {
+            "x": 64,
+            "y": 112,
+            "uid": 0
+        }
+    }, {
+        "behaviors": "Block",
+        "args": {
+            "x": 92,
+            "y": 150,
+            "uid": 1
+        }
+    },
+    {
+        "behaviors": "Block",
+        "args": {
+            "x": 60,
+            "y": 150,
+            "uid": 2
+        }
+    }],
+    "background": "DefaultBackground",
+    "music": "audio/fnurk.mp3"
+}
