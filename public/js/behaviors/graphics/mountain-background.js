@@ -36,27 +36,9 @@ behavior.init = function(args) {
     var layerDescriptions, layer, i;
 
     layerDescriptions = [{
-        imagePath: "img/backgrounds/sun.svg",
-        x: 400,
-        y: 100,
-        tiledX: false,
-        tiledY: false
-    }, {
-        imagePath: "img/backgrounds/rainbow.svg",
-        x: -350,
-        y: 160,
-        tiledX: false,
-        tiledY: false
-    }, {
         imagePath: "img/backgrounds/mountains.svg",
         x: 0,
         y: 360,
-        tiledX: true,
-        tiledY: false
-    }, {
-        imagePath: "img/backgrounds/clouds.svg",
-        x: 0,
-        y: -50,
         tiledX: true,
         tiledY: false
     }];
@@ -67,4 +49,4 @@ behavior.init = function(args) {
     }
 };
 
-Behaviors.register("DefaultBackground", behavior);
+Behaviors.register("MountainBackground", behavior);

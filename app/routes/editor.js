@@ -45,7 +45,7 @@ function loadPaths(dst, dir, sub) {
 
 loadLevels();
 loadPaths(backgrounds, "/img/backgrounds", "/");
-
+backgrounds = ["DefaultBackground"];
 router.get("/backgrounds", function(req, res) {
     res.send(backgrounds);
 });

@@ -1,3 +1,5 @@
+"use strict";
+
 var GameState = require("../game-state"),
     GameController = require("../game-controller"),
     GameObject = require("../game-object"),
@@ -6,14 +8,32 @@ var GameState = require("../game-state"),
     UI = require("./editor-ui"),
     config = require("../config"),
     canvas = document.getElementById("view"),
-    controlledCharacterUID = -1,
+    currentObject = "Block",
     currentLevelName = null,
+    selectedButton = null,
+    selectedObject = null,
     levels,
     levelSettings;
 
 UI.addCategory("Game Objects");
 UI.addCategory("Backgrounds");
 UI.addCategory("Music");
+
+function createNewLevel() {
+    GameState.clear();
+}
+
+function calculatePlacement(event) {
+    var x = camera.x + event.offsetX - canvas.width / 2,
+        y = camera.y + event.offsetY - canvas.height / 2,
+        snap = levelSettings["Snap to grid"], // blää
+        snapX = config.tileSize,
+        snapY = config.tileSize;
+    return {
+        x: snap ? (snapX * Math.round(x / snapX)) : Math.round(x),
+        y: snap ? (snapY * Math.round(y / snapY)) : Math.round(y)
+    };
+}
 
 levelSettings = {
     "Name": "New level",
@@ -34,10 +54,6 @@ $("#sidebar-right").append(UI.createForm(levelSettings,
         }
         console.log(key + " changed to " + value);
     }));
-
-function createNewLevel() {
-    GameState.clear();
-}
 
 $.get("/levels",
     function(data) {
@@ -71,26 +87,58 @@ $.get("/levels",
 $.get("/backgrounds",
     function(data) {});
 
+setTimeout(function() { // Replace with ajax request
 
-var currentClass = "Block",
-    selectedButton = null;
+    function selectFn(background) {
+        return function() {
+            GameState.setBackground(background);
+        };
+    }
 
-setTimeout(function() {
+    var i, w, h, bkg, canvas, ctx, item, backgrounds;
 
-    function selectFn(name) {
-        return function() { //TODO: Function not necessary anymore?
+    backgrounds = ["DefaultBackground", "MountainBackground"];
+
+    for (i = 0; i < backgrounds.length; i++) {
+
+        canvas = document.createElement("canvas");
+        ctx = canvas.getContext("2d");
+        item = UI.createListItem(canvas, "&nbsp;", backgrounds[i]);
+        item.click(selectFn(backgrounds[i]));
+        bkg = new GameObject(backgrounds[i]);
+
+        try {
+            w = 64; // obj.boundingBox.right - obj.boundingBox.left;
+            h = 64; // obj.boundingBox.bottom - obj.boundingBox.top;
+            bkg.x = w / 2;
+            bkg.y = h / 2;
+            canvas.width = w;
+            canvas.height = h;
+            bkg.render(ctx);
+            UI.addListItem(item, "Backgrounds");
+        } catch (err) {
+            console.log("Failed, ", err);
+        }
+    }
+}, 1000);
+
+setTimeout(function() { // Replace with ajax request
+
+    function selectFn(objectName) {
+        return function() {
             if (selectedButton) {
                 selectedButton.style.backgroundColor = "";
             }
             this.style.backgroundColor = "#eee";
-            currentClass = name;
+            currentObject = objectName;
             selectedButton = this;
         };
     }
 
-    var i, w, h, obj, canvas, ctx, item;
+    var i, w, h, obj, canvas, ctx, item, classes;
 
-    var classes = ["Player", "Block"]; // TODO: Move somewhere else
+    classes = ["Player", "Block"]; // TODO: Move somewhere else
+
     for (i = 0; i < classes.length; i++) {
 
         canvas = document.createElement("canvas");
@@ -99,7 +147,7 @@ setTimeout(function() {
         item.click(selectFn(classes[i]));
         obj = new GameObject(classes[i]);
 
-        if (i === currentClass) {
+        if (classes[i] === currentObject) {
             item.click();
         }
         if (obj.hasBehavior("Renderable")) {
@@ -136,24 +184,6 @@ $("#play-button").on("click", function() {
     GameController.resume();
 });
 
-//=====================
-// Handle mouse presses
-//=====================
-
-var selectedObject = null;
-
-function calculatePlacement(event) {
-    var x = camera.x + event.offsetX - canvas.width / 2,
-        y = camera.y + event.offsetY - canvas.height / 2,
-        snap = levelSettings["Snap to grid"], // blää
-        snapX = config.tileSize,
-        snapY = config.tileSize;
-    return {
-        x: snap ? (snapX * Math.round(x / snapX)) : Math.round(x),
-        y: snap ? (snapY * Math.round(y / snapY)) : Math.round(y)
-    };
-}
-
 $("#view")
     .mousedown(function(event) {
         var p = calculatePlacement(event),
@@ -167,7 +197,7 @@ $("#view")
         switch (event.which) {
             case leftMouseButton:
                 if (!selectedObject) {
-                    selectedObject = new GameObject(currentClass, {
+                    selectedObject = new GameObject(currentObject, {
                         x: p.x,
                         y: p.y,
                     });

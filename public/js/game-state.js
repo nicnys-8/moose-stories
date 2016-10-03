@@ -278,16 +278,28 @@ function GameState() {
         return json;
     };
 
+    /**
+    * @return {GameObject} The current background.
+    */
     this.getBackground = function() {
         return background;
+    };
+
+    /**
+    * Sets the current background image.
+    *
+    * @param {string} backgroundName Name of the background.
+    */
+    this.setBackground = function(backgroundName) {
+        background = new GameObject(backgroundName);
     };
 
     this.getMusic = function() {
         return music;
     };
 
-    this.setMusic = function(musicArg) {
-        music = musicArg;
+    this.setMusic = function(msc) {
+        music = msc;
     };
 
     /**
