@@ -5,7 +5,6 @@
 "use strict";
 
 var GameState = require("./game-state"),
-    keyboard = require("./keyboard"),
     GameObject = require("./game-object");
 
  /**
@@ -19,7 +18,8 @@ function GameController() {
     var player = null,
         canvas = null,
         paused = false,
-        camera = new GameObject("Camera");
+        camera = new GameObject("Camera"),
+        keyboard = new GameObject("Keyboard");
 
     /**
      * Runs the main game loop
