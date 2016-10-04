@@ -9,11 +9,11 @@ Grymt Spel
 
 For Debian-based systems:
 
-	$ sudo apt-get install npm mongodb-server build-essential
+	    $ sudo apt-get install npm mongodb-server build-essential
 
 For MacOS:
 
-	$ brew install npm mongodb
+	    $ brew install npm mongodb
 
 Tools for building, gcc, make etc. should already be installed if you have commandline tools for Xcode installed already.
 
