@@ -19,12 +19,13 @@ Tools for building, gcc, make etc. should already be installed if you have comma
 
 ### npm dependencies
 * Grunt - Task runner
-
-	$ sudo npm install -g grunt-cli
-
+```
+$ sudo npm install -g grunt-cli
+```
 * Bower - Front end package manager
-
-	$ sudo npm install -g bower
+```
+$ sudo npm install -g bower
+```
 
 ## Set-up
 In the project directory, run:
