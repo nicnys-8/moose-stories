@@ -80,7 +80,7 @@ behavior.init = function(args) {
     if (args && args.imagePath) {
         this.canvas = this.loadImage(args.imagePath);
     } else {
-      throw new Error("'HasAnimation' behavior requires argument 'imagePath'.");
+      throw new Error("'Animation' behavior requires argument 'imagePath'.");
     }
 };
 

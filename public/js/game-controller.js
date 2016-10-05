@@ -85,9 +85,8 @@ function GameController() {
 
         GameState.getBackground().render(ctx, offsetX, offsetY);
 
-        ctx.translate(Math.round(offsetX), Math.round(offsetY));
-
         // Render in-game objects
+        ctx.translate(offsetX, offsetY);
         for (i = 0; i < renderList.length; i++) {
             renderList[i].render(ctx);
         }
@@ -101,7 +100,6 @@ function GameController() {
         if (GameState.getMusic()) {
             GameState.getMusic().play();
         }
-
         // Start the main game loop
         this.tick();
     };

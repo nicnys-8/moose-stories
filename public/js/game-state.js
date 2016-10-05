@@ -4,8 +4,7 @@
 
 "use strict";
 
-var GameObject = require("./game-object"),
-    Audio = require("./audio");
+var GameObject = require("./game-object");
 
 /**
  * Instantiates an object describing the game state.
@@ -242,7 +241,9 @@ function GameState() {
         background = new GameObject(description.background);
 
         if (description.music) {
-            music = new Audio(description.music);
+            music = new GameObject("Audio", {
+                filePath: description.music
+            });
         }
     };
 

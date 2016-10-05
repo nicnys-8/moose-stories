@@ -5,9 +5,13 @@
 "use strict";
 
 var Behaviors = require("../behaviors"),
-    Audio = require("../audio"),
-    jumpSound = new Audio("audio/jump.wav"),
-    landSound = new Audio("audio/land.wav"),
+    GameObject = require("../game-object"),
+    jumpSound = new GameObject("Audio", {
+        filePath: "audio/jump.wav"
+    }),
+    landSound = new GameObject("Audio", {
+        filePath: "audio/land.wav"
+    }),
     moveForce = 12,
     jumpForce = 200;
 
