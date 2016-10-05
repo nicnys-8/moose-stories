@@ -28,13 +28,21 @@ behavior.init = function(args) {
             x: 400,
             y: 100
         },
+        parallax: {
+            x: 0.3,
+            y: 0.3
+        },
         tiledX: false,
         tiledY: false
     }, {
         imagePath: "img/backgrounds/rainbow.svg",
         position: {
-            x: -350,
+            x: -250,
             y: 160
+        },
+        parallax: {
+            x: 0.4,
+            y: 0.4
         },
         tiledX: false,
         tiledY: false
@@ -42,7 +50,11 @@ behavior.init = function(args) {
         imagePath: "img/backgrounds/mountains.svg",
         position: {
             x: 0,
-            y: 360
+            y: 260
+        },
+        parallax: {
+            x: 0.5,
+            y: 0.5
         },
         tiledX: true,
         tiledY: false
@@ -51,6 +63,10 @@ behavior.init = function(args) {
         position: {
             x: 0,
             y: -50
+        },
+        parallax: {
+            x: 0.6,
+            y: 0.6
         },
         tiledX: true,
         tiledY: false

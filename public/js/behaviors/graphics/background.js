@@ -10,12 +10,14 @@ var Behaviors = require("../../behaviors"),
 /**
  * Renders the object.
  *
- * @param {CanvasRenderingContext2D} ctx - 2D rendering context.
+ * @param {CanvasRenderingContext2D} ctx 2D rendering context.
+ * @param {number} offsetX Horizontal position of the center of the viewport.
+ * @param {number} offsetY Vertical position of the center of the viewport.
  */
-function render(ctx) {
+function render(ctx, offsetX, offsetY) {
     var i;
     for (i = 0; i < this.layers.length; i++) {
-        this.layers[i].render(ctx);
+        this.layers[i].render(ctx, offsetX, offsetY);
     }
 }
 

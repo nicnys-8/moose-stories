@@ -10,8 +10,10 @@ var Behaviors = require("../../behaviors");
  * Renders the background layer on screen.
  *
  * @param {CanvasRenderingContext2D} ctx 2D rendering context.
+ * @param {number} offsetX Horizontal position of the center of the viewport.
+ * @param {number} offsetY Vertical position of the center of the viewport.
  */
- function render(ctx) {
+ function render(ctx, offsetX, offsetY) {
      var width = this.canvas.width,
          height = this.canvas.height,
          startX = (this.tiledX) ? (-width + this.position.x) : this.position.x,
@@ -21,11 +23,13 @@ var Behaviors = require("../../behaviors");
          i, j;
 
      ctx.save();
-     ctx.scale(this.scale.x, this.scale.y);
-     ctx.rotate(this.rotation);
+     //ctx.scale(this.scale.x, this.scale.y);
+     //ctx.rotate(this.rotation);
      ctx.globalAlpha = this.alpha;
-     console.log(startX, startY);
-     ctx.translate(startX, startY);
+     ctx.translate(
+         startX + offsetX * this.parallax.x,
+         startY + offsetY * this.parallax.y
+     );
 
      for (i = 0; i < xTiles; i++) {
          for (j = 0; j < yTiles; j++) {
@@ -62,8 +66,8 @@ behavior.getProperties = function() {
         tiledX: false,
         tiledY: false,
         parallax: {
-            x: 0,
-            y: 0
+            x: 1,
+            y: 1
         },
 
         // Functions

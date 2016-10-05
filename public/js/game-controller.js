@@ -1,18 +1,18 @@
 /**
-* An object that controls the game ('controller' in the MVC pattern).
-*/
+ * An object that controls the game ('controller' in the MVC pattern).
+ */
 
 "use strict";
 
 var GameState = require("./game-state"),
     GameObject = require("./game-object");
 
- /**
-  * Instantiates a game controller object.
-  *
-  * @constructor
-  * @this {GameController}
-  */
+/**
+ * Instantiates a game controller object.
+ *
+ * @constructor
+ * @this {GameController}
+ */
 function GameController() {
 
     var player = null,
@@ -30,6 +30,8 @@ function GameController() {
         var renderList = GameState.filter("Renderable"),
             self = this,
             ctx,
+            offsetX,
+            offsetY,
             i;
 
         if (!canvas) {
@@ -38,11 +40,9 @@ function GameController() {
         }
 
         // Repeat the function before each frame is rendered:
-        window.requestAnimationFrame(
-            function() {
-                self.tick();
-            }
-        );
+        window.requestAnimationFrame(function() {
+            self.tick();
+        });
 
         //===========
         // Game logic
@@ -72,21 +72,20 @@ function GameController() {
         // Rendering
         //==========
 
+        offsetX = -camera.position.x + (canvas.width / 2);
+        offsetY = -camera.position.y + (canvas.height / 2);
+
         ctx = canvas.getContext("2d");
         // Clear the canvas
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        GameState.getBackground().render(ctx);
-
         ctx.save();
+        //ctx.scale(camera.scale.x, camera.scale.y);
+        //ctx.rotate(camera.rotation);
 
-        ctx.translate(
-            Math.round(-camera.position.x + (canvas.width / 2)),
-            Math.round(-camera.position.y + (canvas.height / 2))
-        );
+        GameState.getBackground().render(ctx, offsetX, offsetY);
 
-        ctx.scale(camera.scale.x, camera.scale.y);
-        ctx.rotate(camera.rotation);
+        ctx.translate(Math.round(offsetX), Math.round(offsetY));
 
         // Render in-game objects
         for (i = 0; i < renderList.length; i++) {
@@ -131,8 +130,8 @@ function GameController() {
     };
 
     /**
-    * @return {Camera} The camera object.
-    */
+     * @return {Camera} The camera object.
+     */
     this.getCamera = function() {
         return camera;
     };
