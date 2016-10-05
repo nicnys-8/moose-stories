@@ -13,7 +13,7 @@ var Behaviors = require("../../behaviors");
  */
 function render(ctx) {
     if (this.currentAnimation) {
-        this.currentAnimation.render(ctx, this.x, this.y, this.scale, this.rotation, this.alpha);
+        this.currentAnimation.render(ctx, this.position.x, this.position.y, this.scale, this.rotation, this.alpha);
     }
 }
 
@@ -26,6 +26,11 @@ var behavior = {};
 
 behavior.dependencies = ["Renderable"];
 
+/**
+* Defines the public variables and methods associated with this behavior.
+*
+* @return {object} An object containing behavior variables and methods.
+*/
 behavior.getProperties = function() {
     return {
         // Variables

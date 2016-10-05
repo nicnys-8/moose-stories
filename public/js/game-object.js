@@ -16,8 +16,6 @@ function GameObject(behaviors, args) {
     this.behaviors = {};
     this.ticks = [];
     this.uid = args && args.uid; // This is set in GameState, when the level is parsed (and it's a number, right?)
-    this.setNumber("x", args, 0);
-    this.setNumber("y", args, 0);
 
     // Add all behaviors
     behaviors = [].concat(behaviors); // Turn into array
@@ -29,18 +27,6 @@ function GameObject(behaviors, args) {
         this[i] = args[i];
     }
 }
-
-GameObject.prototype.setNumber = function(name, args, defaultValue) {
-    var value = (args && +args[name]);
-    if (!value && value !== 0) {
-        value = defaultValue;
-    }
-    this[name] = value;
-};
-
-GameObject.prototype.setString = function(name, args, defaultValue) {
-    this[name] = ("" + args[name]) || defaultValue;
-};
 
 /**
  * Returns true if the object has the given behavior, false otherwise.

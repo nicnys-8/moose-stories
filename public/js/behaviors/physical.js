@@ -29,10 +29,10 @@ function overlapsObject(obj) {
  */
 function overlapsAtOffset(obj, offsetX, offsetY) {
     return !(
-        this.x + offsetX + this.boundingBox.left >= obj.x + obj.boundingBox.right ||
-        this.x + offsetX + this.boundingBox.right <= obj.x + obj.boundingBox.left ||
-        this.y + offsetY + this.boundingBox.top >= obj.y + obj.boundingBox.bottom ||
-        this.y + offsetY + this.boundingBox.bottom <= obj.y + obj.boundingBox.top
+        this.position.x + offsetX + this.boundingBox.left >= obj.position.x + obj.boundingBox.right ||
+        this.position.x + offsetX + this.boundingBox.right <= obj.position.x + obj.boundingBox.left ||
+        this.position.y + offsetY + this.boundingBox.top >= obj.position.y + obj.boundingBox.bottom ||
+        this.position.y + offsetY + this.boundingBox.bottom <= obj.position.y + obj.boundingBox.top
     );
 }
 
@@ -45,10 +45,10 @@ function overlapsAtOffset(obj, offsetX, offsetY) {
  */
 function overlapsPoint(x, y) {
     return !(
-        this.x + this.boundingBox.left >= x ||
-        this.x + this.boundingBox.right <= x ||
-        this.y + this.boundingBox.top >= y ||
-        this.y + this.boundingBox.bottom <= y
+        this.position.x + this.boundingBox.left >= x ||
+        this.position.x + this.boundingBox.right <= x ||
+        this.position.y + this.boundingBox.top >= y ||
+        this.position.y + this.boundingBox.bottom <= y
     );
 }
 
@@ -75,10 +75,10 @@ function overlapsBy(obj, coordinate) {
         default:
             throw new Error("Not a valid coordinate.");
     }
-    if (this[coordinate] < obj[coordinate]) {
-        return this[coordinate] + this.boundingBox[boundingBoxVar2] - (obj[coordinate] + obj.boundingBox[boundingBoxVar1]);
+    if (this.position[coordinate] < obj.position[coordinate]) {
+        return this.position[coordinate] + this.boundingBox[boundingBoxVar2] - (obj.position[coordinate] + obj.boundingBox[boundingBoxVar1]);
     } else {
-        return this[coordinate] + this.boundingBox[boundingBoxVar1] - (obj[coordinate] + obj.boundingBox[boundingBoxVar2]);
+        return this.position[coordinate] + this.boundingBox[boundingBoxVar1] - (obj.position[coordinate] + obj.boundingBox[boundingBoxVar2]);
     }
 }
 
@@ -86,19 +86,19 @@ function overlapsBy(obj, coordinate) {
 
 function horizontalOverlap(obj) {
     console.warn("Deprecated function");
-    if (this.x < obj.x) {
-        return (this.x + this.boundingBox.right) - (obj.x + obj.boundingBox.left);
+    if (this.position.x < obj.position.x) {
+        return (this.position.x + this.boundingBox.right) - (obj.position.x + obj.boundingBox.left);
     } else {
-        return (this.x + this.boundingBox.left) - (obj.x + obj.boundingBox.right);
+        return (this.position.x + this.boundingBox.left) - (obj.position.x + obj.boundingBox.right);
     }
 }
 
 function verticalOverlap(obj) {
     console.warn("Deprecated function");
-    if (this.y < obj.y) {
-        return (this.y + this.boundingBox.bottom) - (obj.y + obj.boundingBox.top);
+    if (this.position.y < obj.position.y) {
+        return (this.position.y + this.boundingBox.bottom) - (obj.position.y + obj.boundingBox.top);
     } else {
-        return (this.y + this.boundingBox.top) - (obj.y + obj.boundingBox.bottom);
+        return (this.position.y + this.boundingBox.top) - (obj.position.y + obj.boundingBox.bottom);
     }
 }
 
@@ -106,9 +106,9 @@ function verticalOverlap(obj) {
  * @return {boolean} True if the object is standing on the other one.
  */
 function onTopOf(obj) {
-    return (!(this.x + this.boundingBox.left >= obj.x + obj.boundingBox.right ||
-            this.x + this.boundingBox.right <= obj.x + obj.boundingBox.left) &&
-        this.y + this.boundingBox.bottom === obj.y + obj.boundingBox.top);
+    return (!(this.position.x + this.boundingBox.left >= obj.position.x + obj.boundingBox.right ||
+            this.position.x + this.boundingBox.right <= obj.position.x + obj.boundingBox.left) &&
+        this.position.y + this.boundingBox.bottom === obj.position.y + obj.boundingBox.top);
 }
 
 
@@ -118,8 +118,11 @@ function onTopOf(obj) {
 
 var behavior = {};
 
+behavior.dependencies = ["Transform"];
+
 /**
-* Returns the public variables and methods associated with this behavior.
+* Defines the public variables and methods associated with this behavior.
+*
 * @return {object} An object containing behavior variables and methods.
 */
 behavior.getProperties = function() {

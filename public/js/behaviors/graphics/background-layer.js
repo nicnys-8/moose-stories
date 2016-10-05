@@ -14,8 +14,8 @@ var Behaviors = require("../../behaviors");
  function render(ctx) {
      var width = this.canvas.width,
          height = this.canvas.height,
-         startX = (this.tiledX) ? (-width + this.x) : this.x,
-         startY = (this.tiledY) ? (-height + this.y) : this.y,
+         startX = (this.tiledX) ? (-width + this.position.x) : this.position.x,
+         startY = (this.tiledY) ? (-height + this.position.y) : this.position.y,
          xTiles = (this.tiledX) ? (Math.ceil(ctx.canvas.clientWidth / width) + 1) : 1,
          yTiles = (this.tiledY) ? (Math.ceil(ctx.canvas.clientHeight / height) + 1) : 1,
          i, j;
@@ -24,6 +24,7 @@ var Behaviors = require("../../behaviors");
      ctx.scale(this.scale.x, this.scale.y);
      ctx.rotate(this.rotation);
      ctx.globalAlpha = this.alpha;
+     console.log(startX, startY);
      ctx.translate(startX, startY);
 
      for (i = 0; i < xTiles; i++) {
@@ -50,7 +51,8 @@ var behavior = {};
 behavior.dependencies = ["Renderable", "LoadImage"];
 
 /**
-* Returns the public variables and methods associated with this behavior.
+* Defines the public variables and methods associated with this behavior.
+*
 * @return {object} An object containing behavior variables and methods.
 */
 behavior.getProperties = function() {

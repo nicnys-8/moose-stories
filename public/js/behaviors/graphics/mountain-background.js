@@ -7,19 +7,6 @@
 var Behaviors = require("../../behaviors"),
     GameObject = require("../../game-object");
 
-/**
- * Renders the object.
- *
- * @param {CanvasRenderingContext2D} ctx - 2D rendering context.
- */
-function render(ctx) {
-    var i;
-    for (i = 0; i < this.layers.length; i++) {
-        console.log(this.layers[i]);
-        //this.layers[i].render(ctx);
-    }
-}
-
 
 //=================
 // Public interface

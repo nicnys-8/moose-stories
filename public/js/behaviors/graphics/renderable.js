@@ -20,20 +20,16 @@ function render(ctx) {}
 
 var behavior = {};
 
-behavior.dependencies = ["LoadImage"];
+behavior.dependencies = ["Transform", "LoadImage"];
 
 /**
-* Returns the public variables and methods associated with this behavior.
+* Defines the public variables and methods associated with this behavior.
+*
 * @return {object} An object containing behavior variables and methods.
 */
 behavior.getProperties = function() {
     return {
         // Variables
-        rotation: 0,
-        scale: {
-            x: 1,
-            y: 1
-        },
         alpha: 1,
 
         // Functions

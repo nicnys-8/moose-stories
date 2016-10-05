@@ -13,25 +13,21 @@ var Behaviors = require("../../behaviors");
 
 var behavior = {};
 
-behavior.dependencies = [];
+behavior.dependencies = ["Transform"];
 
 /**
- * Returns the public variables and methods associated with this behavior.
+ * Defines the public variables and methods associated with this behavior.
+ *
  * @return {object} An object containing behavior variables and methods.
  */
 behavior.getProperties = function() {
     return {
         // Variables
         sensitivity: 0.2,
-        x: 0,
-        y: 0,
-        scale: {
-            x: 1,
-            y: 1
+        offset: {
+            x: 0,
+            y: -96
         },
-        offsetX: 0,
-        offsetY: -96,
-        rotation: 0,
         target: null
     };
 };
@@ -40,11 +36,11 @@ behavior.getProperties = function() {
  * Updates the state of the target object.
  */
 behavior.tick = function() {
-    var xDistance = (this.target.x + this.offsetX) - this.x,
-        yDistance = (this.target.y + this.offsetY) - this.y;
+    var xDistance = (this.target.position.x + this.offset.x) - this.position.x,
+        yDistance = (this.target.position.y + this.offset.y) - this.position.y;
 
-    this.x += xDistance * this.sensitivity;
-    this.y += yDistance * this.sensitivity;
+    this.position.x += xDistance * this.sensitivity;
+    this.position.y += yDistance * this.sensitivity;
 };
 
 

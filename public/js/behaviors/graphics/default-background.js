@@ -7,19 +7,6 @@
 var Behaviors = require("../../behaviors"),
     GameObject = require("../../game-object");
 
-/**
- * Renders the object.
- *
- * @param {CanvasRenderingContext2D} ctx - 2D rendering context.
- */
-function render(ctx) {
-    var i;
-    for (i = 0; i < this.layers.length; i++) {
-        console.log(this.layers[i]);
-        //this.layers[i].render(ctx);
-    }
-}
-
 
 //=================
 // Public interface
@@ -37,26 +24,34 @@ behavior.init = function(args) {
 
     layerDescriptions = [{
         imagePath: "img/backgrounds/sun.svg",
-        x: 400,
-        y: 100,
+        position: {
+            x: 400,
+            y: 100
+        },
         tiledX: false,
         tiledY: false
     }, {
         imagePath: "img/backgrounds/rainbow.svg",
-        x: -350,
-        y: 160,
+        position: {
+            x: -350,
+            y: 160
+        },
         tiledX: false,
         tiledY: false
     }, {
         imagePath: "img/backgrounds/mountains.svg",
-        x: 0,
-        y: 360,
+        position: {
+            x: 0,
+            y: 360
+        },
         tiledX: true,
         tiledY: false
     }, {
         imagePath: "img/backgrounds/clouds.svg",
-        x: 0,
-        y: -50,
+        position: {
+            x: 0,
+            y: -50
+        },
         tiledX: true,
         tiledY: false
     }];

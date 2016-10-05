@@ -58,9 +58,10 @@ function released(key) {
 var behavior = {};
 
 /**
- * Returns the public variables and methods associated with this behavior.
- * @return {object} An object containing behavior variables and methods.
- */
+* Defines the public variables and methods associated with this behavior.
+*
+* @return {object} An object containing behavior variables and methods.
+*/
 behavior.getProperties = function() {
     return {
         // Variables

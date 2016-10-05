@@ -26,6 +26,11 @@ function render(ctx) {
 
 var behavior = {};
 
+/**
+* Defines the public variables and methods associated with this behavior.
+*
+* @return {object} An object containing behavior variables and methods.
+*/
 behavior.dependencies = ["Renderable"];
 
 behavior.getProperties = function() {

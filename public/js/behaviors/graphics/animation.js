@@ -50,7 +50,8 @@ var behavior = {};
 behavior.dependencies = ["Renderable", "LoadImage"];
 
 /**
-* Returns the public variables and methods associated with this behavior.
+* Defines the public variables and methods associated with this behavior.
+*
 * @return {object} An object containing behavior variables and methods.
 */
 behavior.getProperties = function() {

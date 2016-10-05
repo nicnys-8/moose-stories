@@ -11,8 +11,10 @@ var Levels = {
         objects: [{
             behaviors: "Player",
             args: {
-                x: 64,
-                y: 112,
+                position: {
+                    x: 64,
+                    y: 112
+                },
                 uid: uid++
             }
         }],
@@ -29,8 +31,10 @@ for (var i = 0; i < 12; i++) {
     Levels.level1.objects.push({
         behaviors: "Block",
         args: {
-            x: 64 * i,
-            y: 256,
+            position: {
+                x: 64 * i,
+                y: 256
+            },
             width: 64,
             height: 32,
             uid: uid++
@@ -40,8 +44,10 @@ for (var i = 0; i < 12; i++) {
     Levels.level1.objects.push({
         behaviors: "Block",
         args: {
-            x: 256 * i,
-            y: 224,
+            position: {
+                x: 256 * i,
+                y: 224
+            },
             width: 64,
             height: 32,
             uid: uid++

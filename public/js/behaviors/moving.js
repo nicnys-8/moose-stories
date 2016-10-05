@@ -34,7 +34,7 @@ function move() {
         i;
 
     // TODO: Cram these silly loops into one
-    this.x += this.speed.x;
+    this.position.x += this.speed.x;
     for (i = 0; i < solids.length; i++) {
         solid = solids[i];
         if (this.overlapsObject(solid)) {
@@ -46,14 +46,14 @@ function move() {
 
             if (overlap !== 0) {
                 //this.x -= overlap;
-                this.x = Math.round(this.x - overlap);
+                this.position.x = Math.round(this.position.x - overlap);
                 this.speed.x = 0;
                 break;
             }
         }
     }
 
-    this.y += this.speed.y;
+    this.position.y += this.speed.y;
     for (i = 0; i < solids.length; i++) {
         solid = solids[i];
         if (this.overlapsObject(solid)) {
@@ -65,7 +65,7 @@ function move() {
 
             if (overlap !== 0) {
                 //this.y -= overlap;
-                this.y = Math.round(this.y - overlap);
+                this.position.y = Math.round(this.position.y - overlap);
                 this.speed.y = 0;
                 break;
             }
@@ -82,7 +82,8 @@ var behavior = {};
 behavior.dependencies = ["Physical"];
 
 /**
-* Returns the public variables and methods associated with this behavior.
+* Defines the public variables and methods associated with this behavior.
+*
 * @return {object} An object containing behavior variables and methods.
 */
 behavior.getProperties = function() {
