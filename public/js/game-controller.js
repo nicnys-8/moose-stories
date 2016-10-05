@@ -5,7 +5,8 @@
 "use strict";
 
 var GameState = require("./game-state"),
-    GameObject = require("./game-object");
+    GameObject = require("./game-object"),
+    config = require("./config");
 
 /**
  * Instantiates a game controller object.
@@ -18,8 +19,55 @@ function GameController() {
     var player = null,
         canvas = null,
         paused = false,
+        shouldDrawGrid = false,
         camera = new GameObject("Camera"),
         keyboard = new GameObject("Keyboard");
+
+    /**
+     * Renders the current view of the game.
+     */
+    function render() {
+
+        var renderList = GameState.filter("Renderable"),
+            offsetX = -camera.position.x + (canvas.width / 2),
+            offsetY = -camera.position.y + (canvas.height / 2),
+            i, j,
+            ctx;
+
+        ctx = canvas.getContext("2d");
+        // Clear the canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.save();
+        //ctx.scale(camera.scale.x, camera.scale.y);
+        //ctx.rotate(camera.rotation);
+
+        GameState.getBackground().render(ctx, offsetX, offsetY);
+
+        // Render in-game objects
+        ctx.translate(offsetX, offsetY);
+        for (i = 0; i < renderList.length; i++) {
+            renderList[i].render(ctx);
+        }
+        ctx.restore();
+        if (shouldDrawGrid) {
+            ctx.save();
+            ctx.globalAlpha = 0.2;
+            for (i = 0; i < canvas.width - config.tileSize; i += config.tileSize) {
+                ctx.beginPath();
+                ctx.moveTo(i, 0);
+                ctx.lineTo(i, canvas.height);
+                ctx.stroke();
+            }
+            for (i = 0; i < canvas.height - config.tileSize; i += config.tileSize) {
+                ctx.beginPath();
+                ctx.moveTo(0, i);
+                ctx.lineTo(canvas.width, i);
+                ctx.stroke();
+            }
+            ctx.restore();
+        }
+    }
 
     /**
      * Runs the main game loop
@@ -27,12 +75,7 @@ function GameController() {
      * i.e. a single step in the main game loop.
      */
     this.tick = function() {
-        var renderList = GameState.filter("Renderable"),
-            self = this,
-            ctx,
-            offsetX,
-            offsetY,
-            i;
+        var self = this;
 
         if (!canvas) {
             console.warn("Set a canvas element using gameController.setCanvas.");
@@ -44,9 +87,7 @@ function GameController() {
             self.tick();
         });
 
-        //===========
-        // Game logic
-        //===========
+        render();
 
         keyboard.tick();
         if (paused) {
@@ -67,30 +108,6 @@ function GameController() {
 
         camera.tick();
         GameState.tick();
-
-        //==========
-        // Rendering
-        //==========
-
-        offsetX = -camera.position.x + (canvas.width / 2);
-        offsetY = -camera.position.y + (canvas.height / 2);
-
-        ctx = canvas.getContext("2d");
-        // Clear the canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        ctx.save();
-        //ctx.scale(camera.scale.x, camera.scale.y);
-        //ctx.rotate(camera.rotation);
-
-        GameState.getBackground().render(ctx, offsetX, offsetY);
-
-        // Render in-game objects
-        ctx.translate(offsetX, offsetY);
-        for (i = 0; i < renderList.length; i++) {
-            renderList[i].render(ctx);
-        }
-        ctx.restore();
     };
 
     this.startGame = function() {
@@ -132,6 +149,14 @@ function GameController() {
      */
     this.getCamera = function() {
         return camera;
+    };
+
+    /**
+     * Makes the controller draw a grid overlay when rendering the game.
+     * @param {boolean} bool True if the grid should be drawn, false otherwise.
+     */
+    this.drawGrid = function(bool) {
+        shouldDrawGrid = bool;
     };
 }
 

@@ -43,7 +43,7 @@ behavior.getProperties = function() {
 */
 behavior.init = function() {
     this.currentAnimation = new GameObject("Animation", {
-        imagePath: "img/sprites/block.svg",
+        filePath: "img/sprites/block.svg",
         numFrames: 1,
         hotspot: hotspot
     });

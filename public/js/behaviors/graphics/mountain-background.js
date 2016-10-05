@@ -23,7 +23,7 @@ behavior.init = function(args) {
     var layerDescriptions, layer, i;
 
     layerDescriptions = [{
-        imagePath: "img/backgrounds/mountains.svg",
+        filePath: "img/backgrounds/mountains.svg",
         x: 0,
         y: 360,
         tiledX: true,

@@ -56,18 +56,18 @@ behavior.tick = function() {
 */
 behavior.init = function() {
   animations.stand = new GameObject("Animation", {
-      imagePath: "img/sprites/giri/stand.svg",
+      filePath: "img/sprites/giri/stand.svg",
       numFrames: 1,
       hotspot: hotspot
   });
   animations.walk = new GameObject("Animation", {
-      imagePath: "img/sprites/giri/walk.svg",
+      filePath: "img/sprites/giri/walk.svg",
       numFrames: 2,
       hotspot: hotspot,
       imageSpeed: 0.1
   });
   animations.jump = new GameObject("Animation", {
-      imagePath: "img/sprites/giri/jump.svg",
+      filePath: "img/sprites/giri/jump.svg",
       numFrames: 1,
       hotspot: hotspot
   });

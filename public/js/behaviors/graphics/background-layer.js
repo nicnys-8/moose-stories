@@ -78,13 +78,13 @@ behavior.getProperties = function() {
 /**
 * Initialization function, called on an object when this behavior is added to it.
 *
-* @param {string} args.imagePath Path to the image file.
+* @param {string} args.filePath Path to the image file.
 */
 behavior.init = function(args) {
-    if (args && args.imagePath) {
-        this.canvas = this.loadImage(args.imagePath);
+    if (args && args.filePath) {
+        this.canvas = this.loadImage(args.filePath);
     } else {
-      throw new Error("'BackgroundLayer' behavior requires argument 'imagePath'.");
+      throw new Error("'BackgroundLayer' behavior requires argument 'filePath'.");
     }
 };
 

@@ -1,6 +1,6 @@
 /**
-* An object describing the state of the game ('model' in the MVC pattern).
-*/
+ * An object describing the state of the game ('model' in the MVC pattern).
+ */
 
 "use strict";
 
@@ -179,10 +179,10 @@ function GameState() {
         for (var i = 0; i < pObjects.length; i++) {
             obj = pObjects[i];
             if (!(
-                    obj.x + obj.boundingBox.left >= right ||
-                    obj.x + obj.boundingBox.right <= left ||
-                    obj.y + obj.boundingBox.top >= bottom ||
-                    obj.y + obj.boundingBox.bottom <= top)) {
+                    obj.position.x + obj.boundingBox.left >= right ||
+                    obj.position.x + obj.boundingBox.right <= left ||
+                    obj.position.y + obj.boundingBox.top >= bottom ||
+                    obj.position.y + obj.boundingBox.bottom <= top)) {
                 result.push(obj);
             }
         }
@@ -242,7 +242,8 @@ function GameState() {
 
         if (description.music) {
             music = new GameObject("Audio", {
-                filePath: description.music
+                filePath: description.music,
+                looping: true
             });
         }
     };
@@ -284,17 +285,17 @@ function GameState() {
     };
 
     /**
-    * @return {Background} The current background.
-    */
+     * @return {Background} The current background.
+     */
     this.getBackground = function() {
         return background;
     };
 
     /**
-    * Sets the current background image.
-    *
-    * @param {string} backgroundName Name of the background.
-    */
+     * Sets the current background image.
+     *
+     * @param {string} backgroundName Name of the background.
+     */
     this.setBackground = function(backgroundName) {
         background = new GameObject(backgroundName);
     };

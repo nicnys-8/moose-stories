@@ -23,7 +23,7 @@ behavior.init = function(args) {
     var layerDescriptions, layer, i;
 
     layerDescriptions = [{
-        imagePath: "img/backgrounds/sun.svg",
+        filePath: "img/backgrounds/sun.svg",
         position: {
             x: 400,
             y: 100
@@ -35,7 +35,7 @@ behavior.init = function(args) {
         tiledX: false,
         tiledY: false
     }, {
-        imagePath: "img/backgrounds/rainbow.svg",
+        filePath: "img/backgrounds/rainbow.svg",
         position: {
             x: -250,
             y: 160
@@ -47,7 +47,7 @@ behavior.init = function(args) {
         tiledX: false,
         tiledY: false
     }, {
-        imagePath: "img/backgrounds/mountains.svg",
+        filePath: "img/backgrounds/mountains.svg",
         position: {
             x: 0,
             y: 260
@@ -59,7 +59,7 @@ behavior.init = function(args) {
         tiledX: true,
         tiledY: false
     }, {
-        imagePath: "img/backgrounds/clouds.svg",
+        filePath: "img/backgrounds/clouds.svg",
         position: {
             x: 0,
             y: -50

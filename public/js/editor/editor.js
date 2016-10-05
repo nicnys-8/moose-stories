@@ -24,8 +24,8 @@ function createNewLevel() {
 }
 
 function calculatePlacement(event) {
-    var x = camera.x + event.offsetX - canvas.width / 2,
-        y = camera.y + event.offsetY - canvas.height / 2,
+    var x = camera.position.x + event.offsetX - canvas.width / 2,
+        y = camera.position.y + event.offsetY - canvas.height / 2,
         snap = levelSettings["Snap to grid"], // blää
         snapX = config.tileSize,
         snapY = config.tileSize;
@@ -82,12 +82,14 @@ $.get("/levels",
 
         GameController.setCanvas(canvas);
         GameController.startGame();
+        GameController.pause();
+        GameController.drawGrid(true);
     });
 
-$.get("/backgrounds",
-    function(data) {});
-
-setTimeout(function() { // Replace with ajax request
+/**
+ * Adds the background items to the menu.
+ */
+function setupBackgrounds() {
 
     function selectFn(background) {
         return function() {
@@ -97,10 +99,9 @@ setTimeout(function() { // Replace with ajax request
 
     var i, w, h, bkg, canvas, ctx, item, backgrounds;
 
-    backgrounds = ["DefaultBackground", "MountainBackground"];
+    backgrounds = config.editor.backgrounds;
 
     for (i = 0; i < backgrounds.length; i++) {
-
         canvas = document.createElement("canvas");
         ctx = canvas.getContext("2d");
         item = UI.createListItem(canvas, "&nbsp;", backgrounds[i]);
@@ -108,8 +109,8 @@ setTimeout(function() { // Replace with ajax request
         bkg = new GameObject(backgrounds[i]);
 
         try {
-            w = 64; // obj.boundingBox.right - obj.boundingBox.left;
-            h = 64; // obj.boundingBox.bottom - obj.boundingBox.top;
+            w = 64;
+            h = 64;
             bkg.x = w / 2;
             bkg.y = h / 2;
             canvas.width = w;
@@ -120,9 +121,12 @@ setTimeout(function() { // Replace with ajax request
             console.log("Failed, ", err);
         }
     }
-}, 1000);
+}
 
-setTimeout(function() { // Replace with ajax request
+/**
+ * Adds the game object items to the menu.
+ */
+function setupObjects() { // Replace with ajax request
 
     function selectFn(objectName) {
         return function() {
@@ -135,25 +139,25 @@ setTimeout(function() { // Replace with ajax request
         };
     }
 
-    var i, w, h, obj, canvas, ctx, item, classes;
+    var i, w, h, obj, canvas, ctx, item, objects;
 
-    classes = ["Player", "Block"]; // TODO: Move somewhere else
+    objects = config.editor.gameObjects;
 
-    for (i = 0; i < classes.length; i++) {
+    for (i = 0; i < objects.length; i++) {
 
         canvas = document.createElement("canvas");
         ctx = canvas.getContext("2d");
-        item = UI.createListItem(canvas, "&nbsp;", classes[i]);
-        item.click(selectFn(classes[i]));
-        obj = new GameObject(classes[i]);
+        item = UI.createListItem(canvas, "&nbsp;", objects[i]);
+        item.click(selectFn(objects[i]));
+        obj = new GameObject(objects[i]);
 
-        if (classes[i] === currentObject) {
+        if (objects[i] === currentObject) {
             item.click();
         }
         if (obj.hasBehavior("Renderable")) {
             try {
-                w = 64; // obj.boundingBox.right - obj.boundingBox.left;
-                h = 64; // obj.boundingBox.bottom - obj.boundingBox.top;
+                w = obj.boundingBox.right - obj.boundingBox.left;
+                h = obj.boundingBox.bottom - obj.boundingBox.top;
                 obj.x = w / 2;
                 obj.y = h / 2;
                 canvas.width = w;
@@ -165,7 +169,10 @@ setTimeout(function() { // Replace with ajax request
             }
         }
     }
-}, 1000); // TODO: Actually wait until the graphics are loaded
+}
+
+setupBackgrounds();
+setupObjects();
 
 //===============
 // Set up buttons
@@ -178,10 +185,12 @@ $("#clear-button").on("click", function() {
 
 $("#pause-button").on("click", function() {
     GameController.pause();
+    GameController.drawGrid(true);
 });
 
 $("#play-button").on("click", function() {
     GameController.resume();
+    GameController.drawGrid(false);
 });
 
 $("#view")
@@ -198,8 +207,10 @@ $("#view")
             case leftMouseButton:
                 if (!selectedObject) {
                     selectedObject = new GameObject(currentObject, {
-                        x: p.x,
-                        y: p.y,
+                        position: {
+                            x: p.x,
+                            y: p.y
+                        }
                     });
                     GameState.addObject(selectedObject);
                 }
@@ -221,8 +232,8 @@ $("#view")
         var p = calculatePlacement(event);
 
         if (selectedObject) {
-            selectedObject.x = p.x;
-            selectedObject.y = p.y;
+            selectedObject.position.x = p.x;
+            selectedObject.position.y = p.y;
         }
 
         $("#mouseX").text(p.x);

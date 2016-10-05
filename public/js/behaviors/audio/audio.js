@@ -24,7 +24,7 @@ behavior.getProperties = function() {
         play: null,
         pause: null,
         stop: null,
-        looping: true
+        looping: false
     };
 };
 
