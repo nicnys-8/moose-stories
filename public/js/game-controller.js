@@ -50,16 +50,20 @@ function GameController() {
             renderList[i].render(ctx);
         }
         ctx.restore();
+
+        // Optionally render a grid
         if (shouldDrawGrid) {
             ctx.save();
-            ctx.globalAlpha = 0.2;
-            for (i = 0; i < canvas.width - config.tileSize; i += config.tileSize) {
+            ctx.globalAlpha = 0.15;
+
+            for (i = offsetX % config.tileSize; i < canvas.width; i += config.tileSize) {
                 ctx.beginPath();
                 ctx.moveTo(i, 0);
                 ctx.lineTo(i, canvas.height);
                 ctx.stroke();
             }
-            for (i = 0; i < canvas.height - config.tileSize; i += config.tileSize) {
+
+            for (i = offsetY % config.tileSize; i < canvas.height; i += config.tileSize) {
                 ctx.beginPath();
                 ctx.moveTo(0, i);
                 ctx.lineTo(canvas.width, i);

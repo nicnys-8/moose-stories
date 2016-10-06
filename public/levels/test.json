@@ -3,8 +3,8 @@
         "behaviors": "Player",
         "args": {
             "position": {
-                "x": 64,
-                "y": 112
+                "x": 0,
+                "y": 0
             },
             "uid": 0
         }
@@ -12,8 +12,8 @@
         "behaviors": "Block",
         "args": {
             "position": {
-                "x": 92,
-                "y": 150
+                "x": -32,
+                "y": 32
             },
             "uid": 1
         }
@@ -21,8 +21,8 @@
         "behaviors": "Block",
         "args": {
             "position": {
-                "x": 60,
-                "y": 150
+                "x": 0,
+                "y": 32
             },
             "uid": 2
         }

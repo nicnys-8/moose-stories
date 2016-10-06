@@ -12,8 +12,8 @@ var Levels = {
             behaviors: "Player",
             args: {
                 position: {
-                    x: 64,
-                    y: 112
+                    x: 364,
+                    y: 412
                 },
                 uid: uid++
             }
@@ -32,8 +32,8 @@ for (var i = 0; i < 12; i++) {
         behaviors: "Block",
         args: {
             position: {
-                x: 64 * i,
-                y: 256
+                x: 364 * i,
+                y: 556
             },
             width: 64,
             height: 32,
@@ -48,8 +48,6 @@ for (var i = 0; i < 12; i++) {
                 x: 256 * i,
                 y: 224
             },
-            width: 64,
-            height: 32,
             uid: uid++
         }
     });

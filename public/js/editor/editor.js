@@ -30,8 +30,8 @@ function calculatePlacement(event) {
         snapX = config.tileSize,
         snapY = config.tileSize;
     return {
-        x: snap ? (snapX * Math.round(x / snapX)) : Math.round(x),
-        y: snap ? (snapY * Math.round(y / snapY)) : Math.round(y)
+        x: snap ? (snapX * Math.floor(x / snapX)) : Math.round(x),
+        y: snap ? (snapY * Math.floor(y / snapY)) : Math.round(y)
     };
 }
 
@@ -212,6 +212,7 @@ $("#view")
                             y: p.y
                         }
                     });
+                    console.log(p);
                     GameState.addObject(selectedObject);
                 }
                 break;

@@ -21,8 +21,8 @@ function render(ctx, x, y, scale, rotation, alpha) {
         height = this.canvas.height,
         clippingX = Math.round(this.currentFrame) * width,
         clippingY = 0,
-        canvasX = -this.hotspot.x / Math.abs(scale.x),
-        canvasY = -this.hotspot.y / Math.abs(scale.y);
+        canvasX = -this.hotspot.x,// / Math.abs(scale.x),
+        canvasY = -this.hotspot.y;// / Math.abs(scale.y);
 
     ctx.save();
     ctx.translate(x, y);
@@ -35,7 +35,7 @@ function render(ctx, x, y, scale, rotation, alpha) {
         clippingX, clippingY,
         width, height, // Clipping size
         canvasX, canvasY,
-        width, height
+        width, height // Size on screen
     );
     ctx.restore();
 }
