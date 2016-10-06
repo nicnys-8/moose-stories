@@ -8,6 +8,8 @@ var uid = 0;
 var Levels = {
 
     level1: {
+        width: 1600,
+        height: 1000,
         objects: [{
             behaviors: "Player",
             args: {

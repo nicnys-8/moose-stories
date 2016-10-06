@@ -13,7 +13,7 @@ var Behaviors = require("../behaviors"),
         filePath: "audio/land.wav"
     }),
     moveForce = 12,
-    jumpForce = 200;
+    jumpForce = 220;
 
 function moveLeft() {
     this.applyForceX(-moveForce);

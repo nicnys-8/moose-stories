@@ -6,85 +6,48 @@ var GameState = require("../game-state"),
     Levels = require("../levels"),
     UI = require("./editor-ui"),
     config = require("../config"),
-    camera = GameController.getCamera(),
     canvas = document.getElementById("view"),
+    camera = GameController.getCamera(),
     currentObject = "Block",
     currentLevelName = null,
     selectedButton = null,
     selectedObject = null,
     levels,
-    levelSettings;
+    levelSettings = {
+        "Name": "New level",
+        "Width": 20 * config.tileSize,
+        "Height": 10 * config.tileSize,
+        //"Snap to grid": true
+    };
 
-UI.addCategory("Game Objects");
-UI.addCategory("Backgrounds");
-UI.addCategory("Music");
-
+/**
+* Clears all level data from the game state.
+*/
 function createNewLevel() {
     GameState.clear();
 }
 
+/**
+* @param {MouseEvent} event A mouse event.
+* @return {{x: number, y: number}} The event's position in the game 's coordinate system.
+*/
 function calculatePlacement(event) {
     var x = camera.position.x + event.offsetX - canvas.width / 2,
-        y = camera.position.y + event.offsetY - canvas.height / 2,
-        snap = levelSettings["Snap to grid"], // blää
-        snapX = config.tileSize,
-        snapY = config.tileSize;
-    return {
-        x: snap ? (snapX * Math.floor(x / snapX)) : Math.round(x),
-        y: snap ? (snapY * Math.floor(y / snapY)) : Math.round(y)
-    };
+        y = camera.position.y + event.offsetY - canvas.height / 2;
+
+        return {
+            x: Math.round(x),
+            y: Math.round(y)
+        }
 }
 
-levelSettings = {
-    "Name": "New level",
-    "Width": 20 * config.tileSize,
-    "Height": 10 * config.tileSize,
-    "Snap to grid": true
-};
-
-$("#sidebar-right").append(UI.createForm(levelSettings,
-    function(key, value) {
-        switch (key) {
-            case "Width":
-                canvas.width = value;
-                break;
-            case "Height":
-                canvas.height = value;
-                break;
-        }
-        console.log(key + " changed to " + value);
-    }));
-
-$.get("/levels",
-    function(data) {
-        levels = data;
-
-        var sel = null,
-            i, opt,
-            dropdown = $("#levelList");
-
-        dropdown.empty();
-
-        for (i in data) {
-            opt = $("<option></option>").attr("value", i).html(i);
-            if (!currentLevelName) {
-                opt.attr("selected", true);
-                currentLevelName = i;
-            }
-            dropdown.append(opt);
-        }
-
-        if (currentLevelName) {
-            GameState.parseLevel(levels[currentLevelName]);
-        } else {
-            createNewLevel();
-        }
-
-        GameController.setCanvas(canvas);
-        GameController.startGame();
-        GameController.pause();
-        GameController.drawGrid(true);
-    });
+/**
+* @param {number} n Horizontal coordinate
+* @return {number} The number closest to n that is evenly divisible by config.tileSize.
+*/
+function snapToGrid(n) {
+    return config.tileSize * Math.floor(n / config.tileSize);
+}
 
 /**
  * Adds the background items to the menu.
@@ -171,8 +134,65 @@ function setupObjects() { // Replace with ajax request
     }
 }
 
+
+//=============
+// Build the UI
+//=============
+
+$("#sidebar-right").append(UI.createForm(levelSettings,
+    function(key, value) {
+        switch (key) {
+            case "Width":
+                canvas.width = value;
+                GameState.setWidth(value);
+                break;
+            case "Height":
+                canvas.height = value;
+                GameState.setHeight(value);
+                break;
+        }
+    }));
+
+$.get("/levels",
+    function(data) {
+        levels = data;
+
+        var sel = null,
+            i, opt,
+            dropdown = $("#levelList");
+
+        dropdown.empty();
+
+        for (i in data) {
+            opt = $("<option></option>").attr("value", i).html(i);
+            if (!currentLevelName) {
+                opt.attr("selected", true);
+                currentLevelName = i;
+            }
+            dropdown.append(opt);
+        }
+
+        if (currentLevelName) {
+            GameState.parseLevel(levels[currentLevelName]);
+        } else {
+            createNewLevel();
+        }
+
+        canvas.width = GameState.getWidth();
+        canvas.height = GameState.getHeight();
+        GameController.setCanvas(canvas);
+        GameController.startGame();
+        GameController.pause();
+        GameController.drawGrid(true);
+    });
+
+UI.addCategory("Game Objects");
+UI.addCategory("Backgrounds");
+UI.addCategory("Music");
+
 setupBackgrounds();
 setupObjects();
+
 
 //===============
 // Set up buttons
@@ -186,12 +206,21 @@ $("#clear-button").on("click", function() {
 $("#pause-button").on("click", function() {
     GameController.pause();
     GameController.drawGrid(true);
+    canvas.width = GameState.getWidth();
+    canvas.height = GameState.getHeight();
 });
 
 $("#play-button").on("click", function() {
     GameController.resume();
     GameController.drawGrid(false);
+    canvas.width = config.windowWidth;
+    canvas.height = config.windowHeight;
 });
+
+
+//====================
+// Handle mouse events
+//====================
 
 $("#view")
     .mousedown(function(event) {
@@ -208,11 +237,10 @@ $("#view")
                 if (!selectedObject) {
                     selectedObject = new GameObject(currentObject, {
                         position: {
-                            x: p.x,
-                            y: p.y
+                            x: snapToGrid(p.x),
+                            y: snapToGrid(p.y)
                         }
                     });
-                    console.log(p);
                     GameState.addObject(selectedObject);
                 }
                 break;
@@ -233,8 +261,8 @@ $("#view")
         var p = calculatePlacement(event);
 
         if (selectedObject) {
-            selectedObject.position.x = p.x;
-            selectedObject.position.y = p.y;
+            selectedObject.position.x = snapToGrid(p.x);
+            selectedObject.position.y = snapToGrid(p.y);
         }
 
         $("#mouseX").text(p.x);

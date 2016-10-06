@@ -18,6 +18,8 @@ function GameState() {
         objectsByUID = {},
         background = null,
         music = null,
+        width = 0,
+        height = 0,
         cache = { // Cache for storing filter queries
             exlude: {},
             include: {}
@@ -173,10 +175,13 @@ function GameState() {
      * @param {number} bottom I'll leave the last one as an exercise for the reader.
      */
     this.objectsInZone = function(left, right, top, bottom) {
-        var pObjects = this.filter("Physical");
-        var result = [];
-        var obj;
-        for (var i = 0; i < pObjects.length; i++) {
+        var pObjects = this.filter("Physical"),
+            result = [],
+            obj,
+            i;
+
+        console.log(left, right, top, bottom);
+        for (i = 0; i < pObjects.length; i++) {
             obj = pObjects[i];
             if (!(
                     obj.position.x + obj.boundingBox.left >= right ||
@@ -229,6 +234,10 @@ function GameState() {
 
         // Clear the state first!
         this.clear();
+
+        // Set width and height of the level
+        width = Number(description.width);
+        height = Number(description.height);
 
         len = description.objects && description.objects.length || 0;
         for (i = 0; i < len; i++) {
@@ -306,6 +315,22 @@ function GameState() {
 
     this.setMusic = function(msc) {
         music = msc;
+    };
+
+    this.setWidth = function(w) {
+        width = w;
+    };
+
+    this.getWidth = function() {
+        return width;
+    };
+
+    this.setHeight = function(h) {
+        height = h;
+    };
+
+    this.getHeight = function() {
+        return height;
     };
 
     /**
