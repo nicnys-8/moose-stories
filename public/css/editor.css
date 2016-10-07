@@ -40,6 +40,9 @@
     bottom: 52px;
 }
 #view {
+    background-color: #d9faff;
+}
+#view.playing {
     position: absolute;
     background-color: #C5F8FF;
     left: 50%;

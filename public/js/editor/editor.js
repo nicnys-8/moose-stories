@@ -34,19 +34,21 @@ function createNewLevel() {
 function calculatePlacement(event) {
     var x = camera.position.x + event.offsetX - canvas.width / 2,
         y = camera.position.y + event.offsetY - canvas.height / 2;
-
         return {
             x: Math.round(x),
             y: Math.round(y)
-        }
+        };
 }
 
 /**
-* @param {number} n Horizontal coordinate
-* @return {number} The number closest to n that is evenly divisible by config.tileSize.
+* @param {{x: number, y: number}} p A 2D point.
+* @return {{x: number, y: number}} An adjusted point whose x and y values are evenly divisible by config.tileSize.
 */
-function snapToGrid(n) {
-    return config.tileSize * Math.floor(n / config.tileSize);
+function snapToGrid(p) {
+    return {
+      x: config.tileSize * Math.floor(p.x / config.tileSize),
+      y: config.tileSize * Math.floor(p.y / config.tileSize)
+    };
 }
 
 /**
@@ -134,6 +136,29 @@ function setupObjects() { // Replace with ajax request
     }
 }
 
+/**
+* Pauses the game and adapts the GUI for editing.
+*/
+function enterEditMode() {
+    GameController.pause();
+    GameController.drawGrid(true);
+    canvas.width = GameState.getWidth();
+    canvas.height = GameState.getHeight();
+    GameController.render();
+    $(canvas).removeClass("playing");
+}
+
+/**
+* Starts the game and adapts the GUI for playing.
+*/
+function enterPlayMode() {
+    GameController.resume();
+    GameController.drawGrid(false);
+    canvas.width = config.windowWidth;
+    canvas.height = config.windowHeight;
+    $(canvas).addClass("playing");
+}
+
 
 //=============
 // Build the UI
@@ -178,12 +203,9 @@ $.get("/levels",
             createNewLevel();
         }
 
-        canvas.width = GameState.getWidth();
-        canvas.height = GameState.getHeight();
         GameController.setCanvas(canvas);
         GameController.startGame();
-        GameController.pause();
-        GameController.drawGrid(true);
+        enterEditMode();
     });
 
 UI.addCategory("Game Objects");
@@ -199,23 +221,12 @@ setupObjects();
 //===============
 
 $("#clear-button").on("click", function() {
-    selectedObject = null;
     GameState.clear();
+    GameController.render();
 });
 
-$("#pause-button").on("click", function() {
-    GameController.pause();
-    GameController.drawGrid(true);
-    canvas.width = GameState.getWidth();
-    canvas.height = GameState.getHeight();
-});
-
-$("#play-button").on("click", function() {
-    GameController.resume();
-    GameController.drawGrid(false);
-    canvas.width = config.windowWidth;
-    canvas.height = config.windowHeight;
-});
+$("#pause-button").on("click", enterEditMode);
+$("#play-button").on("click", enterPlayMode);
 
 
 //====================
@@ -235,14 +246,10 @@ $("#view")
         switch (event.which) {
             case leftMouseButton:
                 if (!selectedObject) {
-                    selectedObject = new GameObject(currentObject, {
-                        position: {
-                            x: snapToGrid(p.x),
-                            y: snapToGrid(p.y)
-                        }
-                    });
+                    selectedObject = new GameObject(currentObject);
                     GameState.addObject(selectedObject);
                 }
+                selectedObject.position = snapToGrid(p);
                 break;
             case middleMouseButton:
                 break;
@@ -255,14 +262,18 @@ $("#view")
             default:
                 console.log('You have a strange mouse!');
         }
+        GameController.render();
     })
     .mousemove(function(event) {
 
         var p = calculatePlacement(event);
+        p = snapToGrid(p);
 
         if (selectedObject) {
-            selectedObject.position.x = snapToGrid(p.x);
-            selectedObject.position.y = snapToGrid(p.y);
+            if (p.x !== selectedObject.position.x || p.y !== selectedObject.position.y) {
+                selectedObject.position = p;
+                GameController.render();
+            }
         }
 
         $("#mouseX").text(p.x);

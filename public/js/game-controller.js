@@ -26,11 +26,12 @@ function GameController() {
     /**
      * Renders the current view of the game.
      */
-    function render() {
+    this.render = function() {
 
         var renderList = GameState.filter("Renderable"),
             offsetX = -camera.position.x + (canvas.width / 2),
             offsetY = -camera.position.y + (canvas.height / 2),
+            background = null,
             i, j,
             ctx;
 
@@ -42,7 +43,11 @@ function GameController() {
         //ctx.scale(camera.scale.x, camera.scale.y);
         //ctx.rotate(camera.rotation);
 
-        GameState.getBackground().render(ctx, offsetX, offsetY);
+
+        background = GameState.getBackground();
+        if (background !== null) {
+            background.render(ctx, offsetX, offsetY);
+        }
 
         // Render in-game objects
         ctx.translate(offsetX, offsetY);
@@ -71,7 +76,7 @@ function GameController() {
             }
             ctx.restore();
         }
-    }
+    };
 
     /**
      * Runs the main game loop
@@ -91,12 +96,12 @@ function GameController() {
             self.tick();
         });
 
-        render();
-
         keyboard.tick();
         if (paused) {
             return;
         }
+
+        this.render();
 
         if (keyboard.down("left")) {
             player.moveLeft();
