@@ -38,7 +38,7 @@ function calculatePlacement(event) {
         return {
             x: Math.round(x),
             y: Math.round(y)
-        }
+        };
 }
 
 /**
