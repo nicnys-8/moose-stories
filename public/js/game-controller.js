@@ -161,6 +161,16 @@ function GameController() {
     };
 
     /**
+     * Sets the position of the camera.
+     * @param {number} x Horizontal coordinate
+     * @param {number} y Vertical coordinate
+     */
+    this.setCameraPosition = function(x, y) {
+        camera.position.x = x;
+        camera.position.y = y;
+    };
+
+    /**
      * Makes the controller draw a grid overlay when rendering the game.
      * @param {boolean} bool True if the grid should be drawn, false otherwise.
      */

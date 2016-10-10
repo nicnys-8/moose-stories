@@ -31,10 +31,14 @@ behavior.getProperties = function() {
 /**
  * Initialization function, called on an object when this behavior is added to it.
  *
- * @param {string} filePath - Relative path of the audio file.
+ * @param {string} filePath Relative path of the audio file.
  */
 behavior.init = function(args) {
     var audioTag;
+
+    if (!args || !args.filePath) {
+        throw new Error("'Audio' behavior requires argument 'filePath'.");
+    }
 
     if (cache[args.filePath]) {
         audioTag = cache[args.filePath];

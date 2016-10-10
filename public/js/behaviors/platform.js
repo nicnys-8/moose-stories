@@ -7,10 +7,10 @@
 var Behaviors = require("../behaviors"),
     GameObject = require("../game-object"),
     jumpSound = new GameObject("Audio", {
-        filePath: "audio/jump.wav"
+        filePath: "audio/sounds/jump.wav"
     }),
     landSound = new GameObject("Audio", {
-        filePath: "audio/land.wav"
+        filePath: "audio/sounds/land.wav"
     }),
     moveForce = 12,
     jumpForce = 220;

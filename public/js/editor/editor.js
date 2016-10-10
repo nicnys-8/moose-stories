@@ -52,46 +52,9 @@ function snapToGrid(p) {
 }
 
 /**
- * Adds the background items to the menu.
- */
-function setupBackgrounds() {
-
-    function selectFn(background) {
-        return function() {
-            GameState.setBackground(background);
-        };
-    }
-
-    var i, w, h, bkg, canvas, ctx, item, backgrounds;
-
-    backgrounds = config.editor.backgrounds;
-
-    for (i = 0; i < backgrounds.length; i++) {
-        canvas = document.createElement("canvas");
-        ctx = canvas.getContext("2d");
-        item = UI.createListItem(canvas, "&nbsp;", backgrounds[i]);
-        item.click(selectFn(backgrounds[i]));
-        bkg = new GameObject(backgrounds[i]);
-
-        try {
-            w = 64;
-            h = 64;
-            bkg.x = w / 2;
-            bkg.y = h / 2;
-            canvas.width = w;
-            canvas.height = h;
-            bkg.render(ctx);
-            UI.addListItem(item, "Backgrounds");
-        } catch (err) {
-            console.log("Failed, ", err);
-        }
-    }
-}
-
-/**
  * Adds the game object items to the menu.
  */
-function setupObjects() { // Replace with ajax request
+function initGameObjects() { // Replace with ajax request
 
     function selectFn(objectName) {
         return function() {
@@ -137,26 +100,89 @@ function setupObjects() { // Replace with ajax request
 }
 
 /**
+ * Adds the background items to the menu.
+ */
+function initBackgrounds() {
+
+    function selectFn(background) {
+        return function() {
+            GameState.setBackground(background);
+        };
+    }
+
+    var i, w, h, bkg, canvas, ctx, item, backgrounds;
+
+    backgrounds = config.editor.backgrounds;
+
+    for (i = 0; i < backgrounds.length; i++) {
+        canvas = document.createElement("canvas");
+        ctx = canvas.getContext("2d");
+        item = UI.createListItem(canvas, "&nbsp;", backgrounds[i]);
+        item.click(selectFn(backgrounds[i]));
+        bkg = new GameObject(backgrounds[i]);
+
+        try {
+            w = 64;
+            h = 64;
+            bkg.x = w / 2;
+            bkg.y = h / 2;
+            canvas.width = w;
+            canvas.height = h;
+            bkg.render(ctx);
+            UI.addListItem(item, "Backgrounds");
+        } catch (err) {
+            console.log("Failed, ", err);
+        }
+    }
+}
+
+/**
+ * Adds music selection to the menu.
+ */
+function initMusic() {
+
+    function selectFn(music) {
+        return function() {
+            console.log(music);
+            GameState.setMusic(music);
+            GameState.getMusic().play();
+        };
+    }
+
+    var musicList, music, item, i;
+
+    musicList = config.editor.music;
+
+    for (i = 0; i < musicList.length; i++) {
+        item = UI.createListItem(null, "&nbsp;", musicList[i]);
+        music = new GameObject("Audio", {filePath: musicList[i]});
+        item.click(selectFn(music));
+        UI.addListItem(item, "Music");
+    }
+}
+
+/**
 * Pauses the game and adapts the GUI for editing.
 */
 function enterEditMode() {
+    $(canvas).removeClass("playing");
     GameController.pause();
     GameController.drawGrid(true);
     canvas.width = GameState.getWidth();
     canvas.height = GameState.getHeight();
+    GameController.setCameraPosition(canvas.width / 2, canvas.height / 2);
     GameController.render();
-    $(canvas).removeClass("playing");
 }
 
 /**
 * Starts the game and adapts the GUI for playing.
 */
 function enterPlayMode() {
+    $(canvas).addClass("playing");
     GameController.resume();
     GameController.drawGrid(false);
     canvas.width = config.windowWidth;
     canvas.height = config.windowHeight;
-    $(canvas).addClass("playing");
 }
 
 
@@ -179,16 +205,14 @@ $("#sidebar-right").append(UI.createForm(levelSettings,
     }));
 
 $.get("/levels",
-    function(data) {
-        levels = data;
+    function(levels) {
 
-        var sel = null,
-            i, opt,
-            dropdown = $("#levelList");
+        var dropdown = $("#levelList"),
+            i, opt;
 
         dropdown.empty();
 
-        for (i in data) {
+        for (i in levels) {
             opt = $("<option></option>").attr("value", i).html(i);
             if (!currentLevelName) {
                 opt.attr("selected", true);
@@ -199,6 +223,8 @@ $.get("/levels",
 
         if (currentLevelName) {
             GameState.parseLevel(levels[currentLevelName]);
+            // levelSettings.width = GameState.getWidth(); FIXME: Something like this!
+            // levelSettings.height = GameState.getHeight(); FIXME: Something like this!
         } else {
             createNewLevel();
         }
@@ -212,8 +238,9 @@ UI.addCategory("Game Objects");
 UI.addCategory("Backgrounds");
 UI.addCategory("Music");
 
-setupBackgrounds();
-setupObjects();
+initGameObjects();
+initBackgrounds();
+initMusic();
 
 
 //===============
