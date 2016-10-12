@@ -5,8 +5,8 @@
         "behaviors": "Player",
         "args": {
             "position": {
-                "x": 0,
-                "y": 0
+                "x": 160,
+                "y": 128
             },
             "uid": 0
         }
@@ -14,8 +14,8 @@
         "behaviors": "Block",
         "args": {
             "position": {
-                "x": -32,
-                "y": 32
+                "x": 128,
+                "y": 160
             },
             "uid": 1
         }
@@ -23,12 +23,12 @@
         "behaviors": "Block",
         "args": {
             "position": {
-                "x": 0,
-                "y": 32
+                "x": 160,
+                "y": 160
             },
             "uid": 2
         }
     }],
     "background": "DefaultBackground",
-    "music": "audio/fnurk.mp3"
+    "music": "Main theme"
 }

@@ -16,38 +16,37 @@ var GameState = require("../game-state"),
     levelSettings = {
         "Name": "New level",
         "Width": 20 * config.tileSize,
-        "Height": 10 * config.tileSize,
-        //"Snap to grid": true
+        "Height": 10 * config.tileSize
     };
 
 /**
-* Clears all level data from the game state.
-*/
+ * Clears all level data from the game state.
+ */
 function createNewLevel() {
     GameState.clear();
 }
 
 /**
-* @param {MouseEvent} event A mouse event.
-* @return {{x: number, y: number}} The event's position in the game 's coordinate system.
-*/
+ * @param {MouseEvent} event A mouse event.
+ * @return {{x: number, y: number}} The event's position in the game 's coordinate system.
+ */
 function calculatePlacement(event) {
     var x = camera.position.x + event.offsetX - canvas.width / 2,
         y = camera.position.y + event.offsetY - canvas.height / 2;
-        return {
-            x: Math.round(x),
-            y: Math.round(y)
-        };
+    return {
+        x: Math.round(x),
+        y: Math.round(y)
+    };
 }
 
 /**
-* @param {{x: number, y: number}} p A 2D point.
-* @return {{x: number, y: number}} An adjusted point whose x and y values are evenly divisible by config.tileSize.
-*/
+ * @param {{x: number, y: number}} p A 2D point.
+ * @return {{x: number, y: number}} An adjusted point whose x and y values are evenly divisible by config.tileSize.
+ */
 function snapToGrid(p) {
     return {
-      x: config.tileSize * Math.floor(p.x / config.tileSize),
-      y: config.tileSize * Math.floor(p.y / config.tileSize)
+        x: config.tileSize * Math.floor(p.x / config.tileSize),
+        y: config.tileSize * Math.floor(p.y / config.tileSize)
     };
 }
 
@@ -141,29 +140,27 @@ function initBackgrounds() {
  */
 function initMusic() {
 
-    function selectFn(music) {
+    function selectFn(song) {
         return function() {
-            console.log(music);
-            GameState.setMusic(music);
+            console.log(song);
+            GameState.setMusic(song);
             GameState.getMusic().play();
         };
     }
 
-    var musicList, music, item, i;
-
-    musicList = config.editor.music;
-
-    for (i = 0; i < musicList.length; i++) {
-        item = UI.createListItem(null, "&nbsp;", musicList[i]);
-        music = new GameObject("Audio", {filePath: musicList[i]});
-        item.click(selectFn(music));
+    config.editor.music.forEach(function(songName) {
+        var item = UI.createListItem(null, "&nbsp;", songName),
+            song = new GameObject("Audio", {
+                name: songName
+            });
+        item.click(selectFn(song));
         UI.addListItem(item, "Music");
-    }
+    });
 }
 
 /**
-* Pauses the game and adapts the GUI for editing.
-*/
+ * Pauses the game and adapts the GUI for editing.
+ */
 function enterEditMode() {
     $(canvas).removeClass("playing");
     GameController.pause();
@@ -175,8 +172,8 @@ function enterEditMode() {
 }
 
 /**
-* Starts the game and adapts the GUI for playing.
-*/
+ * Starts the game and adapts the GUI for playing.
+ */
 function enterPlayMode() {
     $(canvas).addClass("playing");
     GameController.resume();

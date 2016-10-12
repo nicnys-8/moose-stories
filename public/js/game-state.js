@@ -250,7 +250,7 @@ function GameState() {
 
         if (description.music) {
             music = new GameObject("Audio", {
-                filePath: description.music,
+                name: description.music,
                 looping: true
             });
         }
