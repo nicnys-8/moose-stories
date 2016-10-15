@@ -77,7 +77,7 @@ behavior.getProperties = function() {
 /**
 * Initialization function, called on an object when this behavior is added to it.
 *
-* @param {string} args.filePath Path to the image file.
+* @param {string} args.filePath - Path to the image file.
 */
 behavior.init = function(args) {
     if (args && args.filePath) {

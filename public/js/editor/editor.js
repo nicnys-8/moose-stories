@@ -68,6 +68,7 @@ function initGameObjectMenu() { // Replace with ajax request
 
     var objects = config.editor.gameObjects;
 
+    UI.addCategory("Game Objects");
     objects.forEach(function (objectType) {
         var obj, w, h, canvas, ctx, item;
 
@@ -80,6 +81,8 @@ function initGameObjectMenu() { // Replace with ajax request
         if (objectType === currentObject) {
             item.click();
         }
+
+        UI.addListItem(item, "Game Objects");
         if (obj.hasBehavior("Renderable")) {
             try {
                 w = obj.boundingBox.right - obj.boundingBox.left;
@@ -116,6 +119,7 @@ function initBackgroundMenu() {
 
     var i, w, h, bkg, canvas, ctx, item, backgrounds;
 
+    UI.addCategory("Backgrounds");
     backgrounds = config.editor.backgrounds;
 
     for (i = 0; i < backgrounds.length; i++) {
@@ -125,6 +129,8 @@ function initBackgroundMenu() {
         item.click(selectFn(backgrounds[i]));
         bkg = new GameObject(backgrounds[i]);
 
+        //
+        UI.addListItem(item, "Backgrounds");
         try {
             w = 64;
             h = 64;
@@ -133,7 +139,7 @@ function initBackgroundMenu() {
             canvas.width = w;
             canvas.height = h;
             bkg.render(ctx);
-            UI.addListItem(item, "Backgrounds");
+
         } catch (err) {
             console.log("Failed, ", err);
         }
@@ -153,6 +159,7 @@ function initMusicMenu() {
         };
     }
 
+    UI.addCategory("Music");
     config.editor.music.forEach(function(songName) {
         var item = UI.createListItem(null, "&nbsp;", songName),
             song = new GameObject("Audio", {
@@ -235,10 +242,6 @@ $.get("/levels",
         GameController.startGame();
         enterEditMode();
     });
-
-UI.addCategory("Game Objects");
-UI.addCategory("Backgrounds");
-UI.addCategory("Music");
 
 initGameObjectMenu();
 initBackgroundMenu();
