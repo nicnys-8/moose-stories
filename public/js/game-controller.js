@@ -61,14 +61,16 @@ function GameController() {
             ctx.save();
             ctx.globalAlpha = 0.15;
 
-            for (i = offsetX % config.tileSize; i < canvas.width; i += config.tileSize) {
+            i = offsetX % config.tileSize - config.tileSize / 2;
+            for (i; i < canvas.width; i += config.tileSize) {
                 ctx.beginPath();
                 ctx.moveTo(i, 0);
                 ctx.lineTo(i, canvas.height);
                 ctx.stroke();
             }
 
-            for (i = offsetY % config.tileSize; i < canvas.height; i += config.tileSize) {
+            i = offsetY % config.tileSize + config.tileSize / 2;
+            for (i; i < canvas.height; i += config.tileSize) {
                 ctx.beginPath();
                 ctx.moveTo(0, i);
                 ctx.lineTo(canvas.width, i);
@@ -142,6 +144,14 @@ function GameController() {
      */
     this.resume = function() {
         paused = false;
+    };
+
+    /**
+     * Resets the current level.
+     */
+    this.resetLevel = function() {
+        GameState.clear();
+        this.startGame();
     };
 
     /**

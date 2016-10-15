@@ -10,13 +10,14 @@ var Behaviors = require("../../behaviors");
  * Renders the sprite on screen.
  *
  * @param {CanvasRenderingContext2D} ctx 2D rendering context.
- * @param {number} x The horizontal position on the context where the sprite will be rendered.
- * @param {number} y The vertical position on the context where the sprite will be rendered.
- * @param {object} scale Scale of the sprite, e.g. {x: 1, y: 2}.
+ * @param {number} position.x The horizontal position on the context where the sprite will be rendered.
+ * @param {number} position.y The vertical position on the context where the sprite will be rendered.
+ * @param {number} scale.x Horizontal scale of the sprite.
+ * @param {number} scale.y Vertical scale of the sprite.
  * @param {number} rotation The sprite's rotation in radians.
  * @param {number} alpha Opacity of the object, a value between 0 and 1.
  */
-function render(ctx, x, y, scale, rotation, alpha) {
+function render(ctx, position, scale, rotation, alpha) {
     var width = this.canvas.width / this.numFrames,
         height = this.canvas.height,
         clippingX = Math.round(this.currentFrame) * width,
@@ -25,7 +26,8 @@ function render(ctx, x, y, scale, rotation, alpha) {
         canvasY = -this.hotspot.y;// / Math.abs(scale.y);
 
     ctx.save();
-    ctx.translate(x, y);
+
+    ctx.translate(position.x, position.y);
     ctx.scale(scale.x, scale.y);
     ctx.rotate(rotation);
     ctx.globalAlpha = alpha;
@@ -37,6 +39,7 @@ function render(ctx, x, y, scale, rotation, alpha) {
         canvasX, canvasY,
         width, height // Size on screen
     );
+
     ctx.restore();
 }
 

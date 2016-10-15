@@ -13,7 +13,7 @@ var Behaviors = require("../../behaviors");
  */
 function render(ctx) {
     if (this.currentAnimation) {
-        this.currentAnimation.render(ctx, this.position.x, this.position.y, this.scale, this.rotation, this.alpha);
+        this.currentAnimation.render(ctx, this.position, this.scale, this.rotation, this.alpha);
     }
 }
 
@@ -40,10 +40,6 @@ behavior.getProperties = function() {
             right: 16,
             top: -16,
             bottom: 16
-        },
-        hotspot: {
-            x: 16,
-            y: 16
         },
 
         // Functions

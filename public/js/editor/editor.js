@@ -45,63 +45,68 @@ function calculatePlacement(event) {
  */
 function snapToGrid(p) {
     return {
-        x: config.tileSize * Math.floor(p.x / config.tileSize),
-        y: config.tileSize * Math.floor(p.y / config.tileSize)
+        x: config.tileSize * Math.round(p.x / config.tileSize),
+        y: config.tileSize * Math.round(p.y / config.tileSize)
     };
 }
 
 /**
  * Adds the game object items to the menu.
  */
-function initGameObjects() { // Replace with ajax request
+function initGameObjectMenu() { // Replace with ajax request
 
-    function selectFn(objectName) {
+    function selectFn(objectType) {
         return function() {
             if (selectedButton) {
                 selectedButton.style.backgroundColor = "";
             }
             this.style.backgroundColor = "#eee";
-            currentObject = objectName;
+            currentObject = objectType;
             selectedButton = this;
         };
     }
 
-    var i, w, h, obj, canvas, ctx, item, objects;
+    var objects = config.editor.gameObjects;
 
-    objects = config.editor.gameObjects;
-
-    for (i = 0; i < objects.length; i++) {
+    objects.forEach(function (objectType) {
+        var obj, w, h, canvas, ctx, item;
 
         canvas = document.createElement("canvas");
         ctx = canvas.getContext("2d");
-        item = UI.createListItem(canvas, "&nbsp;", objects[i]);
-        item.click(selectFn(objects[i]));
-        obj = new GameObject(objects[i]);
+        item = UI.createListItem(canvas, "&nbsp;", objectType);
+        item.click(selectFn(objectType));
+        obj = new GameObject(objectType);
 
-        if (objects[i] === currentObject) {
+        if (objectType === currentObject) {
             item.click();
         }
         if (obj.hasBehavior("Renderable")) {
             try {
                 w = obj.boundingBox.right - obj.boundingBox.left;
                 h = obj.boundingBox.bottom - obj.boundingBox.top;
-                obj.x = w / 2;
-                obj.y = h / 2;
+                obj.position.x = 0;//w / 2;
+                obj.position.y = 0;//h / 2;
                 canvas.width = w;
                 canvas.height = h;
+                window["skam"+window.i++] = function() {
+                    obj.render(ctx);
+                    console.log(w, h);
+                };//FIXME: Remove
                 obj.render(ctx);
                 UI.addListItem(item, "Game Objects");
             } catch (err) {
                 console.log("Failed, ", err);
             }
         }
-    }
+    });
 }
+
+window.i = 0; //FIXME: Remove
 
 /**
  * Adds the background items to the menu.
  */
-function initBackgrounds() {
+function initBackgroundMenu() {
 
     function selectFn(background) {
         return function() {
@@ -138,7 +143,7 @@ function initBackgrounds() {
 /**
  * Adds music selection to the menu.
  */
-function initMusic() {
+function initMusicMenu() {
 
     function selectFn(song) {
         return function() {
@@ -235,9 +240,9 @@ UI.addCategory("Game Objects");
 UI.addCategory("Backgrounds");
 UI.addCategory("Music");
 
-initGameObjects();
-initBackgrounds();
-initMusic();
+initGameObjectMenu();
+initBackgroundMenu();
+initMusicMenu();
 
 
 //===============

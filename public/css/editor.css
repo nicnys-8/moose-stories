@@ -40,7 +40,9 @@
     bottom: 52px;
 }
 #view {
+    top: 20px;
     background-color: #d9faff;
+    box-shadow: 8px 8px 8px rgba(0, 0, 0, .2);
 }
 #view.playing {
     position: absolute;
