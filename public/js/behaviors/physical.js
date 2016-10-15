@@ -111,6 +111,16 @@ function onTopOf(obj) {
         this.position.y + this.boundingBox.bottom === obj.position.y + obj.boundingBox.top);
 }
 
+/**
+ * @return {boolean} True if the object is outside the level bounds.
+ */
+function isOutsideLevel() {
+    return (this.position.x < 0 ||
+        this.position.y < 0 ||
+        this.position.x > GameState.getWidth() ||
+        this.position.y > GameState.getHeight());
+}
+
 
 //=================
 // Public interface
@@ -144,7 +154,8 @@ behavior.getProperties = function() {
         overlapsBy: overlapsBy,
         horizontalOverlap: horizontalOverlap,
         verticalOverlap: verticalOverlap,
-        onTopOf: onTopOf
+        onTopOf: onTopOf,
+        isOutsideLevel: isOutsideLevel
     };
 };
 

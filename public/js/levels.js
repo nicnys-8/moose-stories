@@ -21,7 +21,7 @@ var Levels = {
             }
         }],
         background: "DefaultBackground",
-        music: "audio/fnurk.mp3"
+        music: "Main theme"
     }
 };
 

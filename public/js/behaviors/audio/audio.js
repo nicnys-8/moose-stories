@@ -5,7 +5,15 @@
 "use strict";
 
 var Behaviors = require("../../behaviors"),
-    cache = {}; // Cache for storing audio tags
+    cache = {}, // Cache for storing audio tags
+    filePaths = {
+        // Songs
+        "Main theme": "audio/music/fnurk.mp3",
+        "Space": "audio/music/space.ogg",
+        // Sound effects
+        "Jump": "audio/sounds/jump.wav",
+        "Land": "audio/sounds/land.wav"
+    };
 
 
 //=================
@@ -31,17 +39,26 @@ behavior.getProperties = function() {
 /**
  * Initialization function, called on an object when this behavior is added to it.
  *
- * @param {string} filePath - Relative path of the audio file.
+ * @param {string} args.name Name of the song or sound effect.
  */
 behavior.init = function(args) {
     var audioTag;
 
-    if (cache[args.filePath]) {
-        audioTag = cache[args.filePath];
+    if (!args || !args.name) {
+        throw new Error("'Audio' behavior requires argument 'name'.");
+    }
+
+    if (typeof filePaths[args.name] === "undefined") {
+        throw new Error("The audio name " + args.name + " is not listed in \'filePaths\'.");
+    }
+
+    if (cache[args.name]) {
+        audioTag = cache[args.name];
     } else {
         audioTag = document.createElement("audio");
-        audioTag.src = args.filePath;
+        audioTag.src = filePaths[args.name];
         audioTag.load();
+        cache[args.name] = audioTag;
     }
 
     this.play = function() {

@@ -16,45 +16,100 @@ var GameState = require("../game-state"),
     levelSettings = {
         "Name": "New level",
         "Width": 20 * config.tileSize,
-        "Height": 10 * config.tileSize,
-        //"Snap to grid": true
+        "Height": 10 * config.tileSize
     };
 
 /**
-* Clears all level data from the game state.
-*/
+ * Clears all level data from the game state.
+ */
 function createNewLevel() {
     GameState.clear();
 }
 
 /**
-* @param {MouseEvent} event A mouse event.
-* @return {{x: number, y: number}} The event's position in the game 's coordinate system.
-*/
+ * @param {MouseEvent} event A mouse event.
+ * @return {{x: number, y: number}} The event's position in the game 's coordinate system.
+ */
 function calculatePlacement(event) {
     var x = camera.position.x + event.offsetX - canvas.width / 2,
         y = camera.position.y + event.offsetY - canvas.height / 2;
-        return {
-            x: Math.round(x),
-            y: Math.round(y)
-        };
-}
-
-/**
-* @param {{x: number, y: number}} p A 2D point.
-* @return {{x: number, y: number}} An adjusted point whose x and y values are evenly divisible by config.tileSize.
-*/
-function snapToGrid(p) {
     return {
-      x: config.tileSize * Math.floor(p.x / config.tileSize),
-      y: config.tileSize * Math.floor(p.y / config.tileSize)
+        x: Math.round(x),
+        y: Math.round(y)
     };
 }
 
 /**
+ * @param {{x: number, y: number}} p A 2D point.
+ * @return {{x: number, y: number}} An adjusted point whose x and y values are evenly divisible by config.tileSize.
+ */
+function snapToGrid(p) {
+    return {
+        x: config.tileSize * Math.round(p.x / config.tileSize),
+        y: config.tileSize * Math.round(p.y / config.tileSize)
+    };
+}
+
+/**
+ * Adds the game object items to the menu.
+ */
+function initGameObjectMenu() { // Replace with ajax request
+
+    function selectFn(objectType) {
+        return function() {
+            if (selectedButton) {
+                selectedButton.style.backgroundColor = "";
+            }
+            this.style.backgroundColor = "#eee";
+            currentObject = objectType;
+            selectedButton = this;
+        };
+    }
+
+    var objects = config.editor.gameObjects;
+
+    UI.addCategory("Game Objects");
+    objects.forEach(function (objectType) {
+        var obj, w, h, canvas, ctx, item;
+
+        canvas = document.createElement("canvas");
+        ctx = canvas.getContext("2d");
+        item = UI.createListItem(canvas, "&nbsp;", objectType);
+        item.click(selectFn(objectType));
+        obj = new GameObject(objectType);
+
+        if (objectType === currentObject) {
+            item.click();
+        }
+
+        UI.addListItem(item, "Game Objects");
+        if (obj.hasBehavior("Renderable")) {
+            try {
+                w = obj.boundingBox.right - obj.boundingBox.left;
+                h = obj.boundingBox.bottom - obj.boundingBox.top;
+                obj.position.x = 0;//w / 2;
+                obj.position.y = 0;//h / 2;
+                canvas.width = w;
+                canvas.height = h;
+                window["skam"+window.i++] = function() {
+                    obj.render(ctx);
+                    console.log(w, h);
+                };//FIXME: Remove
+                obj.render(ctx);
+                UI.addListItem(item, "Game Objects");
+            } catch (err) {
+                console.log("Failed, ", err);
+            }
+        }
+    });
+}
+
+window.i = 0; //FIXME: Remove
+
+/**
  * Adds the background items to the menu.
  */
-function setupBackgrounds() {
+function initBackgroundMenu() {
 
     function selectFn(background) {
         return function() {
@@ -64,6 +119,7 @@ function setupBackgrounds() {
 
     var i, w, h, bkg, canvas, ctx, item, backgrounds;
 
+    UI.addCategory("Backgrounds");
     backgrounds = config.editor.backgrounds;
 
     for (i = 0; i < backgrounds.length; i++) {
@@ -73,6 +129,8 @@ function setupBackgrounds() {
         item.click(selectFn(backgrounds[i]));
         bkg = new GameObject(backgrounds[i]);
 
+        //
+        UI.addListItem(item, "Backgrounds");
         try {
             w = 64;
             h = 64;
@@ -81,7 +139,7 @@ function setupBackgrounds() {
             canvas.width = w;
             canvas.height = h;
             bkg.render(ctx);
-            UI.addListItem(item, "Backgrounds");
+
         } catch (err) {
             console.log("Failed, ", err);
         }
@@ -89,74 +147,51 @@ function setupBackgrounds() {
 }
 
 /**
- * Adds the game object items to the menu.
+ * Adds music selection to the menu.
  */
-function setupObjects() { // Replace with ajax request
+function initMusicMenu() {
 
-    function selectFn(objectName) {
+    function selectFn(song) {
         return function() {
-            if (selectedButton) {
-                selectedButton.style.backgroundColor = "";
-            }
-            this.style.backgroundColor = "#eee";
-            currentObject = objectName;
-            selectedButton = this;
+            console.log(song);
+            GameState.setMusic(song);
+            GameState.getMusic().play();
         };
     }
 
-    var i, w, h, obj, canvas, ctx, item, objects;
-
-    objects = config.editor.gameObjects;
-
-    for (i = 0; i < objects.length; i++) {
-
-        canvas = document.createElement("canvas");
-        ctx = canvas.getContext("2d");
-        item = UI.createListItem(canvas, "&nbsp;", objects[i]);
-        item.click(selectFn(objects[i]));
-        obj = new GameObject(objects[i]);
-
-        if (objects[i] === currentObject) {
-            item.click();
-        }
-        if (obj.hasBehavior("Renderable")) {
-            try {
-                w = obj.boundingBox.right - obj.boundingBox.left;
-                h = obj.boundingBox.bottom - obj.boundingBox.top;
-                obj.x = w / 2;
-                obj.y = h / 2;
-                canvas.width = w;
-                canvas.height = h;
-                obj.render(ctx);
-                UI.addListItem(item, "Game Objects");
-            } catch (err) {
-                console.log("Failed, ", err);
-            }
-        }
-    }
+    UI.addCategory("Music");
+    config.editor.music.forEach(function(songName) {
+        var item = UI.createListItem(null, "&nbsp;", songName),
+            song = new GameObject("Audio", {
+                name: songName
+            });
+        item.click(selectFn(song));
+        UI.addListItem(item, "Music");
+    });
 }
 
 /**
-* Pauses the game and adapts the GUI for editing.
-*/
+ * Pauses the game and adapts the GUI for editing.
+ */
 function enterEditMode() {
+    $(canvas).removeClass("playing");
     GameController.pause();
     GameController.drawGrid(true);
     canvas.width = GameState.getWidth();
     canvas.height = GameState.getHeight();
+    GameController.setCameraPosition(canvas.width / 2, canvas.height / 2);
     GameController.render();
-    $(canvas).removeClass("playing");
 }
 
 /**
-* Starts the game and adapts the GUI for playing.
-*/
+ * Starts the game and adapts the GUI for playing.
+ */
 function enterPlayMode() {
+    $(canvas).addClass("playing");
     GameController.resume();
     GameController.drawGrid(false);
     canvas.width = config.windowWidth;
     canvas.height = config.windowHeight;
-    $(canvas).addClass("playing");
 }
 
 
@@ -179,16 +214,14 @@ $("#sidebar-right").append(UI.createForm(levelSettings,
     }));
 
 $.get("/levels",
-    function(data) {
-        levels = data;
+    function(levels) {
 
-        var sel = null,
-            i, opt,
-            dropdown = $("#levelList");
+        var dropdown = $("#levelList"),
+            i, opt;
 
         dropdown.empty();
 
-        for (i in data) {
+        for (i in levels) {
             opt = $("<option></option>").attr("value", i).html(i);
             if (!currentLevelName) {
                 opt.attr("selected", true);
@@ -199,6 +232,8 @@ $.get("/levels",
 
         if (currentLevelName) {
             GameState.parseLevel(levels[currentLevelName]);
+            // levelSettings.width = GameState.getWidth(); FIXME: Something like this!
+            // levelSettings.height = GameState.getHeight(); FIXME: Something like this!
         } else {
             createNewLevel();
         }
@@ -208,12 +243,9 @@ $.get("/levels",
         enterEditMode();
     });
 
-UI.addCategory("Game Objects");
-UI.addCategory("Backgrounds");
-UI.addCategory("Music");
-
-setupBackgrounds();
-setupObjects();
+initGameObjectMenu();
+initBackgroundMenu();
+initMusicMenu();
 
 
 //===============

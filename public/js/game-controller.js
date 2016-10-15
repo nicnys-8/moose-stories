@@ -61,14 +61,16 @@ function GameController() {
             ctx.save();
             ctx.globalAlpha = 0.15;
 
-            for (i = offsetX % config.tileSize; i < canvas.width; i += config.tileSize) {
+            i = offsetX % config.tileSize - config.tileSize / 2;
+            for (i; i < canvas.width; i += config.tileSize) {
                 ctx.beginPath();
                 ctx.moveTo(i, 0);
                 ctx.lineTo(i, canvas.height);
                 ctx.stroke();
             }
 
-            for (i = offsetY % config.tileSize; i < canvas.height; i += config.tileSize) {
+            i = offsetY % config.tileSize + config.tileSize / 2;
+            for (i; i < canvas.height; i += config.tileSize) {
                 ctx.beginPath();
                 ctx.moveTo(0, i);
                 ctx.lineTo(canvas.width, i);
@@ -145,6 +147,14 @@ function GameController() {
     };
 
     /**
+     * Resets the current level.
+     */
+    this.resetLevel = function() {
+        GameState.clear();
+        this.startGame();
+    };
+
+    /**
      * Sets the canvas used for rendering graphics.
      *
      * @param {HTMLCanvasElement} canvas - A HTML5 canvas element (view in the MVC pattern).
@@ -158,6 +168,16 @@ function GameController() {
      */
     this.getCamera = function() {
         return camera;
+    };
+
+    /**
+     * Sets the position of the camera.
+     * @param {number} x Horizontal coordinate
+     * @param {number} y Vertical coordinate
+     */
+    this.setCameraPosition = function(x, y) {
+        camera.position.x = x;
+        camera.position.y = y;
     };
 
     /**

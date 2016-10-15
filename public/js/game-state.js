@@ -180,7 +180,6 @@ function GameState() {
             obj,
             i;
 
-        console.log(left, right, top, bottom);
         for (i = 0; i < pObjects.length; i++) {
             obj = pObjects[i];
             if (!(
@@ -251,7 +250,7 @@ function GameState() {
 
         if (description.music) {
             music = new GameObject("Audio", {
-                filePath: description.music,
+                name: description.music,
                 looping: true
             });
         }
@@ -314,6 +313,9 @@ function GameState() {
     };
 
     this.setMusic = function(msc) {
+        if (music) {
+            music.stop();
+        }
         music = msc;
     };
 

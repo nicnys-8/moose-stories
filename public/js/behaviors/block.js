@@ -24,10 +24,10 @@ behavior.dependencies = ["Solid", "HasAnimation"];
 behavior.getProperties = function() {
     return {
         boundingBox: {
-            left: 0,
-            right: 32,
-            top: 0,
-            bottom: 32
+            left: -16,
+            right: 16,
+            top: -16,
+            bottom: 16
         }
     };
 };
@@ -38,7 +38,11 @@ behavior.getProperties = function() {
 behavior.init = function() {
     this.currentAnimation = new GameObject("Animation", {
         filePath: "img/sprites/block.svg",
-        numFrames: 1
+        numFrames: 1,
+        hotspot: {
+            x: 16,
+            y: 16
+        }
     });
 };
 

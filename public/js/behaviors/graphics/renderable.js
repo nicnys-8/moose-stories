@@ -20,7 +20,7 @@ function render(ctx) {}
 
 var behavior = {};
 
-behavior.dependencies = ["Transform", "LoadImage"];
+behavior.dependencies = ["Transform"];
 
 /**
 * Defines the public variables and methods associated with this behavior.
