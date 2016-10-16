@@ -5,34 +5,36 @@
 	composer = "Joakim Nilsson"
 }
 
+noteA = {ees8}
+
+treble = \new Staff {
+	\tempo "Spela han snabbt!" 4 = 90
+	\time 4/4
+	\key c \major
+
+	\relative c' {
+		\set midiInstrument = #"acoustic grand"
+		\clef "treble"
+		c4 d8   c c4 d8   c |
+		c4 \noteA c c4 \noteA |
+	}
+}
+
+bass = \new Staff {
+	\set midiInstrument = #"french horn"
+	\clef "bass"
+	\key c \major
+
+	\relative c {
+		<c e   g>1 |
+		<c ees g>1 |
+	}
+}
+
 \score {
 	\new PianoStaff <<
-		\new Staff {
-			\tempo "Spela han snabbt!" 4 = 120
-			\time 4/4
-
-			\relative c' {
-				\set midiInstrument = #"overdriven guitar"
-				\clef "treble"
-				c4 c8 c c b r4
-				c4 c8 c c d r4
-				c4 c8 c d c d c
-				<c g'>8. <c e>16 <c g'>8. <c e>16 <c g'>8 <c e> <c g'> <c eis>
-				<c g' c>1
-			}
-		}
-
-		\new Staff {
-			\relative c {
-				\set midiInstrument = #"church organ"
-				\clef "bass"
-				<c e g>1
-				<c eis g>4~<c e g>2.
-				<c e g>1
-				<c e g>1
-				<c c' e g>1
-			}
-		}
+		\treble
+		\bass
 	>>
 
 	\layout {}
