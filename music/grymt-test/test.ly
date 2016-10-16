@@ -5,7 +5,14 @@
 	composer = "Joakim Nilsson"
 }
 
-noteA = {ees8}
+leverHappyCreepy = 100
+x = d8
+y = #(define-music-function (parser location note) (ly:music?)
+	(if (> leverHappyCreepy 50)
+		#{ $note #} ; Add sly
+		#{ $note #}
+	)
+)
 
 treble = \new Staff {
 	\tempo "Spela han snabbt!" 4 = 90
@@ -15,8 +22,8 @@ treble = \new Staff {
 	\relative c' {
 		\set midiInstrument = #"acoustic grand"
 		\clef "treble"
-		c4 d8   c c4 d8   c |
-		c4 \noteA c c4 \noteA |
+		c4 \x c8 c4 \x c8 |
+		c4 \y e8 c8 c4 e8 c8 |
 	}
 }
 
