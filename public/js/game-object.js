@@ -19,13 +19,9 @@ function GameObject(behaviors, args) {
 
     // Add all behaviors
     behaviors = [].concat(behaviors); // Turn into array
-    for (i = 0; i < behaviors.length; i++) {
-        this.addBehavior(behaviors[i], args);
-    }
-    // Overwrite default properties with argument values
-    for (i in args) {
-        this[i] = args[i];
-    }
+    behaviors.forEach(behavior => {
+        this.addBehavior(behavior, args);
+    });
 }
 
 /**
@@ -77,11 +73,18 @@ GameObject.prototype.addBehavior = function(behaviorName, args) {
         }
     }
 
-    // Add behavior properties
+    // Add default behavior properties
     if (behavior.getProperties) {
         properties = behavior.getProperties();
         for (i in properties) {
             this[i] = properties[i];
+        }
+    }
+
+    // Overwrite default properties with argument values
+    for (i in args) {
+        if (typeof this[i] !== "undefined") {
+            this[i] = args[i];
         }
     }
 
@@ -90,7 +93,7 @@ GameObject.prototype.addBehavior = function(behaviorName, args) {
         this.ticks.push(behavior.tick);
     }
 
-    // Initialize the instance with custom arguments
+    // Run initialization code
     if (behavior.init) {
         behavior.init.call(this, args);
     }

@@ -7,7 +7,8 @@
 var Behaviors = require("../behaviors"),
     GameObject = require("../game-object"),
     jumpSound = new GameObject("Audio", {
-        name: "Jump"
+        name: "Jump",
+        looping: true
     }),
     landSound = new GameObject("Audio", {
         name: "Land"

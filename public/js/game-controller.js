@@ -61,7 +61,7 @@ function GameController() {
             ctx.save();
             ctx.globalAlpha = 0.15;
 
-            i = offsetX % config.tileSize - config.tileSize / 2;
+            i = offsetX % config.tileSize + config.tileSize / 2;
             for (i; i < canvas.width; i += config.tileSize) {
                 ctx.beginPath();
                 ctx.moveTo(i, 0);

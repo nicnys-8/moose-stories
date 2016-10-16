@@ -10,9 +10,9 @@ var Behaviors = require("../../behaviors"),
 /**
  * Renders the object.
  *
- * @param {CanvasRenderingContext2D} ctx 2D rendering context.
- * @param {number} offsetX Horizontal position of the center of the viewport.
- * @param {number} offsetY Vertical position of the center of the viewport.
+ * @param {CanvasRenderingContext2D} ctx - 2D rendering context.
+ * @param {number} offsetX - Horizontal position of the center of the viewport.
+ * @param {number} offsetY - Vertical position of the center of the viewport.
  */
 function render(ctx, offsetX, offsetY) {
     var i;

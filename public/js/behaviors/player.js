@@ -6,15 +6,15 @@
 
 var Behaviors = require("../behaviors"),
     GameObject = require("../game-object"),
-    hotspot = {
-        x: 16,
-        y: 48
-    },
     boundingBox = {
         left: -16,
         right: 16,
         top: -48,
         bottom: 16
+    },
+    spriteOffset = {
+        x: 16,
+        y: 48
     },
     animations = {
         stand: null,
@@ -57,18 +57,18 @@ behavior.init = function() {
     animations.stand = new GameObject("Animation", {
         filePath: "img/sprites/giri/stand.svg",
         numFrames: 1,
-        hotspot: hotspot
+        origin: spriteOffset
     });
     animations.walk = new GameObject("Animation", {
         filePath: "img/sprites/giri/walk.svg",
         numFrames: 2,
-        hotspot: hotspot,
-        imageSpeed: 0.1
+        imageSpeed: 0.1,
+        origin: spriteOffset
     });
     animations.jump = new GameObject("Animation", {
         filePath: "img/sprites/giri/jump.svg",
         numFrames: 1,
-        hotspot: hotspot
+        origin: spriteOffset
     });
     this.currentAnimation = animations.jump;
 };

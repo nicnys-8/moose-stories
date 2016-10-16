@@ -11,7 +11,9 @@ var Behaviors = require("../../behaviors");
  *
  * @param {CanvasRenderingContext2D} ctx - 2D rendering context.
  */
-function render(ctx) {}
+function render(ctx) {
+    throw new Error("This object does not implement a 'render' function.");
+}
 
 
 //=================
