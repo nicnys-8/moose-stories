@@ -31,11 +31,9 @@ function createNewLevel() {
  * @return {{x: number, y: number}} The event's position in the game 's coordinate system.
  */
 function calculatePlacement(event) {
-    var x = camera.position.x + event.offsetX - canvas.width / 2,
-        y = camera.position.y + event.offsetY - canvas.height / 2;
     return {
-        x: Math.round(x),
-        y: Math.round(y)
+        x: camera.position.x + event.offsetX - canvas.width / 2,
+        y: camera.position.y + event.offsetY - canvas.height / 2
     };
 }
 
@@ -153,7 +151,6 @@ function initMusicMenu() {
 
     function selectFn(song) {
         return function() {
-            console.log(song);
             GameState.setMusic(song);
             GameState.getMusic().play();
         };
@@ -162,9 +159,8 @@ function initMusicMenu() {
     UI.addCategory("Music");
     config.editor.music.forEach(function(songName) {
         var item = UI.createListItem(null, "&nbsp;", songName),
-            song = new GameObject("Audio", {
-                name: songName
-            });
+            song = new GameObject("Audio", {name: songName});
+
         item.click(selectFn(song));
         UI.addListItem(item, "Music");
     });

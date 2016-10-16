@@ -35,12 +35,6 @@ behavior.getProperties = function() {
     return {
         // Variables
         currentAnimation: null,
-        boundingBox: {
-            left: -16, // FIXME: Defaults from config?
-            right: 16,
-            top: -16,
-            bottom: 16
-        },
 
         // Functions
         render: render // Overwrites the inherited function

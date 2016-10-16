@@ -5,9 +5,8 @@
 "use strict";
 
 var GameState = require("./../game-state"),
-    Behaviors = require("./../behaviors");
-// @TODO: Rename functions to specifiy whether they work with objects or other things. e.g. overlapsObjectOffset ??? (note: this is a question)
-
+    Behaviors = require("./../behaviors"),
+    config = require("./../config");
 
 /**
  * Check whether this object overlaps another.
@@ -138,11 +137,11 @@ behavior.dependencies = ["Transform"];
 behavior.getProperties = function() {
     return {
         // variables
-        boundingBox: { // FIXME: Defaults from config?
-            left: -8,
-            right: 8,
-            top: -8,
-            bottom: 8
+        boundingBox: {
+            left: -config.tileSize / 2,
+            right: config.tileSize / 2,
+            top: -config.tileSize / 2,
+            bottom: config.tileSize / 2
         },
         onGround: true,
         wasOnGround: true,

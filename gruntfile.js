@@ -18,6 +18,7 @@ module.exports = function(grunt) {
                 options: {
                     "strict": "global",
                     "node": true,
+                    "esversion": 6
                 }
             },
             client: {
@@ -30,7 +31,8 @@ module.exports = function(grunt) {
                     "validthis": true,
                     "globals": {
                         "$": false
-                    }
+                    },
+                    "esversion": 6
                 }
             }
         },
