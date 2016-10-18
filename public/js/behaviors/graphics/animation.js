@@ -4,7 +4,7 @@
 
 "use strict";
 
-var Behaviors = require("../../behaviors");
+const Behaviors = require("../../behaviors");
 
 /**
  * Renders the sprite on screen.
@@ -18,34 +18,34 @@ var Behaviors = require("../../behaviors");
  * @param {number} alpha      - Opacity of the object, a value between 0 and 1.
  */
 function render(ctx, position, scale, rotation, alpha) {
-    var width = this.canvas.width / this.numFrames,
-        height = this.canvas.height,
-        clippingX = Math.round(this.currentFrame) * width,
-        clippingY = 0,
-        canvasX = this.position.x - this.origin.x,
-        canvasY = this.position.y - this.origin.y;
+	const width = this.canvas.width / this.numFrames,
+		height = this.canvas.height,
+		clippingX = Math.round(this.currentFrame) * width,
+		clippingY = 0,
+		canvasX = this.position.x - this.origin.x,
+		canvasY = this.position.y - this.origin.y;
 
-    ctx.save();
+	ctx.save();
 
-    ctx.translate(position.x, position.y);
-    if (scale.x !== 1 || scale.y !== 1) {
-        ctx.scale(scale.x, scale.y);
-    }
-    if (rotation !== 0) {
-        ctx.rotate(rotation);
-    }
-    if (ctx.globalAlpha !== 1) {
-        ctx.globalAlpha = alpha;
-    }
-    ctx.drawImage(
-        this.canvas,
-        clippingX, clippingY,
-        width, height, // Clipping size
-        canvasX, canvasY,
-        width, height // Size on screen
-    );
+	ctx.translate(position.x, position.y);
+	if (scale.x !== 1 || scale.y !== 1) {
+		ctx.scale(scale.x, scale.y);
+	}
+	if (rotation !== 0) {
+		ctx.rotate(rotation);
+	}
+	if (ctx.globalAlpha !== 1) {
+		ctx.globalAlpha = alpha;
+	}
+	ctx.drawImage(
+		this.canvas,
+		clippingX, clippingY,
+		width, height, // Clipping size
+		canvasX, canvasY,
+		width, height // Size on screen
+	);
 
-    ctx.restore();
+	ctx.restore();
 }
 
 
@@ -53,53 +53,53 @@ function render(ctx, position, scale, rotation, alpha) {
 // Public interface
 //=================
 
-var behavior = {};
+const behavior = {};
 
 behavior.dependencies = ["Renderable", "LoadImage"];
 
 /**
-* Defines the public variables and methods associated with this behavior.
-*
-* @return {object} An object containing behavior variables and methods.
-*/
+ * Defines the public variables and methods associated with this behavior.
+ *
+ * @return {object} An object containing behavior variables and methods.
+ */
 behavior.getProperties = function() {
-    return {
-        // Variables
-        canvas: null,
-        numFrames: 1,
-        origin: null,
-        currentFrame: 0,
-        imageSpeed: 0,
+	return {
+		// Variables
+		canvas: null,
+		numFrames: 1,
+		origin: null,
+		currentFrame: 0,
+		imageSpeed: 0,
 
-        // Functions
-        render: render
-    };
+		// Functions
+		render: render
+	};
 };
 
 /**
-* Initialization function, called on an object when this behavior is added to it.
-*
-* @param {string} args.filePath - Path to the image file.
-*/
+ * Initialization function, called on an object when this behavior is added to it.
+ *
+ * @param {string} args.filePath - Path to the image file.
+ */
 behavior.init = function(args) {
-    if (args && args.filePath) {
-        this.canvas = this.loadImage(args.filePath);
-        if (this.origin === null) {
-            this.origin = {
-                x: (this.canvas.width / this.numFrames) / 2,
-                y: this.canvas.height / 2
-            };
-        }
-    } else {
-      throw new Error("'Animation' behavior requires argument 'filePath'.");
-    }
+	if (args && args.filePath) {
+		this.canvas = this.loadImage(args.filePath);
+		if (this.origin === null) {
+			this.origin = {
+				x: (this.canvas.width / this.numFrames) / 2,
+				y: this.canvas.height / 2
+			};
+		}
+	} else {
+		throw new Error("'Animation' behavior requires argument 'filePath'.");
+	}
 };
 
 /**
-* Updates the state of the target object.
-*/
+ * Updates the state of the target object.
+ */
 behavior.tick = function() {
-    this.currentFrame = (this.currentFrame + this.imageSpeed) % (this.numFrames - 1);
+	this.currentFrame = (this.currentFrame + this.imageSpeed) % (this.numFrames - 1);
 };
 
 Behaviors.register("Animation", behavior);

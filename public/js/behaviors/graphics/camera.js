@@ -4,14 +4,14 @@
 
 "use strict";
 
-var Behaviors = require("../../behaviors");
+const Behaviors = require("../../behaviors");
 
 
 //=================
 // Public interface
 //=================
 
-var behavior = {};
+const behavior = {};
 
 behavior.dependencies = ["Transform"];
 
@@ -21,26 +21,26 @@ behavior.dependencies = ["Transform"];
  * @return {object} An object containing behavior variables and methods.
  */
 behavior.getProperties = function() {
-    return {
-        // Variables
-        sensitivity: 0.2,
-        offset: {
-            x: 0,
-            y: -96
-        },
-        target: null
-    };
+	return {
+		// Variables
+		sensitivity: 0.2,
+		offset: {
+			x: 0,
+			y: -96
+		},
+		target: null
+	};
 };
 
 /**
  * Updates the state of the target object.
  */
 behavior.tick = function() {
-    var xDistance = (this.target.position.x + this.offset.x) - this.position.x,
-        yDistance = (this.target.position.y + this.offset.y) - this.position.y;
+	const xDistance = (this.target.position.x + this.offset.x) - this.position.x,
+		yDistance = (this.target.position.y + this.offset.y) - this.position.y;
 
-    this.position.x += xDistance * this.sensitivity;
-    this.position.y += yDistance * this.sensitivity;
+	this.position.x += xDistance * this.sensitivity;
+	this.position.y += yDistance * this.sensitivity;
 };
 
 

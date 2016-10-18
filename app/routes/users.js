@@ -1,6 +1,6 @@
 "use strict";
 
-var express = require("express"),
+const express = require("express"),
     router = express.Router(),
     passport = require("passport"),
     User = require("../models/user");
@@ -39,15 +39,14 @@ function isAdmin(req, res, next) {
 router.get("/", isAuthenticated, function(req, res) {
 
     User.find(function(err, users) {
-        var result = [];
-        var i;
+        const result = [];
         if (err) {
             //TODO: Error handling
         }
         if (!users) {
             res.send(null);
         }
-        for (i = 0; i < users.length; i++) {
+        for (let i = 0; i < users.length; i++) {
             result.push(strip(users[i]));
         }
         res.json(result);
@@ -55,7 +54,7 @@ router.get("/", isAuthenticated, function(req, res) {
 });
 
 router.get("/:userId", isAuthenticated, function(req, res) {
-    var query = {
+    const query = {
         _id: req.params.userId
     };
 
@@ -71,7 +70,7 @@ router.get("/:userId", isAuthenticated, function(req, res) {
 });
 
 router.delete("/:userId", isAdmin, function(req, res) {
-    var query = {
+    const query = {
         _id: req.params.userId
     };
 

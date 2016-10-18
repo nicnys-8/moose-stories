@@ -5,8 +5,8 @@
 "use strict";
 
 
-var Behaviors = require("../../behaviors"),
-    canvases = {}; // Private canvas cache
+const Behaviors = require("../../behaviors"),
+	canvases = {}; // Private canvas cache
 
 /**
  * Loads an image from file and draws it in a canvas.
@@ -19,26 +19,26 @@ var Behaviors = require("../../behaviors"),
  * @return {HTMLCanvasElement} A canvas containing the loaded image.
  */
 function loadImage(imagePath, callback) {
-    var canvas;
-    if (canvases.hasOwnProperty(imagePath)) {
-        canvas = canvases[imagePath];
-    } else {
-        var img = new Image();
+	var canvas;
+	if (canvases.hasOwnProperty(imagePath)) {
+		canvas = canvases[imagePath];
+	} else {
+		var img = new Image();
 
-        img.src = imagePath;
-        img.onload = function() {
-            canvas.width = img.width;
-            canvas.height = img.height;
-            canvas.getContext("2d").drawImage(img, 0, 0);
-            if (typeof callback === "function") {
-                callback(canvas);
-            }
-        };
+		img.src = imagePath;
+		img.onload = function() {
+			canvas.width = img.width;
+			canvas.height = img.height;
+			canvas.getContext("2d").drawImage(img, 0, 0);
+			if (typeof callback === "function") {
+				callback(canvas);
+			}
+		};
 
-        canvas = document.createElement("canvas");
-        canvases[imagePath] = canvas;
-    }
-    return canvas;
+		canvas = document.createElement("canvas");
+		canvases[imagePath] = canvas;
+	}
+	return canvas;
 }
 
 /**
@@ -47,9 +47,9 @@ function loadImage(imagePath, callback) {
  * @param {[string]} imagePaths - Array of paths to the image files.
  * @param {function} [callback] - Function to call once the images are loaded.
  * @return {HTMLCanvasElement} A canvas containing the loaded image.
- */
+
 function loadImages(imagePaths, callback) {
-    var numImages = imagePaths,
+    const numImages = imagePaths,
         numWaiting = imagePaths.length,
         loadTasks = [];
 
@@ -61,14 +61,14 @@ function loadImages(imagePaths, callback) {
             }
         });
     });
-}
+} */
 
 
 //=================
 // Public interface
 //=================
 
-var behavior = {};
+const behavior = {};
 
 /**
  * Defines the public variables and methods associated with this behavior.
@@ -76,9 +76,9 @@ var behavior = {};
  * @return {object} An object containing behavior variables and methods.
  */
 behavior.getProperties = function() {
-    return {
-        loadImage: loadImage
-    };
+	return {
+		loadImage: loadImage
+	};
 };
 
 Behaviors.register("LoadImage", behavior);

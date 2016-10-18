@@ -4,8 +4,7 @@
 
 "use strict";
 
-var Behaviors = require("../behaviors"),
-  text = "";
+const Behaviors = require("../behaviors");
 
 /**
  * Renders the object.
@@ -20,7 +19,7 @@ function render(ctx) {
 // Public interface
 //=================
 
-var behavior = {};
+const behavior = {};
 
 behavior.dependencies = ["Renderable"];
 

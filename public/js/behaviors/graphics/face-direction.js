@@ -4,13 +4,13 @@
 
 "use strict";
 
-var Behaviors = require("../../behaviors");
+const Behaviors = require("../../behaviors");
 
 //=================
 // Public interface
 //=================
 
-var behavior = {};
+const behavior = {};
 
 behavior.dependencies = ["Moving"];
 

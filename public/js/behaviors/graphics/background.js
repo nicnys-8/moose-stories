@@ -4,8 +4,8 @@
 
 "use strict";
 
-var Behaviors = require("../../behaviors"),
-    GameObject = require("../../game-object");
+const Behaviors = require("../../behaviors"),
+	GameObject = require("../../game-object");
 
 /**
  * Renders the object.
@@ -15,10 +15,9 @@ var Behaviors = require("../../behaviors"),
  * @param {number} offsetY - Vertical position of the center of the viewport.
  */
 function render(ctx, offsetX, offsetY) {
-    var i;
-    for (i = 0; i < this.layers.length; i++) {
-        this.layers[i].render(ctx, offsetX, offsetY);
-    }
+	this.layers.forEach((layer) => {
+		layer.render(ctx, offsetX, offsetY);
+	});
 }
 
 
@@ -26,23 +25,23 @@ function render(ctx, offsetX, offsetY) {
 // Public interface
 //=================
 
-var behavior = {};
+const behavior = {};
 
 /**
-* Defines the public variables and methods associated with this behavior.
-*
-* @return {object} An object containing behavior variables and methods.
-*/
+ * Defines the public variables and methods associated with this behavior.
+ *
+ * @return {object} An object containing behavior variables and methods.
+ */
 behavior.dependencies = ["Renderable"];
 
 behavior.getProperties = function() {
-    return {
-        // Variables
-        layers: [],
+	return {
+		// Variables
+		layers: [],
 
-        // Functions
-        render: render // Overwrites the inherited function
-    };
+		// Functions
+		render: render // Overwrites the inherited function
+	};
 };
 
 Behaviors.register("Background", behavior);

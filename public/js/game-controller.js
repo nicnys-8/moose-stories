@@ -4,9 +4,9 @@
 
 "use strict";
 
-var GameState = require("./game-state"),
-    GameObject = require("./game-object"),
-    config = require("./config");
+const GameState = require("./game-state"),
+	GameObject = require("./game-object"),
+	config = require("./config");
 
 /**
  * Instantiates a game controller object.
@@ -16,177 +16,177 @@ var GameState = require("./game-state"),
  */
 function GameController() {
 
-    var player = null,
-        canvas = null,
-        paused = false,
-        shouldDrawGrid = false,
-        camera = new GameObject("Camera"),
-        keyboard = new GameObject("Keyboard");
+	const camera = new GameObject("Camera"),
+		keyboard = new GameObject("Keyboard");
 
-    /**
-     * Renders the current view of the game.
-     */
-    this.render = function() {
+	let player = null,
+		canvas = null,
+		paused = false,
+		shouldDrawGrid = false;
 
-        var renderList = GameState.filter("Renderable"),
-            offsetX = -camera.position.x + (canvas.width / 2),
-            offsetY = -camera.position.y + (canvas.height / 2),
-            background = null,
-            i, j,
-            ctx;
+	/**
+	 * Renders the current view of the game.
+	 */
+	this.render = function() {
 
-        ctx = canvas.getContext("2d");
-        // Clear the canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+		const renderList = GameState.filter("Renderable"),
+			offsetX = -camera.position.x + (canvas.width / 2),
+			offsetY = -camera.position.y + (canvas.height / 2);
 
-        ctx.save();
-        //ctx.scale(camera.scale.x, camera.scale.y);
-        //ctx.rotate(camera.rotation);
+		let ctx = canvas.getContext("2d"),
+			background;
 
+		// Clear the canvas
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        background = GameState.getBackground();
-        if (background !== null) {
-            background.render(ctx, offsetX, offsetY);
-        }
+		ctx.save();
+		if (camera.scale.x !== 1 || camera.scale.y !== 1) {
+			ctx.scale(camera.scale.x, camera.scale.y);
+		}
+		if (camera.rotation !== 0) {
+			ctx.rotate(camera.rotation);
+		}
 
-        // Render in-game objects
-        ctx.translate(offsetX, offsetY);
-        for (i = 0; i < renderList.length; i++) {
-            renderList[i].render(ctx);
-        }
-        ctx.restore();
+		background = GameState.getBackground();
+		if (background !== null) {
+			background.render(ctx, offsetX, offsetY);
+		}
 
-        // Optionally render a grid
-        if (shouldDrawGrid) {
-            ctx.save();
-            ctx.globalAlpha = 0.15;
+		// Render in-game objects
+		ctx.translate(offsetX, offsetY);
+		for (let i = 0; i < renderList.length; i++) {
+			renderList[i].render(ctx);
+		}
+		ctx.restore();
 
-            i = offsetX % config.tileSize + config.tileSize / 2;
-            for (i; i < canvas.width; i += config.tileSize) {
-                ctx.beginPath();
-                ctx.moveTo(i, 0);
-                ctx.lineTo(i, canvas.height);
-                ctx.stroke();
-            }
+		// Optionally render a grid
+		if (shouldDrawGrid) {
+			ctx.save();
+			ctx.globalAlpha = 0.15;
 
-            i = offsetY % config.tileSize + config.tileSize / 2;
-            for (i; i < canvas.height; i += config.tileSize) {
-                ctx.beginPath();
-                ctx.moveTo(0, i);
-                ctx.lineTo(canvas.width, i);
-                ctx.stroke();
-            }
-            ctx.restore();
-        }
-    };
+			let i = offsetX % config.tileSize + config.tileSize / 2;
+			for (i; i < canvas.width; i += config.tileSize) {
+				ctx.beginPath();
+				ctx.moveTo(i, 0);
+				ctx.lineTo(i, canvas.height);
+				ctx.stroke();
+			}
 
-    /**
-     * Runs the main game loop
-     * Updates all in-game objects and renders the screen,
-     * i.e. a single step in the main game loop.
-     */
-    this.tick = function() {
-        var self = this;
+			i = offsetY % config.tileSize + config.tileSize / 2;
+			for (i; i < canvas.height; i += config.tileSize) {
+				ctx.beginPath();
+				ctx.moveTo(0, i);
+				ctx.lineTo(canvas.width, i);
+				ctx.stroke();
+			}
+			ctx.restore();
+		}
+	};
 
-        if (!canvas) {
-            console.warn("Set a canvas element using gameController.setCanvas.");
-            return;
-        }
+	/**
+	 * Runs the main game loop
+	 * Updates all in-game objects and renders the screen,
+	 * i.e. a single step in the main game loop.
+	 */
+	this.tick = function() {
+		if (!canvas) {
+			console.warn("Set a canvas element using gameController.setCanvas.");
+			return;
+		}
 
-        // Repeat the function before each frame is rendered:
-        window.requestAnimationFrame(function() {
-            self.tick();
-        });
+		// Repeat the function before each frame is rendered:
+		window.requestAnimationFrame(() => {
+			this.tick();
+		});
 
-        keyboard.tick();
-        if (paused) {
-            return;
-        }
+		keyboard.tick();
+		if (paused) {
+			return;
+		}
 
-        this.render();
+		this.render();
 
-        if (keyboard.down("left")) {
-            player.moveLeft();
-        } else if (keyboard.down("right")) {
-            player.moveRight();
-        }
-        if (keyboard.pressed("up")) {
-            player.jump();
-        }
-        if (keyboard.released("up")) {
-            player.cancelJump();
-        }
+		if (keyboard.down("left")) {
+			player.moveLeft();
+		} else if (keyboard.down("right")) {
+			player.moveRight();
+		}
+		if (keyboard.pressed("up")) {
+			player.jump();
+		}
+		if (keyboard.released("up")) {
+			player.cancelJump();
+		}
 
-        camera.tick();
-        GameState.tick();
-    };
+		camera.tick();
+		GameState.tick();
+	};
 
-    this.startGame = function() {
-        player = GameState.filter("Player")[0];
-        camera.target = player;
-        // Play music
-        if (GameState.getMusic()) {
-            GameState.getMusic().play();
-        }
-        // Start the main game loop
-        this.tick();
-    };
+	this.startGame = function() {
+		player = GameState.filter("Player")[0];
+		camera.target = player;
+		if (GameState.getMusic()) {
+			GameState.getMusic().play();
+		}
+		// Start the main game loop
+		this.tick();
+	};
 
-    /**
-     * Pauses the game loop.
-     */
-    this.pause = function() {
-        paused = true;
-    };
+	/**
+	 * Pauses the game loop.
+	 */
+	this.pause = function() {
+		paused = true;
+	};
 
-    /**
-     * Resumes the game loop.
-     */
-    this.resume = function() {
-        paused = false;
-    };
+	/**
+	 * Resumes the game loop.
+	 */
+	this.resume = function() {
+		paused = false;
+	};
 
-    /**
-     * Resets the current level.
-     */
-    this.resetLevel = function() {
-        GameState.clear();
-        this.startGame();
-    };
+	/**
+	 * Resets the current level.
+	 */
+	this.resetLevel = function() {
+		GameState.clear();
+		this.startGame();
+	};
 
-    /**
-     * Sets the canvas used for rendering graphics.
-     *
-     * @param {HTMLCanvasElement} canvas - A HTML5 canvas element (view in the MVC pattern).
-     */
-    this.setCanvas = function(canvasArg) {
-        canvas = canvasArg;
-    };
+	/**
+	 * Sets the canvas used for rendering graphics.
+	 *
+	 * @param {HTMLCanvasElement} canvas - A HTML5 canvas element (view in the MVC pattern).
+	 */
+	this.setCanvas = function(canvasArg) {
+		canvas = canvasArg;
+	};
 
-    /**
-     * @return {Camera} The camera object.
-     */
-    this.getCamera = function() {
-        return camera;
-    };
+	/**
+	 * @return {Camera} The camera object.
+	 */
+	this.getCamera = function() {
+		return camera;
+	};
 
-    /**
-     * Sets the position of the camera.
-     * @param {number} x Horizontal coordinate
-     * @param {number} y Vertical coordinate
-     */
-    this.setCameraPosition = function(x, y) {
-        camera.position.x = x;
-        camera.position.y = y;
-    };
+	/**
+	 * Sets the position of the camera.
+	 * @param {number} x - Horizontal coordinate
+	 * @param {number} y - Vertical coordinate
+	 */
+	this.setCameraPosition = function(x, y) {
+		camera.position.x = x;
+		camera.position.y = y;
+	};
 
-    /**
-     * Makes the controller draw a grid overlay when rendering the game.
-     * @param {boolean} bool True if the grid should be drawn, false otherwise.
-     */
-    this.drawGrid = function(bool) {
-        shouldDrawGrid = bool;
-    };
+	/**
+	 * Makes the controller draw a grid overlay when rendering the game.
+	 * @param {boolean} bool - True if the grid should be drawn, false otherwise.
+	 */
+	this.drawGrid = function(bool) {
+		shouldDrawGrid = bool;
+	};
 }
 
 module.exports = new GameController();

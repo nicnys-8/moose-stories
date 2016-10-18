@@ -4,15 +4,15 @@
 
 "use strict";
 
-var Behaviors = require("../../behaviors"),
-    GameObject = require("../../game-object");
+const Behaviors = require("../../behaviors"),
+	GameObject = require("../../game-object");
 
 
 //=================
 // Public interface
 //=================
 
-var behavior = {};
+const behavior = {};
 
 behavior.dependencies = ["Background"];
 
@@ -20,20 +20,18 @@ behavior.dependencies = ["Background"];
  * Initialization function, called on an object when this behavior is added to it.
  */
 behavior.init = function(args) {
-    var layerDescriptions, layer, i;
+	const layerDescriptions = [{
+		filePath: "img/backgrounds/mountains.svg",
+		x: 0,
+		y: 360,
+		tiledX: true,
+		tiledY: false
+	}];
 
-    layerDescriptions = [{
-        filePath: "img/backgrounds/mountains.svg",
-        x: 0,
-        y: 360,
-        tiledX: true,
-        tiledY: false
-    }];
-
-    for (i = 0; i < layerDescriptions.length; i++) {
-        layer = new GameObject("BackgroundLayer", layerDescriptions[i]);
-        this.layers.push(layer);
-    }
+	layerDescriptions.forEach(description => {
+		let layer = new GameObject("BackgroundLayer", description);
+		this.layers.push(layer);
+	});
 };
 
 Behaviors.register("MountainBackground", behavior);

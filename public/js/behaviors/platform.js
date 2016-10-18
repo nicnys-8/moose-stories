@@ -4,11 +4,10 @@
 
 "use strict";
 
-var Behaviors = require("../behaviors"),
+const Behaviors = require("../behaviors"),
     GameObject = require("../game-object"),
     jumpSound = new GameObject("Audio", {
-        name: "Jump",
-        looping: true
+        name: "Jump"
     }),
     landSound = new GameObject("Audio", {
         name: "Land"
@@ -41,7 +40,7 @@ function cancelJump() {
 // Public interface
 //=================
 
-var behavior = {};
+const behavior = {};
 
 behavior.dependencies = ["Moving", "HasAnimation"];
 

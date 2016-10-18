@@ -1,34 +1,34 @@
 {
-    "width": 1600,
-    "height": 1000,
-    "objects": [{
-        "behaviors": "Player",
-        "args": {
-            "position": {
-                "x": 160,
-                "y": 128
-            },
-            "uid": 0
-        }
-    }, {
-        "behaviors": "Block",
-        "args": {
-            "position": {
-                "x": 128,
-                "y": 160
-            },
-            "uid": 1
-        }
-    }, {
-        "behaviors": "Block",
-        "args": {
-            "position": {
-                "x": 160,
-                "y": 160
-            },
-            "uid": 2
-        }
-    }],
-    "background": "DefaultBackground",
-    "music": "Main theme"
+	"width": 1600,
+	"height": 1000,
+	"objects": [{
+		"behaviors": "Player",
+		"args": {
+			"position": {
+				"x": 160,
+				"y": 128
+			},
+			"uid": 0
+		}
+	}, {
+		"behaviors": "Block",
+		"args": {
+			"position": {
+				"x": 128,
+				"y": 160
+			},
+			"uid": 1
+		}
+	}, {
+		"behaviors": "Block",
+		"args": {
+			"position": {
+				"x": 160,
+				"y": 160
+			},
+			"uid": 2
+		}
+	}],
+	"background": "DefaultBackground",
+	"music": "Main theme"
 }

@@ -1,32 +1,32 @@
 "use strict";
 
 // Load required modules
-var http = require("http"),
-    express = require("express"),
-    app = express(),
-    bodyParser = require("body-parser"),
-    fs = require("fs"),
-    flash = require("connect-flash"),
-    mongoose = require("mongoose"),
-    passport = require("passport"),
-    ExpressSession = require("express-session"),
-    config = require("./config/config.js"),
-    strategies = require("./config/strategies"),
-    routes = require("./app/routes/index"),
-    MongoStore = require("connect-mongo")(ExpressSession),
-    sessionStore = new MongoStore({
-        mongooseConnection: mongoose.connection
-    }),
-    session = ExpressSession({
-        secret: config.cookie.secret,
-        key: config.cookie.name,
-        store: sessionStore,
-        resave: false,
-        saveUninitialized: true,
-        cookie: {
-            maxAge: config.cookie.maxAge
-        }
-    });
+const http = require("http"),
+	express = require("express"),
+	app = express(),
+	bodyParser = require("body-parser"),
+	fs = require("fs"),
+	flash = require("connect-flash"),
+	mongoose = require("mongoose"),
+	passport = require("passport"),
+	ExpressSession = require("express-session"),
+	config = require("./config/config.js"),
+	strategies = require("./config/strategies"),
+	routes = require("./app/routes/index"),
+	MongoStore = require("connect-mongo")(ExpressSession),
+	sessionStore = new MongoStore({
+		mongooseConnection: mongoose.connection
+	}),
+	session = ExpressSession({
+		secret: config.cookie.secret,
+		key: config.cookie.name,
+		store: sessionStore,
+		resave: false,
+		saveUninitialized: true,
+		cookie: {
+			maxAge: config.cookie.maxAge
+		}
+	});
 
 // Connect to the database
 mongoose.connect(config.db);
@@ -39,15 +39,15 @@ strategies(passport, config);
 
 // Give the client side logic access to user data
 app.use(function(req, res, next) {
-    if (req.user) {
-        res.locals.user = {
-            admin: req.user.admin,
-            username: req.user.username
-        };
-    } else {
-        res.locals.user = null;
-    }
-    next();
+	if (req.user) {
+		res.locals.user = {
+			admin: req.user.admin,
+			username: req.user.username
+		};
+	} else {
+		res.locals.user = null;
+	}
+	next();
 });
 
 // View engine setup
@@ -59,7 +59,7 @@ app.use(flash());
 
 // Set up request data parsing
 app.use(bodyParser.urlencoded({
-    extended: false
+	extended: false
 }));
 app.use(bodyParser.json());
 
