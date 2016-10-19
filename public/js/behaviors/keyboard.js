@@ -4,17 +4,17 @@
 
 "use strict";
 
-const Behaviors = require("../behaviors"),
-	keyMappings = { // Yranslates key codes to key names
-		37: "left",
-		38: "up",
-		39: "right",
-		40: "down",
-		67: "c",
-		86: "v",
-		88: "x",
-		90: "z"
-	};
+const Behaviors = require("../behaviors");
+const keyMappings = { // Translates key codes to key names
+	37: "left",
+	38: "up",
+	39: "right",
+	40: "down",
+	67: "c",
+	86: "v",
+	88: "x",
+	90: "z"
+};
 
 /**
  * @param {string} key Name of the key to check, e.g. "up"
@@ -113,8 +113,8 @@ behavior.init = function() {
 
 	// Set up key event listeners
 	window.addEventListener("keydown", (event) => {
-		const code = event.keyCode,
-			key = keyMappings[code];
+		const code = event.keyCode;
+		const key = keyMappings[code];
 
 		if (this.keyStates[key] === "up") {
 			this.keyEvents[key] = "pressed";
@@ -122,8 +122,8 @@ behavior.init = function() {
 	}, false);
 
 	window.addEventListener("keyup", (event) => {
-		const code = event.keyCode,
-			key = keyMappings[code];
+		const code = event.keyCode;
+		const key = keyMappings[code];
 
 		if (this.keyStates[key] === "down") {
 			this.keyEvents[key] = "released";

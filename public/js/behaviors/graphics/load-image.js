@@ -5,8 +5,8 @@
 "use strict";
 
 
-const Behaviors = require("../../behaviors"),
-	canvases = {}; // Private canvas cache
+const Behaviors = require("../../behaviors");
+const canvases = {}; // Canvas cache
 
 /**
  * Loads an image from file and draws it in a canvas.
@@ -19,11 +19,11 @@ const Behaviors = require("../../behaviors"),
  * @return {HTMLCanvasElement} A canvas containing the loaded image.
  */
 function loadImage(imagePath, callback) {
-	var canvas;
+	let canvas = null;
 	if (canvases.hasOwnProperty(imagePath)) {
 		canvas = canvases[imagePath];
 	} else {
-		var img = new Image();
+		const img = new Image();
 
 		img.src = imagePath;
 		img.onload = function() {

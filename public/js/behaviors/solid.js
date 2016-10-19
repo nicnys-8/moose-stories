@@ -7,6 +7,7 @@
 "use strict";
 
 const Behaviors = require("../behaviors");
+
 let currentlySolid = true;
 
 /**

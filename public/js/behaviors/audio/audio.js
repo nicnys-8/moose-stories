@@ -4,17 +4,17 @@
 
 "use strict";
 
-const Behaviors = require("../../behaviors"),
-	cache = {}, // Cache for storing audio tags
-	filePaths = {
-		// Songs
-		"Main theme": "audio/music/fnurk.mp3",
-		"Space": "audio/music/space.ogg",
-		"Moose Music": "audio/music/moose-music.wav",
-		// Sound effects
-		"Jump": "audio/sounds/jump.wav",
-		"Land": "audio/sounds/land.wav"
-	};
+const Behaviors = require("../../behaviors");
+const cache = {}; // Cache for storing audio tags
+const filePaths = {
+	// Songs
+	"Main theme": "audio/music/fnurk.mp3",
+	"Space": "audio/music/space.ogg",
+	"Moose Music": "audio/music/moose-music.wav",
+	// Sound effects
+	"Jump": "audio/sounds/jump.wav",
+	"Land": "audio/sounds/land.wav"
+};
 
 
 //=================

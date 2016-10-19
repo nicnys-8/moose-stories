@@ -18,12 +18,12 @@ const Behaviors = require("../../behaviors");
  * @param {number} alpha      - Opacity of the object, a value between 0 and 1.
  */
 function render(ctx, position, scale, rotation, alpha) {
-	const width = this.canvas.width / this.numFrames,
-		height = this.canvas.height,
-		clippingX = Math.round(this.currentFrame) * width,
-		clippingY = 0,
-		canvasX = this.position.x - this.origin.x,
-		canvasY = this.position.y - this.origin.y;
+	const width = this.canvas.width / this.numFrames;
+	const height = this.canvas.height;
+	const clippingX = Math.round(this.currentFrame) * width;
+	const clippingY = 0;
+	const canvasX = this.position.x - this.origin.x;
+	const canvasY = this.position.y - this.origin.y;
 
 	ctx.save();
 
@@ -66,10 +66,10 @@ behavior.getProperties = function() {
 	return {
 		// Variables
 		canvas: null,
-		numFrames: 1,
 		origin: null,
 		currentFrame: 0,
 		imageSpeed: 0,
+		numFrames: 1,
 
 		// Functions
 		render: render

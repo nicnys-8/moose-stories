@@ -1,23 +1,25 @@
 "use strict";
 
-const GameState = require("../game-state"),
-	GameObject = require("../game-object"),
-	GameController = require("../game-controller"),
-	Levels = require("../levels"),
-	UI = require("./editor-ui"),
-	config = require("../config"),
-	canvas = document.getElementById("view"),
-	camera = GameController.getCamera(),
-	levelSettings = {
-		"Name": "New level",
-		"Width": 20 * config.tileSize,
-		"Height": 10 * config.tileSize
-	};
+const GameController = require("../game-controller");
+const GameState = require("../game-state");
+const GameObject = require("../game-object");
+const Levels = require("../levels");
+const UI = require("./editor-ui");
+const config = require("../config");
 
-let currentObject = "Block",
-	currentLevelName = null,
-	selectedButton = null,
-	selectedObject = null;
+const canvas = document.getElementById("view");
+const camera = GameController.getCamera();
+
+const levelSettings = {
+	"Name": "New level",
+	"Width": 20 * config.tileSize,
+	"Height": 10 * config.tileSize
+};
+
+let currentObject = "Block";
+let currentLevelName = null;
+let selectedButton = null;
+let selectedObject = null;
 
 /**
  * Clears all level data from the game state.
@@ -42,10 +44,8 @@ function calculatePlacement(event) {
  * @return {{x: number, y: number}} An adjusted point whose x and y values are evenly divisible by config.tileSize.
  */
 function snapToGrid(p) {
-	return {
-		x: config.tileSize * Math.round(p.x / config.tileSize),
-		y: config.tileSize * Math.round(p.y / config.tileSize)
-	};
+	p.x = config.tileSize * Math.round(p.x / config.tileSize);
+	p.y = config.tileSize * Math.round(p.y / config.tileSize);
 }
 
 /**
@@ -68,23 +68,24 @@ function initGameObjectMenu() { // Replace with ajax request
 
 	UI.addCategory("Game Objects");
 	objects.forEach(function(objectType) {
-		let obj, w, h, canvas, ctx, item;
+		const canvas = document.createElement("canvas");
+		const ctx = canvas.getContext("2d");
+		const item = UI.createListItem(canvas, "&nbsp;", objectType);
+		const obj = new GameObject(objectType);
 
-		canvas = document.createElement("canvas");
-		ctx = canvas.getContext("2d");
-		item = UI.createListItem(canvas, "&nbsp;", objectType);
 		item.click(selectFn(objectType));
-		obj = new GameObject(objectType);
 
 		if (objectType === currentObject) {
 			item.click();
 		}
 
 		UI.addListItem(item, "Game Objects");
+
 		if (obj.hasBehavior("Renderable")) {
 			try {
-				w = obj.boundingBox.right - obj.boundingBox.left;
-				h = obj.boundingBox.bottom - obj.boundingBox.top;
+				const w = obj.boundingBox.right - obj.boundingBox.left;
+				const h = obj.boundingBox.bottom - obj.boundingBox.top;
+
 				obj.position.x = 0; //w / 2;
 				obj.position.y = 0; //h / 2;
 				canvas.width = w;
@@ -109,29 +110,28 @@ window.i = 0; //FIXME: Remove
  */
 function initBackgroundMenu() {
 
+	const backgrounds = config.editor.backgrounds;
+
 	function selectFn(background) {
 		return function() {
 			GameState.setBackground(background);
 		};
 	}
 
-	let i, w, h, bkg, canvas, ctx, item, backgrounds;
-
 	UI.addCategory("Backgrounds");
-	backgrounds = config.editor.backgrounds;
 
-	for (i = 0; i < backgrounds.length; i++) {
-		canvas = document.createElement("canvas");
-		ctx = canvas.getContext("2d");
-		item = UI.createListItem(canvas, "&nbsp;", backgrounds[i]);
+	for (let i = 0; i < backgrounds.length; i++) {
+		const canvas = document.createElement("canvas");
+		const ctx = canvas.getContext("2d");
+		const item = UI.createListItem(canvas, "&nbsp;", backgrounds[i]);
+		const bkg = new GameObject(backgrounds[i]);
+
 		item.click(selectFn(backgrounds[i]));
-		bkg = new GameObject(backgrounds[i]);
-
-		//
 		UI.addListItem(item, "Backgrounds");
 		try {
-			w = 64;
-			h = 64;
+			const w = 64;
+			const h = 64;
+
 			bkg.x = w / 2;
 			bkg.y = h / 2;
 			canvas.width = w;
@@ -157,13 +157,16 @@ function initMusicMenu() {
 	}
 
 	UI.addCategory("Music");
-	config.editor.music.forEach(function(songName) {
-		const item = UI.createListItem(null, "&nbsp;", songName),
-			song = new GameObject("Audio", {
-				name: songName
-			});
+	config.editor.music.forEach(songName => {
+		const item = UI.createListItem(null, "&nbsp;", songName);
+		const song = new GameObject("Audio", {
+			name: songName
+		});
 
-		item.click(selectFn(song));
+		item.click(() => {
+			GameState.setMusic(song);
+			GameState.getMusic().play();
+		});
 		UI.addListItem(item, "Music");
 	});
 }
@@ -264,7 +267,7 @@ $("#play-button").on("click", enterPlayMode);
 //====================
 
 $("#view")
-	.mousedown(function(event) {
+	.mousedown(event => {
 		const p = calculatePlacement(event),
 			leftMouseButton = 1,
 			middleMouseButton = 2,
@@ -279,7 +282,9 @@ $("#view")
 					selectedObject = new GameObject(currentObject);
 					GameState.addObject(selectedObject);
 				}
-				selectedObject.position = snapToGrid(p);
+				snapToGrid(p);
+				selectedObject.position.x = p.x;
+				selectedObject.position.y = p.y;
 				break;
 			case middleMouseButton:
 				break;
@@ -294,10 +299,9 @@ $("#view")
 		}
 		GameController.render();
 	})
-	.mousemove(function(event) {
-
-		let p = calculatePlacement(event);
-		p = snapToGrid(p);
+	.mousemove(event => {
+		const p = calculatePlacement(event);
+		snapToGrid(p);
 
 		if (selectedObject) {
 			if (p.x !== selectedObject.position.x || p.y !== selectedObject.position.y) {
@@ -310,10 +314,10 @@ $("#view")
 		$("#mouseY").text(p.y);
 
 	})
-	.bind("mouseup", function(event) {
+	.bind("mouseup", event => {
 		selectedObject = null;
 	})
-	.bind("mouseout", function(event) {
+	.bind("mouseout", event => {
 		if (selectedObject) {
 			GameState.removeObject(selectedObject);
 		}

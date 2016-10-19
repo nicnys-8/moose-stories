@@ -28,6 +28,7 @@ behavior.getProperties = function() {
 			x: 0,
 			y: -96
 		},
+		/** @type {GameObject} */
 		target: null
 	};
 };

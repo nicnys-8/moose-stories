@@ -4,11 +4,11 @@
 
 "use strict";
 
-const GameState = require("./../game-state"),
-	Behaviors = require("./../behaviors");
+const GameState = require("./../game-state");
+const Behaviors = require("./../behaviors");
 
-let friction = 0.2, // TODO: Move to GameState? Or somewhere else?
-	gravity = 0.3; // TODO: Move to GameState
+let friction = 0.2; // TODO: Move to GameState? Or somewhere else?
+let gravity = 0.3; // TODO: Move to GameState
 
 /**
  * Applies a force on the object, affecting its horizontal acceleration.
@@ -75,7 +75,7 @@ function move() {
 // Public interface
 //=================
 
-var behavior = {};
+const behavior = {};
 
 behavior.dependencies = ["Physical"];
 
@@ -112,8 +112,6 @@ behavior.getProperties = function() {
  * Updates the state of the target object.
  */
 behavior.tick = function() {
-	var obj, solidObjects;
-
 	this.speed.x += this.acceleration.x;
 	this.speed.y += this.acceleration.y;
 

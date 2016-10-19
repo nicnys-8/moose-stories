@@ -4,23 +4,24 @@
 
 "use strict";
 
-const Behaviors = require("../behaviors"),
-	GameObject = require("../game-object"),
-	boundingBox = {
-		left: -16,
-		right: 16,
-		top: -48,
-		bottom: 16
-	},
-	spriteOffset = {
-		x: 16,
-		y: 48
-	},
-	animations = {
-		stand: null,
-		walk: null,
-		jump: null
-	};
+const Behaviors = require("../behaviors");
+const GameObject = require("../game-object");
+
+const boundingBox = {
+	left: -16,
+	right: 16,
+	top: -48,
+	bottom: 16
+};
+const spriteOffset = {
+	x: 16,
+	y: 48
+};
+const animations = {
+	stand: null,
+	walk: null,
+	jump: null
+};
 
 
 //=================

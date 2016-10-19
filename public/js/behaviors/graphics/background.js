@@ -4,8 +4,8 @@
 
 "use strict";
 
-const Behaviors = require("../../behaviors"),
-	GameObject = require("../../game-object");
+const Behaviors = require("../../behaviors");
+const GameObject = require("../../game-object");
 
 /**
  * Renders the object.

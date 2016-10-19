@@ -14,12 +14,12 @@ const Behaviors = require("../../behaviors");
  * @param {number} offsetY - Vertical position of the center of the viewport.
  */
 function render(ctx, offsetX, offsetY) {
-	const width = this.canvas.width,
-		height = this.canvas.height,
-		startX = (this.tiledX) ? (-width + this.position.x) : this.position.x,
-		startY = (this.tiledY) ? (-height + this.position.y) : this.position.y,
-		xTiles = (this.tiledX) ? (Math.ceil(ctx.canvas.clientWidth / width) + 1) : 1,
-		yTiles = (this.tiledY) ? (Math.ceil(ctx.canvas.clientHeight / height) + 1) : 1;
+	const width = this.canvas.width;
+	const height = this.canvas.height;
+	const startX = (this.tiledX) ? (-width + this.position.x) : this.position.x;
+	const startY = (this.tiledY) ? (-height + this.position.y) : this.position.y;
+	const xTiles = (this.tiledX) ? (Math.ceil(ctx.canvas.clientWidth / width) + 1) : 1;
+	const yTiles = (this.tiledY) ? (Math.ceil(ctx.canvas.clientHeight / height) + 1) : 1;
 
 	ctx.save();
 	if (this.scale.x !== 1 || this.scale.y !== 1) {
@@ -74,7 +74,7 @@ behavior.getProperties = function() {
 			x: 1,
 			y: 1
 		},
-
+		
 		// Functions
 		render: render
 	};

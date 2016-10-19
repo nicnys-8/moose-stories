@@ -4,9 +4,9 @@
 
 "use strict";
 
-const GameState = require("./game-state"),
-	GameObject = require("./game-object"),
-	config = require("./config");
+const GameState = require("./game-state");
+const GameObject = require("./game-object");
+const config = require("./config");
 
 /**
  * Instantiates a game controller object.
@@ -16,25 +16,25 @@ const GameState = require("./game-state"),
  */
 function GameController() {
 
-	const camera = new GameObject("Camera"),
-		keyboard = new GameObject("Keyboard");
+	const camera = new GameObject("Camera");
+	const keyboard = new GameObject("Keyboard");
 
-	let player = null,
-		canvas = null,
-		paused = false,
-		shouldDrawGrid = false;
+	let shouldDrawGrid = false;
+	let player = null;
+	let canvas = null;
+	let paused = false;
 
 	/**
 	 * Renders the current view of the game.
 	 */
 	this.render = function() {
 
-		const renderList = GameState.filter("Renderable"),
-			offsetX = -camera.position.x + (canvas.width / 2),
-			offsetY = -camera.position.y + (canvas.height / 2);
+		const renderList = GameState.filter("Renderable");
+		const offsetX = -camera.position.x + (canvas.width / 2);
+		const offsetY = -camera.position.y + (canvas.height / 2);
 
-		let ctx = canvas.getContext("2d"),
-			background;
+		let ctx = canvas.getContext("2d");
+		let	background;
 
 		// Clear the canvas
 		ctx.clearRect(0, 0, canvas.width, canvas.height);

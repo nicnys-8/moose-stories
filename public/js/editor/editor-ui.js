@@ -27,15 +27,14 @@ UI.createListItem = function(image, heading, text) {
 
 UI.createFormItem = function(object, key, callback, prefix) {
 
-	const value = object[key],
-		type = typeof(value),
-		name = prefix ? (prefix + "." + key) : key;
+	const value = object[key];
+	const type = typeof(value);
+	const name = prefix ? (prefix + "." + key) : key;
 
-	let formGroup = $('<div class="form-group"></div>'),
-		label = $('<label>' + name + '</label>'),
-		convertFn = null,
-		input = null,
-		i = 0;
+	let formGroup = $('<div class="form-group"></div>');
+	let label = $('<label>' + name + '</label>');
+	let convertFn = null;
+	let input = null;
 
 	switch (type) {
 		case "string":
@@ -68,14 +67,14 @@ UI.createFormItem = function(object, key, callback, prefix) {
 		case "object":
 			if ($.isArray(value)) {
 				input = $('<select multiple class="form-control"></select>');
-				for (i in value) {
+				for (let i in value) {
 					input.append($('<option>' + value[i] + '</option>'));
 				}
 				formGroup.append(label);
 				formGroup.append(input);
 			} else {
 				// return createForm(value, callback);
-				for (i in value) {
+				for (let i in value) {
 					formGroup.append(UI.createFormItem(value, i, callback, name));
 				}
 			}
@@ -96,6 +95,7 @@ UI.createFormItem = function(object, key, callback, prefix) {
 
 UI.createForm = function(obj, callback) {
 	const form = $('<form role="form"></form>');
+	
 	for (let i in obj) {
 		form.append(UI.createFormItem(obj, i, callback));
 	}

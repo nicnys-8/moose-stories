@@ -14,18 +14,26 @@ const GameObject = require("./game-object");
  */
 function GameState() {
 
-	let objects = [],
-		objectsByUID = {},
-		cache = { // Cache for storing filter queries
+	//================================
+	// Private variables and functions
+	//================================
+
+	let objects = [];
+	let objectsByUID = {};
+
+	let cache = { // Cache for storing filter queries
 			exlude: {},
 			include: {}
-		},
-		background = null,
-		music = null,
-		width = 0,
-		height = 0,
-		cacheHits = 0,
-		cacheMisses = 0;
+		};
+
+	let background = null;
+	let music = null;
+
+	let width = 0;
+	let height = 0;
+
+	let cacheHits = 0;
+	let cacheMisses = 0;
 
 	function clearCache() {
 		cache.exlude = {};
@@ -89,11 +97,12 @@ function GameState() {
 
 		const filteredObjects = [];
 
-		let query,
-			cachedQuery,
-			storeQuery = false,
-			flen,
-			currentObject;
+		let query;
+		let cachedQuery;
+		let flen;
+
+		let storeQuery = false;
+		let currentObject = null;
 
 		if (typeof filter === "string") { // Only 99.7% safe to use typeof with strings!! :)
 			query = filter;
@@ -121,10 +130,11 @@ function GameState() {
 
 		switch (type) {
 			case "exclude":
-				let j;
 				for (let i = 0; i < unfiltered.length; i++) {
+					let j = 0;
+
 					currentObject = unfiltered[i];
-					for (j = 0; j < flen; j++) {
+					for (j; j < flen; j++) {
 						if (currentObject.hasBehavior(filter[j])) {
 							break;
 						}
@@ -228,7 +238,7 @@ function GameState() {
 	 * @param {object} description ...  @TODO: Needs a description :)
 	 */
 	this.parseLevel = function(description) {
-		let objDesc, obj, bkgDesc, bkg, len;
+		const len = description.objects && description.objects.length || 0;
 
 		// Clear the state first!
 		this.clear();
@@ -237,10 +247,10 @@ function GameState() {
 		width = Number(description.width);
 		height = Number(description.height);
 
-		len = description.objects && description.objects.length || 0;
 		for (let i = 0; i < len; i++) {
-			objDesc = description.objects[i];
-			obj = new GameObject(objDesc.behaviors, objDesc.args);
+			const objDesc = description.objects[i];
+			const obj = new GameObject(objDesc.behaviors, objDesc.args);
+
 			this.addObject(obj);
 		}
 

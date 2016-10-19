@@ -11,9 +11,7 @@ const Behaviors = require("../behaviors");
  *
  * @param {CanvasRenderingContext2D} ctx - 2D rendering context.
  */
-function render(ctx) {
-
-}
+function render(ctx) {}
 
 //=================
 // Public interface

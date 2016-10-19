@@ -4,9 +4,9 @@
 
 "use strict";
 
-const GameState = require("./../game-state"),
-	Behaviors = require("./../behaviors"),
-	config = require("./../config");
+const GameState = require("./../game-state");
+const Behaviors = require("./../behaviors");
+const config = require("./../config");
 
 /**
  * Check whether this object overlaps another.
@@ -59,8 +59,8 @@ function overlapsPoint(x, y) {
  * @return {number} The amount of overlap.
  */
 function overlapsBy(obj, coordinate) {
-	let boundingBoxVar1 = null,
-		boundingBoxVar2 = null;
+	let boundingBoxVar1 = null;
+	let boundingBoxVar2 = null;
 
 	switch (coordinate) {
 		case "x":
@@ -107,7 +107,8 @@ function verticalOverlap(obj) {
 function onTopOf(obj) {
 	return (!(this.position.x + this.boundingBox.left >= obj.position.x + obj.boundingBox.right ||
 			this.position.x + this.boundingBox.right <= obj.position.x + obj.boundingBox.left) &&
-		this.position.y + this.boundingBox.bottom === obj.position.y + obj.boundingBox.top);
+		this.position.y + this.boundingBox.bottom === obj.position.y + obj.boundingBox.top
+	);
 }
 
 /**
