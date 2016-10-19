@@ -47,8 +47,7 @@ class GameObject {
      * @param {obj} args - object that will be passed to the behaviors 'init' functions.
      */
     addBehavior(behaviorName, args) {
-    	let behavior = Behaviors.get(behaviorName),
-    		properties;
+    	const behavior = Behaviors.get(behaviorName);
 
     	// Check if the behavior exists
     	if (behavior === null) {
@@ -72,7 +71,7 @@ class GameObject {
 
     	// Add default behavior properties
     	if (behavior.getProperties) {
-    		properties = behavior.getProperties();
+    		const properties = behavior.getProperties();
     		for (let i in properties) {
     			this[i] = properties[i];
     		}

@@ -98,11 +98,7 @@ function GameState() {
 		const filteredObjects = [];
 
 		let query;
-		let cachedQuery;
-		let flen;
-
 		let storeQuery = false;
-		let currentObject = null;
 
 		if (typeof filter === "string") { // Only 99.7% safe to use typeof with strings!! :)
 			query = filter;
@@ -114,7 +110,7 @@ function GameState() {
 		// Crappy caching (only when searching all objects (for now (maybe))) :D
 		// Ett varningens ord, ja lyssna nu: Om behaviors läggs till under spelets gång FÖRLORAR DU - Klotho, Lachesis eller Atropos
 		if (typeof unfiltered === "undefined") {
-			cachedQuery = cache[type][query];
+			const cachedQuery = cache[type][query];
 			if (cachedQuery) {
 				cacheHits++;
 				return cachedQuery;
@@ -126,14 +122,14 @@ function GameState() {
 		}
 		this.cacheMisses++;
 
-		flen = filter.length;
+		let flen = filter.length;
 
 		switch (type) {
 			case "exclude":
 				for (let i = 0; i < unfiltered.length; i++) {
 					let j = 0;
+					const currentObject = unfiltered[i];
 
-					currentObject = unfiltered[i];
 					for (j; j < flen; j++) {
 						if (currentObject.hasBehavior(filter[j])) {
 							break;
@@ -148,7 +144,7 @@ function GameState() {
 				//case "include":
 			default:
 				for (let i = 0; i < unfiltered.length; i++) {
-					currentObject = unfiltered[i];
+					const currentObject = unfiltered[i];
 					for (let j = 0; j < flen; j++) {
 						// Include object if it has ANY of the behaviors in 'filter'
 						if (currentObject.hasBehavior(filter[j])) {
@@ -269,7 +265,6 @@ function GameState() {
 		let type, src, dst, len,
 			// Properties to export
 			exports = ["objects", "backgrounds", "music"],
-			// Result
 			json = {};
 
 		for (let i in exports) {

@@ -1,9 +1,9 @@
 "use strict";
 
-const gameState = require("./game-state"),
-	gameController = require("./game-controller"),
-	Levels = require("./levels"),
-	canvas = document.getElementById("view");
+const gameState = require("./game-state");
+const gameController = require("./game-controller");
+const Levels = require("./levels");
+const canvas = document.getElementById("view");
 
 gameState.parseLevel(Levels.level1);
 gameController.setCanvas(canvas);
