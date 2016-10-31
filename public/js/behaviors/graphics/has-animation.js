@@ -17,6 +17,14 @@ function render(ctx) {
 	}
 }
 
+/**
+ * @param  {number} [size] - Preferred height and width of the icon.
+ * @return {DOM Element} An icon representing the object.
+ */
+function getIcon(size = 32) {
+	return this.currentAnimation.canvas.cloneNode;
+}
+
 
 //=================
 // Public interface
@@ -24,7 +32,7 @@ function render(ctx) {
 
 const behavior = {};
 
-behavior.dependencies = ["Renderable"];
+behavior.dependencies = ["Renderable", "HasIcon"];
 
 /**
  * Defines the public variables and methods associated with this behavior.
@@ -37,7 +45,8 @@ behavior.getProperties = function() {
 		currentAnimation: null,
 
 		// Functions
-		render: render // Overwrites the inherited function
+		render: render, // Overwrites the inherited function
+		getIcon: getIcon
 	};
 };
 

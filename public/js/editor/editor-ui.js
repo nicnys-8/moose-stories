@@ -16,11 +16,10 @@ UI.addListItem = function(item, categoryName) {
 	$(panelId).find(".media-list").append(item);
 };
 
-UI.createListItem = function(image, heading, text) {
+UI.createListItem = function(image, text) {
 	const clone = $("#menuListItemPrototype").clone().removeClass("prototype").attr("id", "");
 	$(image).addClass("media-object");
 	clone.find(".mc-media-container").append(image);
-	clone.find(".media-heading").html(heading);
 	clone.find(".media-body").append(text);
 	return clone;
 };
@@ -95,7 +94,7 @@ UI.createFormItem = function(object, key, callback, prefix) {
 
 UI.createForm = function(obj, callback) {
 	const form = $('<form role="form"></form>');
-	
+
 	for (let i in obj) {
 		form.append(UI.createFormItem(obj, i, callback));
 	}

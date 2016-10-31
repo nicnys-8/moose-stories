@@ -32,7 +32,7 @@ const behavior = {};
  *
  * @return {object} An object containing behavior variables and methods.
  */
-behavior.dependencies = ["Renderable"];
+behavior.dependencies = ["Renderable", "HasIcon"];
 
 behavior.getProperties = function() {
 	return {

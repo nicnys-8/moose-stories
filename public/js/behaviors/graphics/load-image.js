@@ -4,7 +4,6 @@
 
 "use strict";
 
-
 const Behaviors = require("../../behaviors");
 const canvases = {}; // Canvas cache
 

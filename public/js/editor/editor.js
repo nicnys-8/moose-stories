@@ -16,9 +16,14 @@ const levelSettings = {
 	"Height": 10 * config.tileSize
 };
 
+/** @type {string} */
+let currentLevelName;
 let currentObject = "Block";
-let currentLevelName = null;
+
+/** @type {HTMLElement} */
 let selectedButton = null;
+
+/** @type {GameObject} */
 let selectedObject = null;
 
 /**
@@ -51,59 +56,34 @@ function snapToGrid(p) {
 /**
  * Adds the game object items to the menu.
  */
-function initGameObjectMenu() { // Replace with ajax request
+function initGameObjectMenu() {
 
-	function selectFn(objectType) {
-		return function() {
+	const objects = config.editor.gameObjects;
+
+	UI.addCategory("Game Objects");
+	objects.forEach(function(objectType) {
+
+		const canvas = document.createElement("canvas");
+		const obj = new GameObject(objectType);
+		const icon = obj.getIcon();
+		const item = UI.createListItem(icon, objectType);
+
+		item.click(function() {
 			if (selectedButton) {
 				selectedButton.style.backgroundColor = "";
 			}
 			this.style.backgroundColor = "#eee";
 			currentObject = objectType;
 			selectedButton = this;
-		};
-	}
-
-	const objects = config.editor.gameObjects;
-
-	UI.addCategory("Game Objects");
-	objects.forEach(function(objectType) {
-		const canvas = document.createElement("canvas");
-		const ctx = canvas.getContext("2d");
-		const item = UI.createListItem(canvas, "&nbsp;", objectType);
-		const obj = new GameObject(objectType);
-
-		item.click(selectFn(objectType));
+		});
 
 		if (objectType === currentObject) {
 			item.click();
 		}
 
 		UI.addListItem(item, "Game Objects");
-
-		if (obj.hasBehavior("Renderable")) {
-			try {
-				const w = obj.boundingBox.right - obj.boundingBox.left;
-				const h = obj.boundingBox.bottom - obj.boundingBox.top;
-
-				obj.position.x = 0; //w / 2;
-				obj.position.y = 0; //h / 2;
-				canvas.width = w;
-				canvas.height = h;
-				window["skam" + window.i++] = function() {
-					obj.render(ctx);
-					console.log(w, h);
-				}; //FIXME: Remove
-				obj.render(ctx);
-				UI.addListItem(item, "Game Objects");
-			} catch (err) {
-				console.log("Failed, ", err);
-			}
-		}
 	});
 }
-
-window.i = 0; //FIXME: Remove
 
 /**
  * Adds the background items to the menu.
@@ -120,28 +100,14 @@ function initBackgroundMenu() {
 
 	UI.addCategory("Backgrounds");
 
-	for (let i = 0; i < backgrounds.length; i++) {
-		const canvas = document.createElement("canvas");
-		const ctx = canvas.getContext("2d");
-		const item = UI.createListItem(canvas, "&nbsp;", backgrounds[i]);
-		const bkg = new GameObject(backgrounds[i]);
+	backgrounds.forEach(backgroundName => {
+		const background = new GameObject(backgroundName);
+		const icon = background.getIcon();
+		const item = UI.createListItem(icon, backgroundName);
 
-		item.click(selectFn(backgrounds[i]));
+		item.click(selectFn(backgroundName));
 		UI.addListItem(item, "Backgrounds");
-		try {
-			const w = 64;
-			const h = 64;
-
-			bkg.x = w / 2;
-			bkg.y = h / 2;
-			canvas.width = w;
-			canvas.height = h;
-			bkg.render(ctx);
-
-		} catch (err) {
-			console.log("Failed, ", err);
-		}
-	}
+	});
 }
 
 /**
@@ -158,10 +124,11 @@ function initMusicMenu() {
 
 	UI.addCategory("Music");
 	config.editor.music.forEach(songName => {
-		const item = UI.createListItem(null, "&nbsp;", songName);
 		const song = new GameObject("Audio", {
 			name: songName
 		});
+		const icon = song.getIcon();
+		const item = UI.createListItem(icon, songName);
 
 		item.click(() => {
 			GameState.setMusic(song);
@@ -268,16 +235,16 @@ $("#play-button").on("click", enterPlayMode);
 
 $("#view")
 	.mousedown(event => {
-		const p = calculatePlacement(event),
-			leftMouseButton = 1,
-			middleMouseButton = 2,
-			rightMouseButton = 3;
+		const p = calculatePlacement(event);
+		const LEFT_MOUSE_BUTTON = 1;
+		const MIDDLE_MOUSE_BUTTON = 2;
+		const RIGHT_MOUSE_BUTTON = 3;
 
 		event.preventDefault();
 		selectedObject = GameState.objectAtPosition(p.x, p.y);
 
 		switch (event.which) {
-			case leftMouseButton:
+			case LEFT_MOUSE_BUTTON:
 				if (!selectedObject) {
 					selectedObject = new GameObject(currentObject);
 					GameState.addObject(selectedObject);
@@ -286,9 +253,9 @@ $("#view")
 				selectedObject.position.x = p.x;
 				selectedObject.position.y = p.y;
 				break;
-			case middleMouseButton:
+			case MIDDLE_MOUSE_BUTTON:
 				break;
-			case rightMouseButton:
+			case RIGHT_MOUSE_BUTTON:
 				if (selectedObject) {
 					GameState.removeObject(selectedObject);
 					selectedObject = null;
@@ -324,7 +291,7 @@ $("#view")
 		selectedObject = null;
 	});
 
-// Disable the context menu that appears on right click on the canvas
-$('body').on('contextmenu', '#view', function(e) {
+// Disable the context menu that appears when you right click on the canvas
+$('body').on('contextmenu', '#view', function(event) {
 	return false;
 });

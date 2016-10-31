@@ -16,12 +16,24 @@ const filePaths = {
 	"Land": "audio/sounds/land.wav"
 };
 
+/**
+ * @param  {number} [size] - Preferred height and width of the icon.
+ * @return {DOM Element} An icon representing the object.
+ */
+function getIcon(size) {
+	const icon = document.createElement("i");
+	icon.innerHTML = "&#9835";
+	return icon;
+}
+
 
 //=================
 // Public interface
 //=================
 
 const behavior = {};
+
+behavior.dependencies = ["HasIcon"];
 
 /**
  * Defines the public variables and methods associated with this behavior.
@@ -33,7 +45,8 @@ behavior.getProperties = function() {
 		play: null,
 		pause: null,
 		stop: null,
-		looping: false
+		looping: false,
+		getIcon: getIcon
 	};
 };
 
