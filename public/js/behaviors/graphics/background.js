@@ -1,5 +1,5 @@
 /**
- * Describes an object that can be rendered on the screen
+ * Describes a background object.
  */
 
 "use strict";
@@ -36,11 +36,8 @@ behavior.dependencies = ["Renderable", "HasIcon"];
 
 behavior.getProperties = function() {
 	return {
-		// Variables
 		layers: [],
-
-		// Functions
-		render: render // Overwrites the inherited function
+		render: render
 	};
 };
 

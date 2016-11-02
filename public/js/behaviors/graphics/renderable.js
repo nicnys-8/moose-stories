@@ -1,5 +1,5 @@
 /**
- * Describes an object that can be rendered on the screen
+ * Describes an object that can be rendered on the screen.
  */
 
 "use strict";
@@ -7,7 +7,7 @@
 const Behaviors = require("../../behaviors");
 
 /**
- * Renders the object; NOOP function to be implemented by more specific behaviors.
+ * Renders the object.
  *
  * @param {CanvasRenderingContext2D} ctx - 2D rendering context.
  */

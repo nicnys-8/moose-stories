@@ -3,8 +3,9 @@
 const UI = {};
 
 UI.addCategory = function(name) {
-	const clone = $("#menuCategoryPrototype").clone().removeClass("prototype").attr("id", ""),
-		panelId = "menuCategory-" + name.replace(" ", "-");
+	const clone = $("#menuCategoryPrototype").clone().removeClass("prototype").attr("id", "");
+	const panelId = "menuCategory-" + name.replace(" ", "-");
+
 	clone.find(".mcToggler").attr("href", "#" + panelId).text(name);
 	clone.find(".mcToggler").text(name);
 	clone.find(".mcToggled").attr("id", panelId);
@@ -18,6 +19,7 @@ UI.addListItem = function(item, categoryName) {
 
 UI.createListItem = function(image, text) {
 	const clone = $("#menuListItemPrototype").clone().removeClass("prototype").attr("id", "");
+
 	$(image).addClass("media-object");
 	clone.find(".mc-media-container").append(image);
 	clone.find(".media-body").append(text);
@@ -25,7 +27,6 @@ UI.createListItem = function(image, text) {
 };
 
 UI.createFormItem = function(object, key, callback, prefix) {
-
 	const value = object[key];
 	const type = typeof(value);
 	const name = prefix ? (prefix + "." + key) : key;

@@ -1,10 +1,11 @@
 /**
- * Describes an animated object.
+ * Describes a single layer of the background.
  */
 
 "use strict";
 
 const Behaviors = require("../../behaviors");
+const GraphicsLoader = require("../../graphics-loader");
 
 /**
  * Renders the background layer on screen.
@@ -16,10 +17,10 @@ const Behaviors = require("../../behaviors");
 function render(ctx, offsetX, offsetY) {
 	const width = this.canvas.width;
 	const height = this.canvas.height;
-	const startX = (this.tiledX) ? (-width + this.position.x) : this.position.x;
-	const startY = (this.tiledY) ? (-height + this.position.y) : this.position.y;
-	const xTiles = (this.tiledX) ? (Math.ceil(ctx.canvas.clientWidth / width) + 1) : 1;
-	const yTiles = (this.tiledY) ? (Math.ceil(ctx.canvas.clientHeight / height) + 1) : 1;
+	const startX = (this.tiled.x) ? (-width + this.position.x) : this.position.x;
+	const startY = (this.tiled.y) ? (-height + this.position.y) : this.position.y;
+	const xTiles = (this.tiled.x) ? (Math.ceil(ctx.canvas.clientWidth / width) + 1) : 1;
+	const yTiles = (this.tiled.y) ? (Math.ceil(ctx.canvas.clientHeight / height) + 1) : 1;
 
 	ctx.save();
 	if (this.scale.x !== 1 || this.scale.y !== 1) {
@@ -38,13 +39,7 @@ function render(ctx, offsetX, offsetY) {
 
 	for (let i = 0; i < xTiles; i++) {
 		for (let j = 0; j < yTiles; j++) {
-			ctx.drawImage(
-				this.canvas,
-				0, 0,
-				width, height,
-				i * width, j * height,
-				width, height
-			);
+			ctx.drawImage(this.canvas, 0, 0, width, height, i * width, j * height, width, height);
 		}
 	}
 	ctx.restore();
@@ -57,7 +52,7 @@ function render(ctx, offsetX, offsetY) {
 
 const behavior = {};
 
-behavior.dependencies = ["Renderable", "LoadImage"];
+behavior.dependencies = ["Renderable"];
 
 /**
  * Defines the public variables and methods associated with this behavior.
@@ -67,14 +62,9 @@ behavior.dependencies = ["Renderable", "LoadImage"];
 behavior.getProperties = function() {
 	return {
 		// Variables
-		canvas: null,
-		tiledX: false,
-		tiledY: false,
-		parallax: {
-			x: 1,
-			y: 1
-		},
-		
+		parallax: {x: 1, y: 1},
+		tiled: {x: false, y: false},
+
 		// Functions
 		render: render
 	};
@@ -83,13 +73,13 @@ behavior.getProperties = function() {
 /**
  * Initialization function, called on an object when this behavior is added to it.
  *
- * @param {string} args.filePath - Path to the image file.
+ * @param {string} filePath - Path to the image file.
  */
-behavior.init = function(args) {
-	if (args && args.filePath) {
-		this.canvas = this.loadImage(args.filePath);
+behavior.init = function({filePath}) {
+	if (typeof filePath !== "string") {
+		throw new Error("'BackgroundLayer' behavior requires string argument '{filePath}'.");
 	} else {
-		throw new Error("'BackgroundLayer' behavior requires argument 'filePath'.");
+		this.canvas = GraphicsLoader.loadImage(filePath);
 	}
 };
 

@@ -29,10 +29,7 @@ const behavior = {};
  * @return {object} An object containing behavior variables and methods.
  */
 behavior.getProperties = function() {
-	return {
-		// Functions
-		getIcon: getIcon
-	};
+	return {getIcon};
 };
 
 Behaviors.register("HasIcon", behavior);

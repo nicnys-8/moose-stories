@@ -22,7 +22,14 @@ function render(ctx) {
  * @return {DOM Element} An icon representing the object.
  */
 function getIcon(size = 32) {
-	return this.currentAnimation.canvas.cloneNode;
+	const srcCanvas = this.currentAnimation.canvas;
+	const icon = document.createElement("canvas");
+
+	icon.width = srcCanvas.width;
+	icon.height = srcCanvas.height;
+	icon.getContext("2d").drawImage(srcCanvas, 0, 0);
+
+	return icon;
 }
 
 

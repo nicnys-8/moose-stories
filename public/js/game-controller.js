@@ -143,6 +143,8 @@ function GameController() {
 	 * Resumes the game loop.
 	 */
 	this.resume = function() {
+		player = GameState.filter("Player")[0];
+		camera.target = player;
 		paused = false;
 	};
 

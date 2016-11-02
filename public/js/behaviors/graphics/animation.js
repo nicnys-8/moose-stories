@@ -5,6 +5,7 @@
 "use strict";
 
 const Behaviors = require("../../behaviors");
+const GraphicsLoader = require("../../graphics-loader");
 
 /**
  * Renders the sprite on screen.
@@ -55,7 +56,7 @@ function render(ctx, position, scale, rotation, alpha) {
 
 const behavior = {};
 
-behavior.dependencies = ["Renderable", "LoadImage"];
+behavior.dependencies = ["Renderable"];
 
 /**
  * Defines the public variables and methods associated with this behavior.
@@ -79,19 +80,18 @@ behavior.getProperties = function() {
 /**
  * Initialization function, called on an object when this behavior is added to it.
  *
- * @param {string} args.filePath - Path to the image file.
+ * @param {string} filePath - Path to the image file.
  */
-behavior.init = function(args) {
-	if (args && args.filePath) {
-		this.canvas = this.loadImage(args.filePath);
-		if (this.origin === null) {
-			this.origin = {
-				x: (this.canvas.width / this.numFrames) / 2,
-				y: this.canvas.height / 2
-			};
-		}
-	} else {
-		throw new Error("'Animation' behavior requires argument 'filePath'.");
+behavior.init = function({filePath}) {
+	if (typeof filePath !== "string") {
+		throw new Error("'Animation' behavior requires string argument '{filePath}'.");
+	}
+	this.canvas = GraphicsLoader.loadImage(filePath);
+	if (this.origin === null) {
+		this.origin = {
+			x: (this.canvas.width / this.numFrames) / 2,
+			y: this.canvas.height / 2
+		};
 	}
 };
 

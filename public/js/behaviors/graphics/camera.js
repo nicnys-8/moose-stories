@@ -22,12 +22,9 @@ behavior.dependencies = ["Transform"];
  */
 behavior.getProperties = function() {
 	return {
-		// Variables
 		sensitivity: 0.2,
-		offset: {
-			x: 0,
-			y: -96
-		},
+		offset: {x: 0, y: -96},
+		
 		/** @type {GameObject} */
 		target: null
 	};

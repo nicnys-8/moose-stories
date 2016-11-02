@@ -3,6 +3,7 @@
 const GameController = require("../game-controller");
 const GameState = require("../game-state");
 const GameObject = require("../game-object");
+const GraphicsLoader = require("../graphics-loader");
 const Levels = require("../levels");
 const UI = require("./editor-ui");
 const config = require("../config");
@@ -34,7 +35,7 @@ function createNewLevel() {
 }
 
 /**
- * @param {MouseEvent} event - A mouse event.
+ * @param  {MouseEvent} event - A mouse event.
  * @return {{x: number, y: number}} The event's position in the game 's coordinate system.
  */
 function calculatePlacement(event) {
@@ -45,7 +46,7 @@ function calculatePlacement(event) {
 }
 
 /**
- * @param {{x: number, y: number}} p - A 2D point.
+ * @param  {{x: number, y: number}} p - A 2D point.
  * @return {{x: number, y: number}} An adjusted point whose x and y values are evenly divisible by config.tileSize.
  */
 function snapToGrid(p) {
@@ -54,7 +55,7 @@ function snapToGrid(p) {
 }
 
 /**
- * Adds the game object items to the menu.
+ * Adds game object items to the menu.
  */
 function initGameObjectMenu() {
 
@@ -63,7 +64,6 @@ function initGameObjectMenu() {
 	UI.addCategory("Game Objects");
 	objects.forEach(function(objectType) {
 
-		const canvas = document.createElement("canvas");
 		const obj = new GameObject(objectType);
 		const icon = obj.getIcon();
 		const item = UI.createListItem(icon, objectType);
@@ -86,17 +86,11 @@ function initGameObjectMenu() {
 }
 
 /**
- * Adds the background items to the menu.
+ * Adds background items to the menu.
  */
 function initBackgroundMenu() {
 
 	const backgrounds = config.editor.backgrounds;
-
-	function selectFn(background) {
-		return function() {
-			GameState.setBackground(background);
-		};
-	}
 
 	UI.addCategory("Backgrounds");
 
@@ -105,7 +99,10 @@ function initBackgroundMenu() {
 		const icon = background.getIcon();
 		const item = UI.createListItem(icon, backgroundName);
 
-		item.click(selectFn(backgroundName));
+		item.click(()=> {
+			GameState.setBackground(backgroundName);
+			GameController.render();
+		});
 		UI.addListItem(item, "Backgrounds");
 	});
 }
@@ -115,15 +112,11 @@ function initBackgroundMenu() {
  */
 function initMusicMenu() {
 
-	function selectFn(song) {
-		return function() {
-			GameState.setMusic(song);
-			GameState.getMusic().play();
-		};
-	}
+	const songList = config.editor.music;
 
 	UI.addCategory("Music");
-	config.editor.music.forEach(songName => {
+
+	songList.forEach(songName => {
 		const song = new GameObject("Audio", {
 			name: songName
 		});
@@ -139,27 +132,27 @@ function initMusicMenu() {
 }
 
 /**
- * Pauses the game and adapts the GUI for editing.
+ * Pauses the game and sets up the GUI for editing.
  */
 function enterEditMode() {
 	$(canvas).removeClass("playing");
-	GameController.pause();
-	GameController.drawGrid(true);
 	canvas.width = GameState.getWidth();
 	canvas.height = GameState.getHeight();
+	GameController.pause();
 	GameController.setCameraPosition(canvas.width / 2, canvas.height / 2);
+	GameController.drawGrid(true);
 	GameController.render();
 }
 
 /**
- * Starts the game and adapts the GUI for playing.
+ * Starts the game and sets up the GUI for playing.
  */
 function enterPlayMode() {
 	$(canvas).addClass("playing");
-	GameController.resume();
 	GameController.drawGrid(false);
 	canvas.width = config.windowWidth;
 	canvas.height = config.windowHeight;
+	GameController.resume();
 }
 
 
@@ -211,9 +204,12 @@ $.get("/levels",
 		enterEditMode();
 	});
 
-initGameObjectMenu();
-initBackgroundMenu();
-initMusicMenu();
+GraphicsLoader.onLoad(() => {
+	initGameObjectMenu();
+	initBackgroundMenu();
+	initMusicMenu();
+	GameController.render();
+});
 
 
 //===============
@@ -235,10 +231,10 @@ $("#play-button").on("click", enterPlayMode);
 
 $("#view")
 	.mousedown(event => {
-		const p = calculatePlacement(event);
 		const LEFT_MOUSE_BUTTON = 1;
 		const MIDDLE_MOUSE_BUTTON = 2;
 		const RIGHT_MOUSE_BUTTON = 3;
+		const p = calculatePlacement(event);
 
 		event.preventDefault();
 		selectedObject = GameState.objectAtPosition(p.x, p.y);

@@ -1,5 +1,5 @@
 /**
- * Describes an object that can be rendered on the screen
+ * Describes a background object.
  */
 
 "use strict";
@@ -22,15 +22,13 @@ behavior.dependencies = ["Background"];
 behavior.init = function(args) {
 	const layerDescriptions = [{
 		filePath: "img/backgrounds/mountains.svg",
-		x: 0,
-		y: 360,
-		tiledX: true,
-		tiledY: false
+		position: {x: 0, y: 260},
+		parallax: {x: 0.5, y: 0.5},
+		tiled: {x: true, y: false}
 	}];
 
-	layerDescriptions.forEach(description => {
-		let layer = new GameObject("BackgroundLayer", description);
-		this.layers.push(layer);
+	this.layers = layerDescriptions.map(description => {
+		return new GameObject("BackgroundLayer", description);
 	});
 };
 
