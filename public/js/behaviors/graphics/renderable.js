@@ -31,10 +31,9 @@ behavior.dependencies = ["Transform"];
  */
 behavior.getProperties = function() {
 	return {
-		// Variables
 		alpha: 1,
 
-		// Functions
+		/** @type {function} */
 		render: render
 	};
 };

@@ -7,6 +7,11 @@
 const Behaviors = require("../behaviors");
 const GameObject = require("../game-object");
 
+const spriteOffset = {
+	x: 16,
+	y: 16
+};
+
 //=================
 // Public interface
 //=================
@@ -21,7 +26,8 @@ behavior.dependencies = ["Solid", "HasAnimation"];
 behavior.init = function() {
 	this.currentAnimation = new GameObject("Animation", {
 		filePath: "img/sprites/block.svg",
-		numFrames: 1
+		numFrames: 1,
+		origin: spriteOffset
 	});
 };
 

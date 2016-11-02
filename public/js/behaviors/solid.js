@@ -41,6 +41,7 @@ behavior.dependencies = ["Physical"];
  */
 behavior.getProperties = function() {
 	return {
+		/** @type {function} */
 		isSolid: isSolid,
 	};
 };

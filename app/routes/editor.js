@@ -1,11 +1,11 @@
 "use strict";
 
-const express = require("express"),
-	fs = require("fs"),
-	path = require("path"),
-	router = express.Router(),
-	levelDirectory = path.join(__dirname, "../../public/levels"),
-	levels = {};
+const express = require("express");
+const fs = require("fs");
+const path = require("path");
+const router = express.Router();
+const levelDirectory = path.join(__dirname, "../../public/levels");
+const levels = {};
 
 let backgrounds = [];
 

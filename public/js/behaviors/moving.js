@@ -86,22 +86,12 @@ behavior.dependencies = ["Physical"];
  */
 behavior.getProperties = function() {
 	return {
-		// Variables
-		speed: {
-			x: 0,
-			y: 0,
-		},
-		maxSpeed: {
-			x: 2.5,
-			y: 9
-		},
-		acceleration: {
-			x: 0,
-			y: 0,
-		},
+		speed: {x: 0, y: 0,},
+		maxSpeed: {x: 2.5, y: 9},
+		acceleration: {x: 0, y: 0,},
 		weight: 32,
 
-		// Functions
+		/** @type {function} */
 		applyForceX: applyForceX,
 		applyForceY: applyForceY,
 		move: move

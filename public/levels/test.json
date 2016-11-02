@@ -4,28 +4,19 @@
 	"objects": [{
 		"behaviors": "Player",
 		"args": {
-			"position": {
-				"x": 160,
-				"y": 128
-			},
+			"position": {"x": 160, "y": 128},
 			"uid": 0
 		}
 	}, {
 		"behaviors": "Block",
 		"args": {
-			"position": {
-				"x": 128,
-				"y": 160
-			},
+			"position": {"x": 128, "y": 160},
 			"uid": 1
 		}
 	}, {
 		"behaviors": "Block",
 		"args": {
-			"position": {
-				"x": 160,
-				"y": 160
-			},
+			"position": {"x": 160, "y": 160},
 			"uid": 2
 		}
 	}],

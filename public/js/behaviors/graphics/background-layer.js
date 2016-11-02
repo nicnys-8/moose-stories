@@ -61,11 +61,10 @@ behavior.dependencies = ["Renderable"];
  */
 behavior.getProperties = function() {
 	return {
-		// Variables
 		parallax: {x: 1, y: 1},
 		tiled: {x: false, y: false},
 
-		// Functions
+		/** @type {function} */
 		render: render
 	};
 };

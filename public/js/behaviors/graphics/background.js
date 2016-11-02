@@ -37,6 +37,8 @@ behavior.dependencies = ["Renderable", "HasIcon"];
 behavior.getProperties = function() {
 	return {
 		layers: [],
+		
+		/** @type {function} */
 		render: render
 	};
 };

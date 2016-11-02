@@ -15,15 +15,6 @@ const behavior = {};
 behavior.dependencies = ["Moving"];
 
 /**
-* Defines the public variables and methods associated with this behavior.
-*
-* @return {object} An object containing behavior variables and methods.
-*/
-behavior.getProperties = function() {
-    return {};
-};
-
-/**
 * Updates the state of the target object.
 */
 behavior.tick = function() {

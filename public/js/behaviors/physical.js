@@ -137,7 +137,6 @@ behavior.dependencies = ["Transform"];
  */
 behavior.getProperties = function() {
 	return {
-		// variables
 		boundingBox: {
 			left: -config.tileSize / 2,
 			right: config.tileSize / 2,
@@ -147,7 +146,7 @@ behavior.getProperties = function() {
 		onGround: true,
 		wasOnGround: true,
 
-		// Functions
+		/** @type {function} */
 		overlapsObject: overlapsObject,
 		overlapsAtOffset: overlapsAtOffset,
 		overlapsPoint: overlapsPoint,

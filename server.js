@@ -1,32 +1,33 @@
 "use strict";
 
 // Load required modules
-const http = require("http"),
-	express = require("express"),
-	app = express(),
-	bodyParser = require("body-parser"),
-	fs = require("fs"),
-	flash = require("connect-flash"),
-	mongoose = require("mongoose"),
-	passport = require("passport"),
-	ExpressSession = require("express-session"),
-	config = require("./config/config.js"),
-	strategies = require("./config/strategies"),
-	routes = require("./app/routes/index"),
-	MongoStore = require("connect-mongo")(ExpressSession),
-	sessionStore = new MongoStore({
-		mongooseConnection: mongoose.connection
-	}),
-	session = ExpressSession({
-		secret: config.cookie.secret,
-		key: config.cookie.name,
-		store: sessionStore,
-		resave: false,
-		saveUninitialized: true,
-		cookie: {
-			maxAge: config.cookie.maxAge
-		}
-	});
+const http = require("http");
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+const fs = require("fs");
+const flash = require("connect-flash");
+const mongoose = require("mongoose");
+const passport = require("passport");
+const ExpressSession = require("express-session");
+const config = require("./config/config.js");
+const strategies = require("./config/strategies");
+const routes = require("./app/routes/index");
+const MongoStore = require("connect-mongo")(ExpressSession);
+
+const sessionStore = new MongoStore({
+	mongooseConnection: mongoose.connection
+});
+const session = ExpressSession({
+	secret: config.cookie.secret,
+	key: config.cookie.name,
+	store: sessionStore,
+	resave: false,
+	saveUninitialized: true,
+	cookie: {
+		maxAge: config.cookie.maxAge
+	}
+});
 
 // Connect to the database
 mongoose.connect(config.db);
@@ -54,7 +55,7 @@ app.use(function(req, res, next) {
 app.set("views", __dirname + "/app/views");
 app.set("view engine", config.templateEngine);
 
-// Use flash to display messages in templates
+// Use flash to display messages to clients
 app.use(flash());
 
 // Set up request data parsing

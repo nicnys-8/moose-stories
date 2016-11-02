@@ -67,12 +67,12 @@ behavior.getProperties = function() {
 	return {
 		// Variables
 		canvas: null,
-		origin: null,
+		origin: {x: 0, y: 0},
 		currentFrame: 0,
 		imageSpeed: 0,
 		numFrames: 1,
 
-		// Functions
+		/** @type {function} */
 		render: render
 	};
 };

@@ -64,15 +64,13 @@ const behavior = {};
  */
 behavior.getProperties = function() {
 	return {
-		// Variables
-
-		// Object for storing the current state of keys, e.g:
-		// {left: "up", up: "released", right: "pressed", down: "up"}:
+		// Object for storing the current state of keys,
+		// e.g. {left: "up", up: "released", right: "pressed", down: "up"}:
 		keyStates: {},
 		// Object for storing all key events that occured during the last tick
 		keyEvents: {},
 
-		// Functions
+		/** @type {function} */
 		up: up,
 		down: down,
 		pressed: pressed,
