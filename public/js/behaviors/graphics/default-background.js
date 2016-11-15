@@ -22,23 +22,23 @@ behavior.dependencies = ["Background"];
 behavior.init = function(args) {
 	const layerDescriptions = [{
 		filePath: "img/backgrounds/sun.svg",
-		position: {x: 400, y: 100},
-		parallax: {x: 0.3, y: 0.3},
+		position: {x: 600, y: 50},
+		parallax: {x: 0.1, y: 0.02},
 		tiled: {x: false, y: false}
 	}, {
 		filePath: "img/backgrounds/rainbow.svg",
-		position: {x: -250, y: 160},
-		parallax: {x: 0.4, y: 0.4},
+		position: {x: -250, y: 200},
+		parallax: {x: 0.4, y: 0.04},
 		tiled: {x: false, y: false}
 	}, {
 		filePath: "img/backgrounds/mountains.svg",
-		position: {x: 0, y: 260},
-		parallax: {x: 0.5, y: 0.5},
+		position: {x: 0, y: 400},
+		parallax: {x: 0.5, y: 0.2},
 		tiled: {x: true, y: false}
 	}, {
 		filePath: "img/backgrounds/clouds.svg",
-		position: {x: 0, y: -50},
-		parallax: {x: 0.6, y: 0.6},
+		position: {x: 0, y: 100},
+		parallax: {x: 0.6, y: 0.12},
 		tiled: {x: true, y: false}
 	}];
 

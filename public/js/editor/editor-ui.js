@@ -17,12 +17,14 @@ UI.addListItem = function(item, categoryName) {
 	$(panelId).find(".media-list").append(item);
 };
 
-UI.createListItem = function(image, text) {
+UI.createListItem = function(text, image) {
 	const clone = $("#menuListItemPrototype").clone().removeClass("prototype").attr("id", "");
 
 	$(image).addClass("media-object");
-	clone.find(".mc-media-container").append(image);
 	clone.find(".media-body").append(text);
+	if (typeof image !== "undefined") {
+		clone.find(".mc-media-container").append(image);
+	}
 	return clone;
 };
 

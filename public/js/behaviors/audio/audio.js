@@ -19,12 +19,12 @@ const filePaths = {
 /**
  * @param  {number} [size] - Preferred height and width of the icon.
  * @return {DOM Element} An icon representing the object.
- */
+
 function getIcon(size) {
 	const icon = document.createElement("i");
 	icon.innerHTML = "&#9835";
 	return icon;
-}
+} */
 
 
 //=================
@@ -33,7 +33,7 @@ function getIcon(size) {
 
 const behavior = {};
 
-behavior.dependencies = ["HasIcon"];
+//behavior.dependencies = ["HasIcon"];
 
 /**
  * Defines the public variables and methods associated with this behavior.
@@ -45,8 +45,8 @@ behavior.getProperties = function() {
 		play: null,
 		pause: null,
 		stop: null,
-		looping: false,
-		getIcon: getIcon
+		looping: false/*,
+		getIcon: getIcon*/
 	};
 };
 

@@ -11,16 +11,24 @@ const GraphicsLoader = require("../../graphics-loader");
  * Renders the background layer on screen.
  *
  * @param {CanvasRenderingContext2D} ctx - 2D rendering context.
- * @param {number} offsetX - Horizontal position of the center of the viewport.
- * @param {number} offsetY - Vertical position of the center of the viewport.
+ * @param {number} offsetX - Horizontal position of the viewport's center.
+ * @param {number} offsetY - Vertical position of the viewport.
  */
 function render(ctx, offsetX, offsetY) {
-	const width = this.canvas.width;
+	const width  = this.canvas.width;
 	const height = this.canvas.height;
-	const startX = (this.tiled.x) ? (-width + this.position.x) : this.position.x;
-	const startY = (this.tiled.y) ? (-height + this.position.y) : this.position.y;
-	const xTiles = (this.tiled.x) ? (Math.ceil(ctx.canvas.clientWidth / width) + 1) : 1;
-	const yTiles = (this.tiled.y) ? (Math.ceil(ctx.canvas.clientHeight / height) + 1) : 1;
+	const xTiles = (this.tiled.x) ? (Math.ceil(ctx.canvas.clientWidth / width) + 2) : 1;
+	const yTiles = (this.tiled.y) ? (Math.ceil(ctx.canvas.clientHeight / height) + 2) : 1;
+
+	let startX = this.position.x + (offsetX * this.parallax.x);
+	let startY = this.position.y + (offsetY * this.parallax.y);
+
+	if (this.tiled.x) {
+		startX = -width + startX % width;
+	}
+	if (this.tiled.y) {
+		startY = -height + startY % height;
+	}
 
 	ctx.save();
 	if (this.scale.x !== 1 || this.scale.y !== 1) {
@@ -32,10 +40,7 @@ function render(ctx, offsetX, offsetY) {
 	if (this.alpha === 1) {
 		ctx.globalAlpha = this.alpha;
 	}
-	ctx.translate(
-		startX + offsetX * this.parallax.x,
-		startY + offsetY * this.parallax.y
-	);
+	ctx.translate(startX, startY);
 
 	for (let i = 0; i < xTiles; i++) {
 		for (let j = 0; j < yTiles; j++) {

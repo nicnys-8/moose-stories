@@ -66,7 +66,7 @@ function initGameObjectMenu() {
 
 		const obj = new GameObject(objectType);
 		const icon = obj.getIcon();
-		const item = UI.createListItem(icon, objectType);
+		const item = UI.createListItem(objectType, icon);
 
 		item.click(function() {
 			if (selectedButton) {
@@ -97,7 +97,7 @@ function initBackgroundMenu() {
 	backgrounds.forEach(backgroundName => {
 		const background = new GameObject(backgroundName);
 		const icon = background.getIcon();
-		const item = UI.createListItem(icon, backgroundName);
+		const item = UI.createListItem(backgroundName, icon);
 
 		item.click(()=> {
 			GameState.setBackground(backgroundName);
@@ -120,8 +120,7 @@ function initMusicMenu() {
 		const song = new GameObject("Audio", {
 			name: songName
 		});
-		const icon = song.getIcon();
-		const item = UI.createListItem(icon, songName);
+		const item = UI.createListItem(songName);
 
 		item.click(() => {
 			GameState.setMusic(song);
