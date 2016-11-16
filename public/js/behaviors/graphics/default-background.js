@@ -32,8 +32,8 @@ behavior.init = function(args) {
 		tiled: {x: false, y: false}
 	}, {
 		filePath: "img/backgrounds/mountains.svg",
-		position: {x: 0, y: 400},
-		parallax: {x: 0.5, y: 0.2},
+		position: {x: 0, y: 420},
+		parallax: {x: 0.5, y: 0.1},
 		tiled: {x: true, y: false}
 	}, {
 		filePath: "img/backgrounds/clouds.svg",
