@@ -19,7 +19,7 @@ behavior.dependencies = ["Background"];
 /**
  * Initialization function, called on an object when this behavior is added to it.
  */
-behavior.init = function(args) {
+behavior.init = function() {
 	const layerDescriptions = [{
 		filePath: "img/backgrounds/mountains.svg",
 		position: {x: 0, y: 260},

@@ -97,10 +97,12 @@ class GameObject {
 
     /**
      * Runs all of the objects tick functions, i.e. one iteration of the game loop.
+	 *
+	 * @param {GameState} gameState - Object defining the game's current state.
      */
-    tick() {
+    tick(gameState) {
     	this.ticks.forEach(tick => {
-    		tick.call(this);
+    		tick.call(this, gameState);
     	});
     }
 }

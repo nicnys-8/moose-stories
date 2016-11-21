@@ -4,7 +4,6 @@
 
 "use strict";
 
-const GameState = require("./../game-state");
 const Behaviors = require("./../behaviors");
 const config = require("./../config");
 
@@ -112,14 +111,15 @@ function onTopOf(obj) {
 }
 
 /**
- * @return {boolean} True if the object is outside the level bounds.
- */
-function isOutsideLevel() {
+ * @param  {GameState} gameState - Object defining the game's current state.
+ * @return {boolean}   True if the object is outside the level bounds.
+
+function isOutsideLevel(gameState) {
 	return (this.position.x < 0 ||
 		this.position.y < 0 ||
-		this.position.x > GameState.getWidth() ||
-		this.position.y > GameState.getHeight());
-}
+		this.position.x > gameState.getWidth() ||
+		this.position.y > gameState.getHeight());
+}*/
 
 
 //=================
@@ -153,16 +153,18 @@ behavior.getProperties = function() {
 		overlapsBy: overlapsBy,
 		horizontalOverlap: horizontalOverlap,
 		verticalOverlap: verticalOverlap,
-		onTopOf: onTopOf,
-		isOutsideLevel: isOutsideLevel
+		onTopOf: onTopOf
+		//isOutsideLevel: isOutsideLevel
 	};
 };
 
 /**
  * Updates the state of the target object.
+ *
+ * @param {GameState} gameState - Object defining the game's current state.
  */
-behavior.tick = function() {
-	const solids = GameState.filter("Solid");
+behavior.tick = function(gameState) {
+	const solids = gameState.filter("Solid");
 
 	this.wasOnGround = this.onGround;
 	this.onGround = false;

@@ -4,7 +4,6 @@
 
 "use strict";
 
-const GameState = require("./../game-state");
 const Behaviors = require("./../behaviors");
 
 let friction = 0.2; // TODO: Move to GameState? Or somewhere else?
@@ -28,8 +27,8 @@ function applyForceY(force) {
 	this.acceleration.y += force / this.weight;
 }
 
-function move() {
-	const solids = GameState.filter("Solid");
+function move(gameState) {
+	const solids = gameState.filter("Solid");
 
 	// TODO: Cram these silly loops into one
 	this.position.x += this.speed.x;
@@ -100,8 +99,10 @@ behavior.getProperties = function() {
 
 /**
  * Updates the state of the target object.
+ *
+ * @param {GameState} gameState - Object defining the game's current state.
  */
-behavior.tick = function() {
+behavior.tick = function(gameState) {
 	this.speed.x += this.acceleration.x;
 	this.speed.y += this.acceleration.y;
 
@@ -109,7 +110,7 @@ behavior.tick = function() {
 	this.speed.x = Math.max(Math.min(this.speed.x, this.maxSpeed.x), -this.maxSpeed.x);
 	this.speed.y = Math.max(Math.min(this.speed.y, this.maxSpeed.y), -this.maxSpeed.y);
 
-	this.move();
+	this.move(gameState);
 
 	// Friction and gravity
 	if (Math.abs(this.speed.x) > friction) {

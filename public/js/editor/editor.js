@@ -199,6 +199,7 @@ $.get("/levels",
 		}
 
 		GameController.setCanvas(canvas);
+		GameController.setGameState(GameState);
 		GameController.startGame();
 		enterEditMode();
 	});

@@ -340,12 +340,12 @@ function GameState() {
 	};
 
 	/**
-	 * Updates all in-game objects, i.e. a single step in the main game loop.
+	 * Updates all in-game objects, a single step in the main game loop.
 	 */
 	this.tick = function() {
-		for (let i = 0; i < objects.length; i++) {
-			objects[i].tick();
-		}
+		objects.forEach(object => {
+			object.tick(this);
+		});
 	};
 }
 

@@ -4,7 +4,6 @@
 
 "use strict";
 
-const GameState = require("./game-state");
 const GameObject = require("./game-object");
 const config = require("./config");
 
@@ -20,16 +19,17 @@ function GameController() {
 	const keyboard = new GameObject("Keyboard");
 
 	let shouldDrawGrid = false;
+	let paused = false;
 	let player = null;
 	let canvas = null;
-	let paused = false;
+	let gameState = null;
 
 	/**
 	 * Renders the current view of the game.
 	 */
 	this.render = function() {
 
-		const renderList = GameState.filter("Renderable");
+		const renderList = gameState.filter("Renderable");
 		const offsetX = -camera.position.x + (canvas.width / 2);
 		const offsetY = -camera.position.y + (canvas.height / 2);
 
@@ -47,7 +47,7 @@ function GameController() {
 			ctx.rotate(camera.rotation);
 		}
 
-		background = GameState.getBackground();
+		background = gameState.getBackground();
 		if (background !== null) {
 			background.render(ctx, offsetX, offsetY);
 		}
@@ -118,15 +118,22 @@ function GameController() {
 			player.cancelJump();
 		}
 
-		camera.tick();
-		GameState.tick();
+		camera.tick(gameState);
+		gameState.tick();
+	};
+
+	/**
+	* @param {GameState} state - Set the model in the MVC pattern.
+	*/
+	this.setGameState = function(state) {
+		gameState = state;
 	};
 
 	this.startGame = function() {
-		player = GameState.filter("Player")[0];
+		player = gameState.filter("Player")[0];
 		camera.target = player;
-		if (GameState.getMusic()) {
-			GameState.getMusic().play();
+		if (gameState.getMusic()) {
+			gameState.getMusic().play();
 		}
 		// Start the main game loop
 		this.tick();
@@ -143,7 +150,7 @@ function GameController() {
 	 * Resumes the game loop.
 	 */
 	this.resume = function() {
-		player = GameState.filter("Player")[0];
+		player = gameState.filter("Player")[0];
 		camera.target = player;
 		paused = false;
 	};
@@ -152,7 +159,7 @@ function GameController() {
 	 * Resets the current level.
 	 */
 	this.resetLevel = function() {
-		GameState.clear();
+		gameState.clear();
 		this.startGame();
 	};
 
@@ -180,6 +187,20 @@ function GameController() {
 	this.setCameraPosition = function(x, y) {
 		camera.position.x = x;
 		camera.position.y = y;
+	};
+
+	/**
+	* @return {number} Width of the game window.
+	*/
+	this.getWindowWidth = function() {
+		return canvas.width;
+	};
+
+	/**
+	* @return {number} Height of the game window.
+	*/
+	this.getWindowHeight = function() {
+		return canvas.height;
 	};
 
 	/**
