@@ -49,7 +49,7 @@ behavior.dependencies = ["Renderable", "HasIcon"];
 behavior.getProperties = function() {
 	return {
 		currentAnimation: null,
-		
+
 		/** @type {function} */
 		render: render, // Overwrites the inherited function
 		getIcon: getIcon
