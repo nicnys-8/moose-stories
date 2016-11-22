@@ -12,13 +12,12 @@ const Levels = {
 		width: 1600,
 		height: 1000,
 		objects: [{
-			behaviors: "Player",
-			args: {
-				position: {
-					x: 364,
-					y: 412
-				},
-				uid: uid++
+			Player: {
+					position: {
+						x: 364,
+						y: 412
+					},
+					uid: uid++
 			}
 		}],
 		background: "DefaultBackground",
@@ -32,8 +31,7 @@ const Levels = {
  */
 for (let i = 0; i < 12; i++) {
 	Levels.level1.objects.push({
-		behaviors: "Block",
-		args: {
+		Block: {
 			position: {
 				x: 364 * i,
 				y: 556
@@ -45,8 +43,7 @@ for (let i = 0; i < 12; i++) {
 	});
 
 	Levels.level1.objects.push({
-		behaviors: "Block",
-		args: {
+		Block: {
 			position: {
 				x: 256 * i,
 				y: 224

@@ -9,7 +9,7 @@ const UI             = require("./editor-ui");
 const config         = require("../config");
 
 const HIGH_VOLUME    = 1.0;
-const LOW_VOLUME     = 0.2;
+const LOW_VOLUME     = 0.5;
 
 const gameController = new GameController();
 const gameState      = new GameState();

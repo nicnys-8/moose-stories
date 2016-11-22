@@ -75,29 +75,22 @@ class GameObject {
     	// Add dependencies
     	if (behavior.dependencies) {
     		behavior.dependencies.forEach(dependency => {
-    			this.addBehavior(dependency, args);
+					let dependencyArgs;
+					if (args && args[dependency]) {
+						dependencyArgs = args[dependency];
+					}
+    			this.addBehavior(dependency, dependencyArgs);
     		});
     	}
 
-    	// Add default behavior properties
-    	if (behavior.getProperties) {
-    		const properties = behavior.getProperties();
-    		for (let i in properties) {
-    			this[i] = properties[i];
-    		}
-    	}
-
     	// Overwrite default properties with argument values
-    	for (let i in args) {
+    	/*for (let i in args) {
     		if (typeof this[i] !== "undefined") {
     			this[i] = args[i];
     		}
-    	}
+    	}*/
 
-    	// Run initialization code
-    	if (behavior.init) {
-    		behavior.init.call(this, args);
-    	}
+    	behavior.init.call(this, args);
     }
 
     /**

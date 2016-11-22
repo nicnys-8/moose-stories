@@ -245,10 +245,7 @@ function GameState() {
 
 		for (let i = 0; i < len; i++) {
 			const objDesc = description.objects[i];
-			const obj = new GameObject({
-				[objDesc.behaviors]: objDesc.args
-			});
-
+			const obj = new GameObject(objDesc);
 			this.addObject(obj);
 		}
 
