@@ -36,7 +36,7 @@ class GameObject {
      *
      * @param {function} fn - The added function.
      */
-    addTick(fn) {
+    onUpdate(fn) {
     	this.ticks.push(fn);
     }
 
@@ -82,11 +82,6 @@ class GameObject {
     		if (typeof this[i] !== "undefined") {
     			this[i] = args[i];
     		}
-    	}
-
-    	// Modify the target's tick function
-    	if (behavior.tick) {
-    		this.ticks.push(behavior.tick);
     	}
 
     	// Run initialization code

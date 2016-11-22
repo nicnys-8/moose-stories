@@ -6,12 +6,6 @@
 
 const Behaviors = require("../../behaviors");
 const GameObject = require("../../game-object");
-
-
-//=================
-// Public interface
-//=================
-
 const behavior = {};
 
 behavior.dependencies = ["Background"];

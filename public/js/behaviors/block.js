@@ -6,16 +6,7 @@
 
 const Behaviors = require("../behaviors");
 const GameObject = require("../game-object");
-
-const spriteOffset = {
-	x: 16,
-	y: 16
-};
-
-//=================
-// Public interface
-//=================
-
+const spriteOffset = {x: 16, y: 16};
 const behavior = {};
 
 behavior.dependencies = ["Solid", "HasAnimation"];

@@ -6,12 +6,6 @@
 
 const Behaviors = require("../../behaviors");
 const GameObject = require("../../game-object");
-
-
-//=================
-// Public interface
-//=================
-
 const behavior = {};
 
 behavior.dependencies = ["Background"];
@@ -20,6 +14,7 @@ behavior.dependencies = ["Background"];
  * Initialization function, called on an object when this behavior is added to it.
  */
 behavior.init = function() {
+	
 	const layerDescriptions = [{
 		filePath: "img/backgrounds/sun.svg",
 		position: {x: 600,   y: 50},

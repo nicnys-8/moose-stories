@@ -349,4 +349,4 @@ function GameState() {
 	};
 }
 
-module.exports = new GameState();
+module.exports = GameState;

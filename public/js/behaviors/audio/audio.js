@@ -11,6 +11,7 @@ const filePaths = {
 	"Main theme": "audio/music/fnurk.mp3",
 	"Space": "audio/music/space.ogg",
 	"Moose Music": "audio/music/moose-music.wav",
+
 	// Sound effects
 	"Jump": "audio/sounds/jump.wav",
 	"Land": "audio/sounds/land.wav"
@@ -36,43 +37,29 @@ const behavior = {};
 //behavior.dependencies = ["HasIcon"];
 
 /**
- * Defines the public variables and methods associated with this behavior.
- *
- * @return {object} An object containing behavior variables and methods.
- */
-behavior.getProperties = function() {
-	return {
-		play: null,
-		pause: null,
-		stop: null,
-		looping: false/*,
-		getIcon: getIcon*/
-	};
-};
-
-/**
  * Initialization function, called on an object when this behavior is added to it.
  *
- * @param {string} args.name Name of the song or sound effect.
+ * @param {string} name - Name of the song or sound effect.
  */
-behavior.init = function(args) {
+behavior.init = function({name, looping = false}) {
+
 	let audioTag = null;
 
-	if (!args || !args.name) {
+	if (typeof name === "undefined") {
 		throw new Error("'Audio' behavior requires argument 'name'.");
 	}
 
-	if (typeof filePaths[args.name] === "undefined") {
-		throw new Error("The audio name " + args.name + " is not listed in \'filePaths\'.");
+	if (typeof filePaths[name] === "undefined") {
+		throw new Error("The audio name " + name + " is not listed in \'filePaths\'.");
 	}
 
-	if (cache[args.name]) {
-		audioTag = cache[args.name];
+	if (cache[name]) {
+		audioTag = cache[name];
 	} else {
 		audioTag = document.createElement("audio");
-		audioTag.src = filePaths[args.name];
+		audioTag.src = filePaths[name];
 		audioTag.load();
-		cache[args.name] = audioTag;
+		cache[name] = audioTag;
 	}
 
 	this.play = function() {
@@ -88,7 +75,7 @@ behavior.init = function(args) {
 		audioTag.currentTime = 0;
 	};
 
-	if (this.looping) {
+	if (looping) {
 		audioTag.addEventListener("ended", function() {
 			audioTag.play();
 		});

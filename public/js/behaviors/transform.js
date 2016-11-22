@@ -5,25 +5,17 @@
 "use strict";
 
 const Behaviors = require("./../behaviors");
-
-
-//=================
-// Public interface
-//=================
-
 const behavior = {};
 
 /**
- * Defines the public variables and methods associated with this behavior.
- *
- * @return {object} An object containing behavior variables and methods.
+ * Initialization function, called on an object when this behavior is added to it.
  */
-behavior.getProperties = function() {
-	return {
-		position: {x: 0, y: 0},
-		scale:    {x: 1, y: 1},
-		rotation: 0
-	};
+behavior.init = function() {
+
+	this.position = {x: 0, y: 0};
+	this.scale    = {x: 1, y: 1};
+	this.rotation = 0;
+
 };
 
 Behaviors.register("Transform", behavior);

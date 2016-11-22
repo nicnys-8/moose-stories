@@ -7,43 +7,33 @@
 "use strict";
 
 const Behaviors = require("../behaviors");
-
-let currentlySolid = true;
-
-/**
- * @returns {boolean} Whether or not the object is currently solid
- */
-function isSolid() {
-	return currentlySolid;
-}
-
-/**
- * Sets the solidity of the object
- *
- * @param {boolean} bool - True if it should be solid, false otherwise.
- */
-function setSolid(solid) {
-	currentlySolid = solid;
-}
-
-//=================
-// Public interface
-//=================
-
 const behavior = {};
 
 behavior.dependencies = ["Physical"];
 
 /**
- * Defines the public variables and methods associated with this behavior.
- *
- * @return {object} An object containing behavior variables and methods.
+ * Initialization function, called on an object when this behavior is added to it.
  */
-behavior.getProperties = function() {
-	return {
-		/** @type {function} */
-		isSolid: isSolid,
+behavior.init = function() {
+
+	let solid = true;
+
+	/**
+	 * @returns {boolean} Whether or not the object is currently solid.
+	 */
+	this.isSolid = function() {
+		return solid;
 	};
+
+	/**
+	 * Sets the solidity of the object
+	 *
+	 * @param {boolean} value - True if it should be solid, false otherwise.
+	 */
+	this.setSolid = function(value) {
+		solid = value;
+	};
+
 };
 
 Behaviors.register("Solid", behavior);

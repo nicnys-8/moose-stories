@@ -1,15 +1,17 @@
 "use strict";
 
 const GameController = require("../game-controller");
-const GameState = require("../game-state");
-const GameObject = require("../game-object");
+const GameState      = require("../game-state");
+const GameObject     = require("../game-object");
 const GraphicsLoader = require("../graphics-loader");
-const Levels = require("../levels");
-const UI = require("./editor-ui");
-const config = require("../config");
+const Levels         = require("../levels");
+const UI             = require("./editor-ui");
+const config         = require("../config");
 
-const canvas = document.getElementById("view");
-const camera = GameController.getCamera();
+const gameController = new GameController();
+const gameState      = new GameState();
+const canvas         = document.getElementById("view");
+const camera         = gameController.getCamera();
 
 const levelSettings = {
 	"Name": "New level",
@@ -31,7 +33,7 @@ let selectedObject = null;
  * Clears all level data from the game state.
  */
 function createNewLevel() {
-	GameState.clear();
+	gameState.clear();
 }
 
 /**
@@ -100,8 +102,8 @@ function initBackgroundMenu() {
 		const item = UI.createListItem(backgroundName, icon);
 
 		item.click(()=> {
-			GameState.setBackground(backgroundName);
-			GameController.render();
+			gameState.setBackground(backgroundName);
+			gameController.render();
 		});
 		UI.addListItem(item, "Backgrounds");
 	});
@@ -123,8 +125,8 @@ function initMusicMenu() {
 		const item = UI.createListItem(songName);
 
 		item.click(() => {
-			GameState.setMusic(song);
-			GameState.getMusic().play();
+			gameState.setMusic(song);
+			gameState.getMusic().play();
 		});
 		UI.addListItem(item, "Music");
 	});
@@ -135,12 +137,12 @@ function initMusicMenu() {
  */
 function enterEditMode() {
 	$(canvas).removeClass("playing");
-	canvas.width = GameState.getWidth();
-	canvas.height = GameState.getHeight();
-	GameController.pause();
-	GameController.setCameraPosition(canvas.width / 2, canvas.height / 2);
-	GameController.drawGrid(true);
-	GameController.render();
+	canvas.width = gameState.getWidth();
+	canvas.height = gameState.getHeight();
+	gameController.pause();
+	gameController.setCameraPosition(canvas.width / 2, canvas.height / 2);
+	gameController.drawGrid(true);
+	gameController.render();
 }
 
 /**
@@ -148,10 +150,10 @@ function enterEditMode() {
  */
 function enterPlayMode() {
 	$(canvas).addClass("playing");
-	GameController.drawGrid(false);
+	gameController.drawGrid(false);
 	canvas.width = config.windowWidth;
 	canvas.height = config.windowHeight;
-	GameController.resume();
+	gameController.resume();
 }
 
 
@@ -164,11 +166,11 @@ $("#sidebar-right").append(UI.createForm(levelSettings,
 		switch (key) {
 			case "Width":
 				canvas.width = value;
-				GameState.setWidth(value);
+				gameState.setWidth(value);
 				break;
 			case "Height":
 				canvas.height = value;
-				GameState.setHeight(value);
+				gameState.setHeight(value);
 				break;
 		}
 	}));
@@ -191,16 +193,16 @@ $.get("/levels",
 		}
 
 		if (currentLevelName) {
-			GameState.parseLevel(levels[currentLevelName]);
-			// levelSettings.width = GameState.getWidth(); FIXME: Something like this!
-			// levelSettings.height = GameState.getHeight(); FIXME: Something like this!
+			gameState.parseLevel(levels[currentLevelName]);
+			// levelSettings.width = gameState.getWidth(); FIXME: Something like this!
+			// levelSettings.height = gameState.getHeight(); FIXME: Something like this!
 		} else {
 			createNewLevel();
 		}
 
-		GameController.setCanvas(canvas);
-		GameController.setGameState(GameState);
-		GameController.startGame();
+		gameController.setCanvas(canvas);
+		gameController.setGameState(gameState);
+		gameController.startGame();
 		enterEditMode();
 	});
 
@@ -208,7 +210,7 @@ GraphicsLoader.onLoad(() => {
 	initGameObjectMenu();
 	initBackgroundMenu();
 	initMusicMenu();
-	GameController.render();
+	gameController.render();
 });
 
 
@@ -217,8 +219,8 @@ GraphicsLoader.onLoad(() => {
 //===============
 
 $("#clear-button").on("click", function() {
-	GameState.clear();
-	GameController.render();
+	gameState.clear();
+	gameController.render();
 });
 
 $("#pause-button").on("click", enterEditMode);
@@ -237,13 +239,13 @@ $("#view")
 		const p = calculatePlacement(event);
 
 		event.preventDefault();
-		selectedObject = GameState.objectAtPosition(p.x, p.y);
+		selectedObject = gameState.objectAtPosition(p.x, p.y);
 
 		switch (event.which) {
 			case LEFT_MOUSE_BUTTON:
 				if (!selectedObject) {
 					selectedObject = new GameObject(currentObject);
-					GameState.addObject(selectedObject);
+					gameState.addObject(selectedObject);
 				}
 				snapToGrid(p);
 				selectedObject.position.x = p.x;
@@ -253,14 +255,14 @@ $("#view")
 				break;
 			case RIGHT_MOUSE_BUTTON:
 				if (selectedObject) {
-					GameState.removeObject(selectedObject);
+					gameState.removeObject(selectedObject);
 					selectedObject = null;
 				}
 				break;
 			default:
 				console.log('You have a strange mouse!');
 		}
-		GameController.render();
+		gameController.render();
 	})
 	.mousemove(event => {
 		const p = calculatePlacement(event);
@@ -269,7 +271,7 @@ $("#view")
 		if (selectedObject) {
 			if (p.x !== selectedObject.position.x || p.y !== selectedObject.position.y) {
 				selectedObject.position = p;
-				GameController.render();
+				gameController.render();
 			}
 		}
 
@@ -282,7 +284,7 @@ $("#view")
 	})
 	.bind("mouseout", event => {
 		if (selectedObject) {
-			GameState.removeObject(selectedObject);
+			gameState.removeObject(selectedObject);
 		}
 		selectedObject = null;
 	});

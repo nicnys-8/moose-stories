@@ -4,13 +4,13 @@
 
 "use strict";
 
-
-//==================
-// Private variables
-//==================
+//=========================
+// Private static variables
+//=========================
 
 const Behaviors = require("../behaviors");
 const GameObject = require("../game-object");
+const behavior = {};
 
 const jumpForce = 220;
 const moveForce = 12;
@@ -22,9 +22,10 @@ const landSound = new GameObject("Audio", {
 	name: "Land"
 });
 
-//==================
-// Private functions
-//==================
+
+//=================
+// Static functions
+//=================
 
 function moveLeft() {
 	this.applyForceX(-moveForce);
@@ -47,35 +48,30 @@ function cancelJump() {
 	}
 }
 
-//=================
-// Public interface
-//=================
 
-const behavior = {};
+//====================
+// Define the behavior
+//====================
 
 behavior.dependencies = ["Moving", "HasAnimation"];
 
 /**
- * Defines the public variables and methods associated with this behavior.
- *
- * @return {object} An object containing behavior variables and methods.
+ * Function that is called on an object when this behavior is added to it.
  */
-behavior.getProperties = function() {
-	return {
-		// Variables
-		isControllable: true,
-		animations: {
-			stand: null,
-			walk: null,
-			jump: null
-		},
+behavior.init = function() {
 
-		// Functions
-		moveLeft: moveLeft,
-		moveRight: moveRight,
-		jump: jump,
-		cancelJump: cancelJump
+	this.isControllable = true;
+	this.animations = {
+		stand: null,
+		walk: null,
+		jump: null
 	};
+
+	/** @type {function} */
+	this.moveLeft   = moveLeft;
+	this.moveRight  = moveRight;
+	this.jump       = jump;
+	this.cancelJump = cancelJump;
 };
 
 Behaviors.register("Platform", behavior);

@@ -5,24 +5,26 @@
 "use strict";
 
 const Behaviors = require("../../behaviors");
-
-//=================
-// Public interface
-//=================
-
 const behavior = {};
 
 behavior.dependencies = ["Moving"];
 
 /**
-* Updates the state of the target object.
-*/
-behavior.tick = function() {
-    if (this.acceleration.x < 0) {
-        this.scale.x = Math.abs(this.scale.x);
-    } else if (this.acceleration.x > 0) {
-        this.scale.x = -Math.abs(this.scale.x);
-    }
+ * Initialization function, called on an object when this behavior is added to it.
+ */
+behavior.init = function() {
+
+    /**
+	 * Add function for updating the object.
+	 */
+	this.onUpdate((gameState, windowWidth = 0, windowHeight = 0) => {
+        if (this.acceleration.x < 0) {
+            this.scale.x = Math.abs(this.scale.x);
+        } else if (this.acceleration.x > 0) {
+            this.scale.x = -Math.abs(this.scale.x);
+        }
+    });
+
 };
 
 Behaviors.register("FaceDirection", behavior);

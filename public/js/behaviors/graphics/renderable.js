@@ -5,36 +5,28 @@
 "use strict";
 
 const Behaviors = require("../../behaviors");
-
-/**
- * Renders the object.
- *
- * @param {CanvasRenderingContext2D} ctx - 2D rendering context.
- */
-function render(ctx) {
-	throw new Error("This object does not implement a 'render' function.");
-}
-
-
-//=================
-// Public interface
-//=================
-
 const behavior = {};
 
 behavior.dependencies = ["Transform"];
 
 /**
- * Defines the public variables and methods associated with this behavior.
- *
- * @return {object} An object containing behavior variables and methods.
+ * Initialization function, called on an object when this behavior is added to it.
  */
-behavior.getProperties = function() {
-	return {
-		alpha: 1,
+behavior.init = function() {
 
-		/** @type {function} */
-		render: render
+	/**
+	* Transparency of the object, a value between 0 and 1.
+	* @type {number}
+	*/
+	this.alpha = 1;
+
+	/**
+	 * Renders the object.
+	 *
+	 * @param {CanvasRenderingContext2D} ctx - 2D rendering context.
+	 */
+	this.render = function(ctx) {
+		throw new Error("This object does not implement a 'render' function.");
 	};
 };
 

@@ -4,8 +4,18 @@
 
 "use strict";
 
+//=========================
+// Private static variables
+//=========================
+
 const Behaviors = require("./../behaviors");
 const config = require("./../config");
+const behavior = {};
+
+
+//=================
+// Static functions
+//=================
 
 /**
  * Check whether this object overlaps another.
@@ -91,6 +101,17 @@ function horizontalOverlap(obj) {
 	}
 }
 
+/**
+ * @param  {GameState} gameState - Object defining the game's current state.
+ * @return {boolean}   True if the object is outside the level bounds.
+
+function isOutsideLevel(gameState) {
+	return (this.position.x < 0 ||
+		this.position.y < 0 ||
+		this.position.x > gameState.getWidth() ||
+		this.position.y > gameState.getHeight());
+}*/
+
 function verticalOverlap(obj) {
 	console.warn("Deprecated function");
 	if (this.position.y < obj.position.y) {
@@ -110,70 +131,56 @@ function onTopOf(obj) {
 	);
 }
 
-/**
- * @param  {GameState} gameState - Object defining the game's current state.
- * @return {boolean}   True if the object is outside the level bounds.
 
-function isOutsideLevel(gameState) {
-	return (this.position.x < 0 ||
-		this.position.y < 0 ||
-		this.position.x > gameState.getWidth() ||
-		this.position.y > gameState.getHeight());
-}*/
-
-
-//=================
-// Public interface
-//=================
-
-const behavior = {};
+//====================
+// Define the behavior
+//====================
 
 behavior.dependencies = ["Transform"];
 
 /**
- * Defines the public variables and methods associated with this behavior.
- *
- * @return {object} An object containing behavior variables and methods.
+ * Function that is called on an object when this behavior is added to it.
  */
-behavior.getProperties = function() {
-	return {
-		boundingBox: {
-			left: -config.tileSize / 2,
-			right: config.tileSize / 2,
-			top: -config.tileSize / 2,
-			bottom: config.tileSize / 2
-		},
-		onGround: true,
-		wasOnGround: true,
+behavior.init = function() {
 
-		/** @type {function} */
-		overlapsObject: overlapsObject,
-		overlapsAtOffset: overlapsAtOffset,
-		overlapsPoint: overlapsPoint,
-		overlapsBy: overlapsBy,
-		horizontalOverlap: horizontalOverlap,
-		verticalOverlap: verticalOverlap,
-		onTopOf: onTopOf
-		//isOutsideLevel: isOutsideLevel
+	this.weight = 32;
+	this.boundingBox = {
+		left: -config.tileSize / 2,
+		right: config.tileSize / 2,
+		top: -config.tileSize / 2,
+		bottom: config.tileSize / 2
 	};
-};
 
-/**
- * Updates the state of the target object.
- *
- * @param {GameState} gameState - Object defining the game's current state.
- */
-behavior.tick = function(gameState) {
-	const solids = gameState.filter("Solid");
+	this.onGround = true; // TODO: Replace with setter/getter
+	this.wasOnGround = true; // TODO: Replace with setter/getter
 
-	this.wasOnGround = this.onGround;
-	this.onGround = false;
+	/** @type {function} */
+	this.overlapsObject = overlapsObject;
+	this.overlapsAtOffset = overlapsAtOffset;
+	this.overlapsPoint = overlapsPoint;
+	this.overlapsBy = overlapsBy;
+	this.horizontalOverlap = horizontalOverlap;
+	this.verticalOverlap = verticalOverlap;
+	this.onTopOf = onTopOf;
 
-	solids.forEach(solid => {
-		if (this.onTopOf(solid)) {
-			this.onGround = true;
-		}
+	/**
+	 * Add function for updating the object.
+	 *
+	 * @param {GameState} gameState - Object defining the game's current state.
+	 */
+	this.onUpdate((gameState) => {
+		const solids = gameState.filter("Solid");
+
+		this.wasOnGround = this.onGround;
+		this.onGround = false;
+
+		solids.forEach(solid => {
+			if (this.onTopOf(solid)) {
+				this.onGround = true;
+			}
+		});
 	});
+
 };
 
 Behaviors.register("Physical", behavior);

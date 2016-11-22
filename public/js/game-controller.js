@@ -84,9 +84,8 @@ function GameController() {
 	};
 
 	/**
-	 * Runs the main game loop
-	 * Updates all in-game objects and renders the screen,
-	 * i.e. a single step in the main game loop.
+	 * Runs the main game loop.
+	 * Updates all in-game objects and renders the screen, i.e. a single step in the main game loop.
 	 */
 	this.tick = function() {
 		if (!canvas) {
@@ -131,7 +130,7 @@ function GameController() {
 
 	this.startGame = function() {
 		player = gameState.filter("Player")[0];
-		camera.target = player;
+		camera.setTarget(player);
 		if (gameState.getMusic()) {
 			gameState.getMusic().play();
 		}
@@ -212,4 +211,4 @@ function GameController() {
 	};
 }
 
-module.exports = new GameController();
+module.exports = GameController;

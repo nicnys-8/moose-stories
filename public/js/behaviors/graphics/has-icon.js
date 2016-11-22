@@ -5,31 +5,25 @@
 "use strict";
 
 const Behaviors = require("../../behaviors");
-
-/**
- * @param  {number} [size] - Preferred height and width of the icon.
- * @return {DOM Element} An icon representing the object.
- */
-function getIcon(size) {
-	const icon = document.createElement("i");
-	icon.innerHTML = "&#9817";
-	return icon;
-}
-
-
-//=================
-// Public interface
-//=================
-
 const behavior = {};
 
 /**
- * Defines the public variables and methods associated with this behavior.
+ * Initialization function, called on an object when this behavior is added to it.
  *
- * @return {object} An object containing behavior variables and methods.
+ * @param {string} args.name Name of the song or sound effect.
  */
-behavior.getProperties = function() {
-	return {getIcon};
+behavior.init = function(args) {
+
+	/**
+	 * @param  {number} [size] - Preferred height and width of the icon.
+	 * @return {DOM Element} An icon representing the object.
+	 */
+	this.getIcon = function(size) {
+		const icon = document.createElement("i");
+		icon.innerHTML = "&#9817";
+		return icon;
+	};
+	
 };
 
 Behaviors.register("HasIcon", behavior);
