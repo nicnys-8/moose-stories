@@ -209,6 +209,7 @@ function GameController() {
 	this.drawGrid = function(bool) {
 		shouldDrawGrid = bool;
 	};
+
 }
 
 module.exports = GameController;

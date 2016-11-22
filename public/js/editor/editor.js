@@ -8,6 +8,9 @@ const Levels         = require("../levels");
 const UI             = require("./editor-ui");
 const config         = require("../config");
 
+const HIGH_VOLUME    = 1.0;
+const LOW_VOLUME     = 0.2;
+
 const gameController = new GameController();
 const gameState      = new GameState();
 const canvas         = document.getElementById("view");
@@ -139,6 +142,7 @@ function enterEditMode() {
 	$(canvas).removeClass("playing");
 	canvas.width = gameState.getWidth();
 	canvas.height = gameState.getHeight();
+	gameState.setMusicVolume(LOW_VOLUME);
 	gameController.pause();
 	gameController.setCameraPosition(canvas.width / 2, canvas.height / 2);
 	gameController.drawGrid(true);
@@ -150,6 +154,7 @@ function enterEditMode() {
  */
 function enterPlayMode() {
 	$(canvas).addClass("playing");
+	gameState.setMusicVolume(HIGH_VOLUME);
 	gameController.drawGrid(false);
 	canvas.width = config.windowWidth;
 	canvas.height = config.windowHeight;

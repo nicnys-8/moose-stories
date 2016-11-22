@@ -75,6 +75,13 @@ behavior.init = function({name, looping = false}) {
 		audioTag.currentTime = 0;
 	};
 
+	/**
+	* @param {number} volume - The playback volume, in the range 0 (silent) to 1 (loudest).
+	*/
+	this.setVolume = function(volume) {
+		audioTag.volume = volume;
+	};
+
 	if (looping) {
 		audioTag.addEventListener("ended", function() {
 			audioTag.play();

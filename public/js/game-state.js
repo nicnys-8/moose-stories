@@ -306,21 +306,34 @@ function GameState() {
 	/**
 	 * Sets the current background image.
 	 *
-	 * @param {string} backgroundName Name of the background.
+	 * @param {string} backgroundName - Name of the background.
 	 */
 	this.setBackground = function(backgroundName) {
 		background = new GameObject(backgroundName);
 	};
 
+	/**
+	* @return {Audio} The currently playing background music object.
+	*/
 	this.getMusic = function() {
 		return music;
 	};
 
-	this.setMusic = function(msc) {
+	/**
+	* @param {Audio} arg - A new background music object.
+	*/
+	this.setMusic = function(arg) {
 		if (music) {
 			music.stop();
 		}
-		music = msc;
+		music = arg;
+	};
+
+	/**
+	* @param {number} volume - New volume of the background music, in the range 0 (silent) to 1 (loudest).
+	*/
+	this.setMusicVolume = function(volume) {
+		music.setVolume(volume);
 	};
 
 	this.setWidth = function(w) {
