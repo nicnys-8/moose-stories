@@ -14,7 +14,7 @@ behavior.dependencies = ["Background"];
  * Initialization function, called on an object when this behavior is added to it.
  */
 behavior.init = function() {
-	
+
 	const layerDescriptions = [{
 		filePath: "img/backgrounds/sun.svg",
 		position: {x: 600,   y: 50},
@@ -38,7 +38,9 @@ behavior.init = function() {
 	}];
 
 	this.layers = layerDescriptions.map(description => {
-		return new GameObject("BackgroundLayer", description);
+		return new GameObject({
+			BackgroundLayer: description
+		});
 	});
 };
 

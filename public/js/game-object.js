@@ -5,21 +5,31 @@ const Behaviors = require("./behaviors");
 class GameObject {
 
 	/**
-	 * Instantiates a new game object.
+	 * Instantiates a new game object with the specified behaviors.
 	 *
-	 * @param {string|[string]} behaviors - The name of a behavior, or an array of behavior names.
-	 * @param {object} args - Container for all arguments to the object.
+	 * Example usage:
+	 *	- new GameObject("Moving");
+	 *		Creates  game object with 'Moving' behavior.
+	 *	- new GameObject({Audio: {name: "champs-elysees"}});
+	 *		Creates game object with 'Audio' behavior, passing the
+	 *		{name: "champs-elysees"} as an argument to the behavior's init function.
+	 *
+	 * @param {string|object} args - The name of a behavior, or a dictionary
+	 *                               mapping behavior names to arguments.
 	 */
-	constructor(behaviors, args) {
+	constructor(args) {
 		this.behaviors = {};
 		this.ticks = [];
 		this.uid = args && args.uid; // This is set in GameState, when the level is parsed (and it's a number, right?)
 
-		// Add all behaviors
-		behaviors = [].concat(behaviors); // Turn into array
-		behaviors.forEach(behavior => {
-			this.addBehavior(behavior, args);
-		});
+		if (typeof args === "string") {
+			const behaviorName = args;
+			this.addBehavior(behaviorName);
+		} else {
+			for (let behaviorName in args) {
+				this.addBehavior(behaviorName, args[behaviorName]);
+			}
+		}
 	}
 
     /**

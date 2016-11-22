@@ -15,11 +15,11 @@ const behavior = {};
 const jumpForce = 220;
 const moveForce = 12;
 
-const jumpSound = new GameObject("Audio", {
-	name: "Jump"
+const jumpSound = new GameObject({
+	Audio: {name: "Jump"}
 });
-const landSound = new GameObject("Audio", {
-	name: "Land"
+const landSound = new GameObject({
+	Audio: {name: "Land"}
 });
 
 

@@ -245,7 +245,9 @@ function GameState() {
 
 		for (let i = 0; i < len; i++) {
 			const objDesc = description.objects[i];
-			const obj = new GameObject(objDesc.behaviors, objDesc.args);
+			const obj = new GameObject({
+				[objDesc.behaviors]: objDesc.args
+			});
 
 			this.addObject(obj);
 		}
@@ -254,9 +256,11 @@ function GameState() {
 		background = new GameObject(description.background);
 
 		if (description.music) {
-			music = new GameObject("Audio", {
-				name: description.music,
-				looping: true
+			music = new GameObject({
+				Audio: {
+					name: description.music,
+					looping: true
+				}
 			});
 		}
 	};

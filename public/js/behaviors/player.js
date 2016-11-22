@@ -37,23 +37,29 @@ behavior.init = function() {
 
 	this.boundingBox = boundingBox;
 
-	this.animations.stand = new GameObject("Animation", {
-		filePath: "img/sprites/giri/stand.svg",
-		numFrames: 1,
-		origin: spriteOffset
+	this.animations.stand = new GameObject({
+		Animation: {
+			filePath: "img/sprites/giri/stand.svg",
+			numFrames: 1,
+			origin: spriteOffset
+		}
 	});
 
-	this.animations.walk = new GameObject("Animation", {
-		filePath: "img/sprites/giri/walk.svg",
-		numFrames: 2,
-		imageSpeed: 0.1,
-		origin: spriteOffset
+	this.animations.walk = new GameObject({
+		Animation: {
+			filePath: "img/sprites/giri/walk.svg",
+			numFrames: 2,
+			imageSpeed: 0.1,
+			origin: spriteOffset
+		}
 	});
 
-	this.animations.jump = new GameObject("Animation", {
-		filePath: "img/sprites/giri/jump.svg",
-		numFrames: 1,
-		origin: spriteOffset
+	this.animations.jump = new GameObject({
+		Animation: {
+			filePath: "img/sprites/giri/jump.svg",
+			numFrames: 1,
+			origin: spriteOffset
+		}
 	});
 
 	this.currentAnimation = this.animations.jump;

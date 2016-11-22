@@ -20,7 +20,7 @@ behavior.init = function() {
 	const maxSpeed = {x: 2.5, y: 9};
 
 	this.acceleration = {x: 0, y: 0};
-	this.speed        = {x: 0, y: 0};
+	this.speed = {x: 0, y: 0};
 
 	/**
 	 * Applies a force on the object, affecting its horizontal acceleration.

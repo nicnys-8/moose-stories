@@ -22,7 +22,9 @@ behavior.init = function() {
 	}];
 
 	this.layers = layerDescriptions.map(description => {
-		return new GameObject("BackgroundLayer", description);
+		return new GameObject({
+			BackgroundLayer: description
+		});
 	});
 };
 

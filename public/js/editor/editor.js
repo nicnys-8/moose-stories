@@ -122,8 +122,8 @@ function initMusicMenu() {
 	UI.addCategory("Music");
 
 	songList.forEach(songName => {
-		const song = new GameObject("Audio", {
-			name: songName
+		const song = new GameObject({
+			Audio: {name: songName}
 		});
 		const item = UI.createListItem(songName);
 
