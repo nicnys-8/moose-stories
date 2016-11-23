@@ -2,19 +2,19 @@
 	"width": 1600,
 	"height": 1000,
 	"objects": [{
-		"Player": {
-			"position": {"x": 160, "y": 128},
-			"uid": 0
+		"Player": {},
+		"Transform": {
+			"position": {"x": 160, "y": 128}
 		}
 	}, {
-		"Block": {
-			"position": {"x": 128, "y": 160},
-			"uid": 1
+		"Block": {},
+		"Transform": {
+			"position": {"x": 128, "y": 160}
 		}
 	}, {
-		"Block": {
-			"position": {"x": 160, "y": 160},
-			"uid": 2
+		"Block": {},
+		"Transform": {
+			"position": {"x": 160, "y": 160}
 		}
 	}],
 	"background": "DefaultBackground",

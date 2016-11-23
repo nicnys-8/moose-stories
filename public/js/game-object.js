@@ -27,7 +27,7 @@ class GameObject {
 			this.addBehavior(behaviorName);
 		} else {
 			for (let behaviorName in args) {
-				this.addBehavior(behaviorName, args[behaviorName]);
+				this.addBehavior(behaviorName, args);
 			}
 		}
 	}
@@ -56,7 +56,7 @@ class GameObject {
      * @param {String} behaviorName - Name of the behavior to be added.
      * @param {obj} args - object that will be passed to the behaviors 'init' functions.
      */
-    addBehavior(behaviorName, args) {
+    addBehavior(behaviorName, args = {}) {
     	const behavior = Behaviors.get(behaviorName);
 
     	// Check if the behavior exists
@@ -75,22 +75,10 @@ class GameObject {
     	// Add dependencies
     	if (behavior.dependencies) {
     		behavior.dependencies.forEach(dependency => {
-					let dependencyArgs;
-					if (args && args[dependency]) {
-						dependencyArgs = args[dependency];
-					}
-    			this.addBehavior(dependency, dependencyArgs);
+					this.addBehavior(dependency, args);
     		});
     	}
-
-    	// Overwrite default properties with argument values
-    	/*for (let i in args) {
-    		if (typeof this[i] !== "undefined") {
-    			this[i] = args[i];
-    		}
-    	}*/
-
-    	behavior.init.call(this, args);
+    	behavior.init.call(this, args[behaviorName] || {});
     }
 
     /**
