@@ -77,7 +77,8 @@ class GameObject {
 					this.addBehavior(dependency, args);
     		});
     	}
-			
+
+				// Run initialization code
     	behavior.init.call(this, args[behaviorName] || {});
     }
 
