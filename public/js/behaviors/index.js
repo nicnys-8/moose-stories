@@ -23,7 +23,7 @@ function register(behaviorName, behavior) {
 /**
  * Returns the behavior registered with the specified name.
  *
- * @param {string} behaviorName - The name of the behavior to retrieve.
+ * @param  {string} behaviorName - The name of the behavior to retrieve.
  * @return {object} The registered behavior.
  */
 function get(behaviorName) {

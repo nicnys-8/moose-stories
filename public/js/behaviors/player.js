@@ -13,13 +13,13 @@ const GameObject = require("../game-object");
 const behavior = {};
 
 const boundingBox = {
-	left: -16,
-	right: 16,
+	left: -15,
+	right: 15,
 	top: -48,
 	bottom: 16
 };
 const spriteOffset = {
-	x: 16,
+	x: 15,
 	y: 48
 };
 

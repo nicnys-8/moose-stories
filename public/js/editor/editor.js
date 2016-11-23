@@ -118,14 +118,14 @@ function initBackgroundMenu() {
 function initMusicMenu() {
 
 	const songList = config.editor.music;
-
 	UI.addCategory("Music");
 
 	songList.forEach(songName => {
 		const song = new GameObject("Audio", {
 			name: songName
 		});
-		const item = UI.createListItem(songName);
+		const icon = song.getIcon();
+		const item = UI.createListItem(songName, icon);
 
 		item.click(() => {
 			gameState.setMusic(song);
@@ -184,12 +184,11 @@ $.get("/levels",
 	function(levels) {
 
 		const dropdown = $("#levelList");
-		let i, opt;
 
 		dropdown.empty();
 
-		for (i in levels) {
-			opt = $("<option></option>").attr("value", i).html(i);
+		for (let i in levels) {
+			let opt = $("<option></option>").attr("value", i).html(i);
 			if (!currentLevelName) {
 				opt.attr("selected", true);
 				currentLevelName = i;

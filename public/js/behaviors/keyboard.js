@@ -30,7 +30,7 @@ behavior.init = function() {
 	let keyEvents = {};
 
 	/**
-	 * @param {string} key Name of the key to check, e.g. "up"
+	 * @param  {string}  key - Name of the key to check, e.g. "right"
 	 * @return {boolean} True if the key is not pressed.
 	 */
 	this.up = function(key) {
@@ -40,7 +40,7 @@ behavior.init = function() {
 	};
 
 	/**
-	 * @param {string} key Name of the key to check, e.g. "up"
+	 * @param  {string}  key - Name of the key to check, e.g. "right"
 	 * @return {boolean} True if the key is pressed.
 	 */
 	this.down = function(key) {
@@ -49,7 +49,7 @@ behavior.init = function() {
 	};
 
 	/**
-	 * @param {string} key Name of the key to check, e.g. "up"
+	 * @param  {string}  key Name - of the key to check, e.g. "right"
 	 * @return {boolean} true if the key was pressed during the current tick
 	 */
 	this.pressed = function(key) {
@@ -57,7 +57,7 @@ behavior.init = function() {
 	};
 
 	/**
-	 * @param {string} key Name of the key to check, e.g. "up".
+	 * @param  {string}  key - Name of the key to check, e.g. "right".
 	 * @return {boolean} True if the key was released during the current tick.
 	 */
 	this.released = function(key) {
