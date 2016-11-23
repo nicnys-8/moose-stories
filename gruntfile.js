@@ -40,7 +40,7 @@ module.exports = function(grunt) {
 			all: ["public/css/*"]
 		},
 		jsonlint: {
-			all: []
+			all: ["public/levels/*"]
 		},
 
 		browserify: {

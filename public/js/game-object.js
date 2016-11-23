@@ -51,7 +51,6 @@ class GameObject {
 
     	// Check if the behavior exists
     	if (behavior === null) {
-    		console.log(this);
     		throw new Error(behaviorName + " is not a registered behavior.");
     	}
 
@@ -86,7 +85,7 @@ class GameObject {
 
     	// Run initialization code
     	if (behavior.init) {
-    		behavior.init.call(this, args);
+    		behavior.init.call(this, args || {});
     	}
     }
 
