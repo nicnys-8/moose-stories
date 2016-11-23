@@ -20,12 +20,13 @@ const filePaths = {
 /**
  * @param  {number} [size] - Preferred height and width of the icon.
  * @return {DOM Element} An icon representing the object.
-
+*/
 function getIcon(size) {
 	const icon = document.createElement("i");
 	icon.innerHTML = "&#9835";
+	icon.style.fontSize = "20px";
 	return icon;
-} */
+}
 
 
 //=================
@@ -33,8 +34,7 @@ function getIcon(size) {
 //=================
 
 const behavior = {};
-
-//behavior.dependencies = ["HasIcon"];
+behavior.dependencies = ["HasIcon"];
 
 /**
  * Initialization function, called on an object when this behavior is added to it.
@@ -74,6 +74,8 @@ behavior.init = function({name, looping = false}) {
 		audioTag.pause();
 		audioTag.currentTime = 0;
 	};
+
+	this.getIcon = getIcon;
 
 	/**
 	* @param {number} volume - The playback volume, in the range 0 (silent) to 1 (loudest).
