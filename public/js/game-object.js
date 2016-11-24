@@ -78,8 +78,10 @@ class GameObject {
     		});
     	}
 
-				// Run initialization code
-    	behavior.init.call(this, args[behaviorName] || {});
+			// Run initialization code
+			if (behavior.init) {	
+    		behavior.init.call(this, args[behaviorName] || {});
+			}
     }
 
     /**
