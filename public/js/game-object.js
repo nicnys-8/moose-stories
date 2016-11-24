@@ -8,11 +8,11 @@ class GameObject {
 	 * Instantiates a new game object with the specified behaviors.
 	 *
 	 * Example usage:
-	 *	- new GameObject("Moving");
-	 *		Creates  game object with 'Moving' behavior.
-	 *	- new GameObject({Audio: {name: "champs-elysees"}});
-	 *		Creates game object with 'Audio' behavior, passing the
-	 *		{name: "champs-elysees"} as an argument to the behavior's init function.
+	 *    - new GameObject("Moving");
+	 *		  Creates  game object with 'Moving' behavior.
+	 *	  - new GameObject({Audio: {name: "champs-elysees"}});
+	 *        Creates game object with 'Audio' behavior, passing the
+	 *        {name: "champs-elysees"} as an argument to the behavior's init function.
 	 *
 	 * @param {string|object} args - The name of a behavior, or a dictionary
 	 *                               mapping behavior names to arguments.
@@ -77,11 +77,10 @@ class GameObject {
 					this.addBehavior(dependency, args);
     		});
     	}
-
-			// Run initialization code
-			if (behavior.init) {	
+		// Run initialization code
+		if (behavior.init) {
     		behavior.init.call(this, args[behaviorName] || {});
-			}
+		}
     }
 
     /**

@@ -13,11 +13,8 @@ const Levels = {
 		height: 1000,
 		objects: [{
 			Player: {
-					position: {
-						x: 364,
-						y: 412
-					},
-					uid: uid++
+				position: {x: 364, y: 412},
+				uid: uid++
 			}
 		}],
 		background: "DefaultBackground",
@@ -32,10 +29,7 @@ const Levels = {
 for (let i = 0; i < 12; i++) {
 	Levels.level1.objects.push({
 		Block: {
-			position: {
-				x: 364 * i,
-				y: 556
-			},
+			position: {x: 364 * i, y: 556},
 			width: 64,
 			height: 32,
 			uid: uid++
@@ -44,10 +38,7 @@ for (let i = 0; i < 12; i++) {
 
 	Levels.level1.objects.push({
 		Block: {
-			position: {
-				x: 256 * i,
-				y: 224
-			},
+			position: {x: 256 * i, y: 224},
 			uid: uid++
 		}
 	});
