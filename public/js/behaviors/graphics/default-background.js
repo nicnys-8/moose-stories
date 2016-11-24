@@ -15,32 +15,46 @@ behavior.dependencies = ["Background"];
  */
 behavior.init = function() {
 
-	const layerDescriptions = [{
-		filePath: "img/backgrounds/sun.svg",
-		position: {x: 600,   y: 50},
-		parallax: {x: 0.1,   y: 0.02},
-		tiled:    {x: false, y: false}
+	const layerArgumentList = [{
+		BackgroundLayer: {
+			filePath: "img/backgrounds/sun.svg",
+			parallax: {x: 0.1, y: 0.02},
+			tiled:    {x: false, y: false}
+		},
+		Transform: {
+			position: {x: 600, y: 50}
+		}
 	}, {
-		filePath: "img/backgrounds/rainbow.svg",
-		position: {x: -250,  y: 200},
-		parallax: {x: 0.4,   y: 0.04},
-		tiled:    {x: false, y: false}
+		BackgroundLayer: {
+			filePath: "img/backgrounds/rainbow.svg",
+			parallax: {x: 0.4, y: 0.04},
+			tiled:    {x: false, y: false}
+		},
+		Transform: {
+			position: {x: -250, y: 200}
+		}
 	}, {
-		filePath: "img/backgrounds/mountains.svg",
-		position: {x: 0,    y: 420},
-		parallax: {x: 0.5,  y: 0.1},
-		tiled:    {x: true, y: false}
+		BackgroundLayer: {
+			filePath: "img/backgrounds/mountains.svg",
+			parallax: {x: 0.5, y: 0.1},
+			tiled:    {x: true, y: false}
+		},
+		Transform: {
+			position: {x: 0, y: 420},
+		}
 	}, {
-		filePath: "img/backgrounds/clouds.svg",
-		position: {x: 0,    y: 100},
-		parallax: {x: 0.6,  y: 0.12},
-		tiled:    {x: true, y: false}
+		BackgroundLayer: {
+			filePath: "img/backgrounds/clouds.svg",
+			parallax: {x: 0.6, y: 0.12},
+			tiled:    {x: true, y: false}
+		},
+		Transform: {
+			position: {x: 0, y: 100}
+		}
 	}];
 
-	this.layers = layerDescriptions.map(description => {
-		return new GameObject({
-			BackgroundLayer: description
-		});
+	this.layers = layerArgumentList.map(arg => {
+		return new GameObject(arg);
 	});
 };
 

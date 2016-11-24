@@ -42,7 +42,7 @@ behavior.init = function({filePath, parallax = {x: 1, y: 1}, tiled = {x: false, 
 
 		let startX = this.position.x + (offsetX * parallax.x);
 		let startY = this.position.y + (offsetY * parallax.y);
-
+		
 		if (tiled.x) {
 			startX = -width + startX % width;
 		}

@@ -16,6 +16,7 @@ const filePaths = {
 	"Jump": "audio/sounds/jump.wav",
 	"Land": "audio/sounds/land.wav"
 };
+const behavior = {};
 
 /**
  * @param  {number} [size] - Preferred height and width of the icon.
@@ -28,12 +29,6 @@ function getIcon(size) {
 	return icon;
 }
 
-
-//=================
-// Public interface
-//=================
-
-const behavior = {};
 behavior.dependencies = ["HasIcon"];
 
 /**
