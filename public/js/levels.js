@@ -1,20 +1,34 @@
 /**
- * A collection of platform levels
+ * A collection of platform levels.
  */
 
 "use strict";
-
-let uid = 0;
 
 const Levels = {
 
 	level1: {
 		width: 1600,
 		height: 1000,
-		objects: [{
-			Player: {
-				position: {x: 364, y: 412},
-				uid: uid++
+		objects: [
+		{
+			Player: {},
+			Transform: {
+				position: {x: 264, y: 112}
+			}
+		},
+		{
+			Tilemap: {filePath: "img/tilemaps/tilemap.png"}
+		},
+		{
+			Block: {},
+			Transform: {
+				position: {x: 364, y: 96},
+			}
+		},
+		{
+			Block: {},
+			Transform: {
+				position: {x: 373, y: 60},
 			}
 		}],
 		background: "DefaultBackground",
@@ -22,24 +36,11 @@ const Levels = {
 	}
 };
 
-/*
- * @TODO: Förstås ska det bara vara ett block för alla de här,
- * men än så länge följer inte grafiken med då man sätter width på objekt
- */
-for (let i = 0; i < 12; i++) {
+for (let i = 0; i < 32; i++) {
 	Levels.level1.objects.push({
-		Block: {
-			position: {x: 364 * i, y: 556},
-			width: 64,
-			height: 32,
-			uid: uid++
-		}
-	});
-
-	Levels.level1.objects.push({
-		Block: {
-			position: {x: 256 * i, y: 224},
-			uid: uid++
+		Block: {},
+		Transform: {
+			position: {x: 32 * i, y: 128},
 		}
 	});
 }

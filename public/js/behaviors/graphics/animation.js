@@ -23,7 +23,7 @@ behavior.dependencies = ["Renderable"];
 behavior.init = function({filePath, origin, currentFrame = 0, numFrames = 1, imageSpeed = 0}) {
 
 	if (typeof filePath !== "string") {
-		throw new Error("'Animation' behavior requires string argument '{filePath}'.");
+		throw new Error("'Animation' behavior requires string argument 'filePath'.");
 	}
 	this.canvas = GraphicsLoader.loadImage(filePath);
 	if (typeof origin === "undefined") {

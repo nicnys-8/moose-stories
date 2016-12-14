@@ -19,8 +19,8 @@ const filePaths = {
 const behavior = {};
 
 /**
- * @param  {number} [size] - Preferred height and width of the icon.
- * @return {DOM Element} An icon representing the object.
+ * @param  {number} [size]  Preferred height and width of the icon.
+ * @return {DOM Element}    An icon representing the object.
 */
 function getIcon(size) {
 	const icon = document.createElement("i");

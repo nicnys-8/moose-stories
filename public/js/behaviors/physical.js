@@ -9,127 +9,119 @@
 //=========================
 
 const Behaviors = require("./../behaviors");
-const config = require("./../config");
-const behavior = {};
-
-
-//=================
-// Static functions
-//=================
+const config    = require("./../config");
+const behavior  = {};
 
 /**
- * Check whether this object overlaps another.
- *
- * @param {GameObject} obj - The object to check for overlap with
- * @return {boolean} True if an overlap was detected, false otherwise
+ * @return {number} Y-coordinate of the uppermost point of the object.
  */
-function overlapsObject(obj) {
-	return this.overlapsAtOffset(obj, 0, 0);
+function getTop() {
+	return this.position.y + this.boundingBox.top;
 }
 
 /**
- * Check whether this object would overlap another if it were moved by the specified offset.
- *
- * @param {GameObject} obj - The object to check for overlap with
- * @param {number} offsetX - The horizontal distance to check
- * @param {number} offsetY - The vertical distance to check
- * @return {boolean} True if an overlap was detected, false otherwise
+ * @return {number} Y-coordinate of the lowest point of the object.
  */
-function overlapsAtOffset(obj, offsetX, offsetY) {
-	return !(
-		this.position.x + offsetX + this.boundingBox.left >= obj.position.x + obj.boundingBox.right ||
-		this.position.x + offsetX + this.boundingBox.right <= obj.position.x + obj.boundingBox.left ||
-		this.position.y + offsetY + this.boundingBox.top >= obj.position.y + obj.boundingBox.bottom ||
-		this.position.y + offsetY + this.boundingBox.bottom <= obj.position.y + obj.boundingBox.top
-	);
+function getBottom() {
+	return this.position.y + this.boundingBox.bottom;
 }
 
 /**
- * Check whether this object overlaps a point.
- *
- * @param {number} x - Horizontal position of point,
- * @param {number} y - Vertical position of point,
- * @return {boolean} True if an overlap was detected, false otherwise,
+ * @return {number} X-coordinate of the leftmost point of the object.
  */
-function overlapsPoint(x, y) {
-	return !(
-		this.position.x + this.boundingBox.left >= x ||
-		this.position.x + this.boundingBox.right <= x ||
-		this.position.y + this.boundingBox.top >= y ||
-		this.position.y + this.boundingBox.bottom <= y
-	);
+function getLeft() {
+	return this.position.x + this.boundingBox.left;
 }
 
 /**
- * Check by how much this objects overlaps another along a specified coordinate.
- *
- * @param {GameObject} obj - The object to check for collisions with.
- * @param {string} coordinate - The coordinate along which to check, either "x" or "y".
- * @return {number} The amount of overlap.
+ * @return {number} X-coordinate of the rightmost point of the object.
  */
-function overlapsBy(obj, coordinate) {
-	let boundingBoxVar1 = null;
-	let boundingBoxVar2 = null;
-
-	switch (coordinate) {
-		case "x":
-			boundingBoxVar1 = "left";
-			boundingBoxVar2 = "right";
-			break;
-		case "y":
-			boundingBoxVar1 = "top";
-			boundingBoxVar2 = "bottom";
-			break;
-		default:
-			throw new Error("Not a valid coordinate.");
-	}
-	if (this.position[coordinate] < obj.position[coordinate]) {
-		return this.position[coordinate] + this.boundingBox[boundingBoxVar2] - (obj.position[coordinate] + obj.boundingBox[boundingBoxVar1]);
-	} else {
-		return this.position[coordinate] + this.boundingBox[boundingBoxVar1] - (obj.position[coordinate] + obj.boundingBox[boundingBoxVar2]);
-	}
-}
-
-//@TODO: horizontalOverlap and verticalOverlap are deprecated. Use overlapsby instead. Remove all uses of the deprecated functions.
-
-function horizontalOverlap(obj) {
-	console.warn("Deprecated function");
-	if (this.position.x < obj.position.x) {
-		return (this.position.x + this.boundingBox.right) - (obj.position.x + obj.boundingBox.left);
-	} else {
-		return (this.position.x + this.boundingBox.left) - (obj.position.x + obj.boundingBox.right);
-	}
+function getRight() {
+	return this.position.x + this.boundingBox.right;
 }
 
 /**
- * @param  {GameState} gameState - Object defining the game's current state.
- * @return {boolean}   True if the object is outside the level bounds.
-
-function isOutsideLevel(gameState) {
-	return (this.position.x < 0 ||
-		this.position.y < 0 ||
-		this.position.x > gameState.getWidth() ||
-		this.position.y > gameState.getHeight());
-}*/
-
-function verticalOverlap(obj) {
-	console.warn("Deprecated function");
-	if (this.position.y < obj.position.y) {
-		return (this.position.y + this.boundingBox.bottom) - (obj.position.y + obj.boundingBox.top);
-	} else {
-		return (this.position.y + this.boundingBox.top) - (obj.position.y + obj.boundingBox.bottom);
-	}
+ * @return {number} Height of the object.
+ */
+function getHeight() {
+	return this.getBottom() - this.getTop();
 }
+
+/**
+ * @return {number} Width of the object.
+ */
+function getWidth() {
+	return this.getRight() - this.getLeft();
+}
+
+/**
+ * @return {object} The area currently occupied by the game object.
+ */
+function getArea() {
+	return {
+		top:    this.getTop(),
+		bottom: this.getBottom(),
+		left:   this.getLeft(),
+		right:  this.getRight()
+	};
+}
+
+/**
+ * Returns an object on the form {top, bottom, left, right}, where each property
+ * specifies how many pixel rows/columns of the specified area are covered by
+ * this object.
+ *
+ * @param  {object} area - The area to check for overlaps.
+ * @return {Object} Object describing current overlaps.
+ */
+function getOverlap(area) {
+
+	const thisTop    = this.getTop();
+	const thisBottom = this.getBottom();
+	const thisLeft   = this.getLeft();
+	const thisRight  = this.getRight();
+
+	const overlap = {
+		top:    0,
+		bottom: 0,
+		left:   0,
+		right:  0
+	};
+
+	// Check if there are no overlaps.
+	if (
+		thisTop    >= area.bottom ||
+		thisBottom <= area.top    ||
+		thisLeft   >= area.right  ||
+		thisRight  <= area.left
+		) {
+		return overlap;
+	}
+
+	// Calculate the overlaps.
+	if (area.top > thisTop) {
+		overlap.top = thisBottom - area.top;
+	}
+	if (area.bottom < thisBottom) {
+		overlap.bottom = area.bottom - thisTop;
+	}
+	if (area.left > thisLeft) {
+		overlap.left = thisRight - area.left;
+	}
+	if (area.right < thisRight) {
+		overlap.right = area.right - thisLeft;
+	}
+
+	return overlap;
+}
+
 
 /**
  * @return {boolean} True if the object is standing on the other one.
  */
 function onTopOf(obj) {
-	return (!(this.position.x + this.boundingBox.left >= obj.position.x + obj.boundingBox.right ||
-			this.position.x + this.boundingBox.right <= obj.position.x + obj.boundingBox.left) &&
-		this.position.y + this.boundingBox.bottom === obj.position.y + obj.boundingBox.top
-	);
-}
+	return (!(this.getLeft() >= obj.getRight() || this.getRight() <= obj.getLeft()) && this.getBottom() === obj.getTop());
+} 
 
 
 //====================
@@ -145,29 +137,31 @@ behavior.init = function() {
 
 	this.weight = 32;
 	this.boundingBox = {
-		left: -config.tileSize / 2,
-		right: config.tileSize / 2,
-		top: -config.tileSize / 2,
+		left:  -config.tileSize / 2,
+		right:  config.tileSize / 2,
+		top:   -config.tileSize / 2,
 		bottom: config.tileSize / 2
 	};
 
-	this.onGround = true; // TODO: Replace with setter/getter
-	this.wasOnGround = true; // TODO: Replace with setter/getter
+	//this.onGround    = true; // TODO: Replace with setter/getter?
+	//this.wasOnGround = true; // TODO: Replace with setter/getter?
 
 	/** @type {function} */
-	this.overlapsObject = overlapsObject;
-	this.overlapsAtOffset = overlapsAtOffset;
-	this.overlapsPoint = overlapsPoint;
-	this.overlapsBy = overlapsBy;
-	this.horizontalOverlap = horizontalOverlap;
-	this.verticalOverlap = verticalOverlap;
-	this.onTopOf = onTopOf;
+	this.getTop     = getTop;
+	this.getBottom  = getBottom;
+	this.getLeft    = getLeft;
+	this.getRight   = getRight;
+	this.getWidth   = getWidth;
+	this.getHeight  = getHeight;
+	this.getArea    = getArea;
+	this.getOverlap = getOverlap;
+	//this.onTopOf    = onTopOf;
 
 	/**
 	 * Add function for updating the object.
 	 *
 	 * @param {GameState} gameState - Object defining the game's current state.
-	 */
+	 
 	this.onUpdate((gameState) => {
 		const solids = gameState.filter("Solid");
 
@@ -179,7 +173,7 @@ behavior.init = function() {
 				this.onGround = true;
 			}
 		});
-	});
+	});*/
 
 };
 

@@ -5,7 +5,6 @@
 "use strict";
 
 const Behaviors = require("../../behaviors");
-const GameObject = require("../../game-object");
 const behavior = {};
 
 behavior.dependencies = ["Renderable", "HasIcon"];

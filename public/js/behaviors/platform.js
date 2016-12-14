@@ -36,7 +36,7 @@ function moveRight() {
 }
 
 function jump() {
-	if (this.onGround) {
+	if (this.onGround()) {
 		this.applyForceY(-jumpForce);
 		jumpSound.play();
 	}

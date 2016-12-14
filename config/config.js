@@ -7,6 +7,6 @@ module.exports = {
     cookie: {
         name: 'session-id',
         secret: 'AZwnB7aCG1xXPV7oAJesuNUmQEiO7yQ6',
-        maxAge: 3600000
+        maxAge: 24 * 3600 * 1000
     }
 };

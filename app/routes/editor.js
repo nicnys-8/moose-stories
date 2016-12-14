@@ -52,22 +52,22 @@ router.get("/levels", function(req, res) {
 	res.send(levels);
 });
 router.post("/save", function(req, res) {
-	const name = req.body.name,
-		firstName = name.split(".")[0],
-		filename = firstName + ".json",
-		path = path.join(levelDirectory, filename);
+	const name = req.body.name;
+	const firstName = name.split(".")[0];
+	const filename = firstName + ".json";
+	const filePath = path.join(levelDirectory, filename);
 
 	levels[firstName] = req.body.level;
 
 	// TODO: Validate level data and so on and so forth...
-	fs.writeFile(path,
+	fs.writeFile(filePath,
 		JSON.stringify(req.body.level, null, 4),
 		function(err) {
 			if (err) {
 				console.log(err);
 				res.status(418).send("Sorry :)");
 			} else {
-				console.log("Level saved to " + path);
+				console.log("Level saved to " + filePath);
 				res.send(filename);
 			}
 		});

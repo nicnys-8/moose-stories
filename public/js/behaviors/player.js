@@ -69,7 +69,7 @@ behavior.init = function() {
 	 */
 	this.onUpdate(() => {
 		this.currentAnimation = (Math.abs(this.speed.x) > 0) ? this.animations.walk : this.animations.stand;
-		if (!this.onGround) {
+		if (!this.onGround()) {
 			this.currentAnimation = this.animations.jump;
 		}
 	});

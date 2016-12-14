@@ -50,7 +50,8 @@ function GameState() {
 		if (obj.uid !== null && (typeof obj.uid !== "undefined")) { // obj.uid is false when uid == 0...
 
 			if (objectsByUID[obj.uid]) {
-				console.warn("Uh oh, maybe UID " + obj.uid + " is not as unique as you thought!");
+				console.warn("Uh oh, maybe UID " + obj.uid +
+					" is not as unique as you thought!");
 			}
 
 			objectsByUID[obj.uid] = obj;
@@ -177,21 +178,20 @@ function GameState() {
 	/**
 	 * Returns all objects that intersect the specified area.
 	 *
-	 * @param {number} left Left position
-	 * @param {number} right Right position
-	 * @param {number} top Top position
-	 * @param {number} bottom I'll leave the last one as an exercise for the reader.
+	 * @param {number} left   - Left position.
+	 * @param {number} right  - Right position.
+	 * @param {number} top    - Top position.
+	 * @param {number} bottom - Bottom position.
 	 */
 	this.objectsInZone = function(left, right, top, bottom) {
 		const pObjects = this.filter("Physical"),
 			result = [];
 
 		pObjects.forEach(obj => {
-			if (!(
-					obj.position.x + obj.boundingBox.left >= right ||
-					obj.position.x + obj.boundingBox.right <= left ||
-					obj.position.y + obj.boundingBox.top >= bottom ||
-					obj.position.y + obj.boundingBox.bottom <= top)) {
+			if (!(obj.position.x + obj.boundingBox.left >= right ||
+				obj.position.x + obj.boundingBox.right <= left ||
+				obj.position.y + obj.boundingBox.top >= bottom ||
+				obj.position.y + obj.boundingBox.bottom <= top)) {
 				result.push(obj);
 			}
 		});
@@ -206,8 +206,8 @@ function GameState() {
 	};
 
 	/**
-	 * If there are any objects at the specified position, one of these is returned.
-	 * Otherwise null.
+	 * If there are any objects at the specified position, one of these is
+	 * returned. Otherwise null.
 	 *
 	 * @param {number} x Horizontal position.
 	 * @param {number} y Vertical position.
@@ -217,6 +217,42 @@ function GameState() {
 		// TODO: Return the object with the lowest z-index
 		const closest = this.objectsInZone(x, x, y, y)[0];
 		return closest || null;
+	};
+
+	/**
+	* Describes a given GameObject's overlap with solid objects in the level.
+	* An object on the form {top, bottom, left, right} is returned, where each
+	* property specifies how many pixels (a non-negative number) are overlapped
+	* by one or more solid object.
+	*
+	* @param  {GameObject} object - The object to check.
+	* @return {Object} Object describing current overlaps.
+	*/
+	this.solidOverlap = function(object) {
+		const result= {
+			top:    0,
+			bottom: 0,
+			left:   0,
+			right:  0
+		};
+		const solids = this.filter("Solid");
+
+		solids.forEach(solid => {
+			// Don't check for collisions with itself
+			if (solid === object) {
+				return;
+			}
+
+			const objectArea = object.getArea();
+			const {top, bottom, left, right} = solid.getOverlap(objectArea);
+			
+			result.top    = (top     > result.top)    ? top    : result.top;
+			result.bottom = (bottom  > result.bottom) ? bottom : result.bottom;
+			result.left   = (left    > result.left)   ? left   : result.left;
+			result.right  = (right   > result.right)  ? right  : result.right;
+		});
+		
+		return result;
 	};
 
 	/**
@@ -331,7 +367,8 @@ function GameState() {
 	};
 
 	/**
-	* @param {number} volume - New volume of the background music, in the range 0 (silent) to 1 (loudest).
+	* @param {number} volume - New volume of the background music, in the range
+	*                          0 (silent) to 1 (loudest).
 	*/
 	this.setMusicVolume = function(volume) {
 		music.setVolume(volume);
